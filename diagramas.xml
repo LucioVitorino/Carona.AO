@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<SistemaCaronaAO>
+
+    <!-- ========================= -->
+    <!-- ATORES DO SISTEMA -->
+    <!-- ========================= -->
+
+    <Atores>
+
+        <Passageiro>
+            <CasoDeUso>Registrar Conta</CasoDeUso>
+            <CasoDeUso>Fazer Login</CasoDeUso>
+            <CasoDeUso>Procurar Caronas</CasoDeUso>
+            <CasoDeUso>Reservar Lugar</CasoDeUso>
+            <CasoDeUso>Acompanhar Motorista</CasoDeUso>
+            <CasoDeUso>Cancelar Reserva</CasoDeUso>
+            <CasoDeUso>Ver Histórico</CasoDeUso>
+            <CasoDeUso>Avaliar Motorista</CasoDeUso>
+        </Passageiro>
+
+        <Motorista>
+            <CasoDeUso>Registrar Conta</CasoDeUso>
+            <CasoDeUso>Fazer Login</CasoDeUso>
+            <CasoDeUso>Cadastrar Veículo</CasoDeUso>
+            <CasoDeUso>Criar Carona</CasoDeUso>
+            <CasoDeUso>Editar Carona</CasoDeUso>
+            <CasoDeUso>Iniciar Viagem</CasoDeUso>
+            <CasoDeUso>Compartilhar Localização</CasoDeUso>
+            <CasoDeUso>Finalizar Viagem</CasoDeUso>
+            <CasoDeUso>Visualizar Passageiros</CasoDeUso>
+            <CasoDeUso>Avaliar Passageiro</CasoDeUso>
+        </Motorista>
+
+        <Administrador>
+            <CasoDeUso>Gerir Utilizadores</CasoDeUso>
+            <CasoDeUso>Bloquear Contas</CasoDeUso>
+            <CasoDeUso>Ver Estatísticas</CasoDeUso>
+            <CasoDeUso>Monitorar Sistema</CasoDeUso>
+            <CasoDeUso>Gerir Denúncias</CasoDeUso>
+        </Administrador>
+
+    </Atores>
+
+    <!-- ========================= -->
+    <!-- CLASSES UML -->
+    <!-- ========================= -->
+
+    <Classes>
+
+        <Classe nome="User">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>name</Atributo>
+                <Atributo>email</Atributo>
+                <Atributo>password</Atributo>
+                <Atributo>role</Atributo>
+                <Atributo>photo</Atributo>
+                <Atributo>created_at</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>register()</Metodo>
+                <Metodo>login()</Metodo>
+                <Metodo>updateProfile()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+        <Classe nome="Vehicle">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>driver_id</Atributo>
+                <Atributo>brand</Atributo>
+                <Atributo>model</Atributo>
+                <Atributo>plate</Atributo>
+                <Atributo>seats</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>create()</Metodo>
+                <Metodo>update()</Metodo>
+                <Metodo>delete()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+        <Classe nome="Ride">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>driver_id</Atributo>
+                <Atributo>origin</Atributo>
+                <Atributo>destination</Atributo>
+                <Atributo>departure_time</Atributo>
+                <Atributo>price</Atributo>
+                <Atributo>available_seats</Atributo>
+                <Atributo>status</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>createRide()</Metodo>
+                <Metodo>startRide()</Metodo>
+                <Metodo>finishRide()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+        <Classe nome="Reservation">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>ride_id</Atributo>
+                <Atributo>passenger_id</Atributo>
+                <Atributo>status</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>reserveSeat()</Metodo>
+                <Metodo>cancelReservation()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+        <Classe nome="Location">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>user_id</Atributo>
+                <Atributo>latitude</Atributo>
+                <Atributo>longitude</Atributo>
+                <Atributo>updated_at</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>updateLocation()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+        <Classe nome="Review">
+
+            <Atributos>
+                <Atributo>id</Atributo>
+                <Atributo>reviewer_id</Atributo>
+                <Atributo>reviewed_id</Atributo>
+                <Atributo>rating</Atributo>
+                <Atributo>comment</Atributo>
+            </Atributos>
+
+            <Metodos>
+                <Metodo>createReview()</Metodo>
+            </Metodos>
+
+        </Classe>
+
+    </Classes>
+
+    <!-- ========================= -->
+    <!-- RELACIONAMENTOS -->
+    <!-- ========================= -->
+
+    <Relacionamentos>
+
+        <Relacionamento>
+            <Origem>User</Origem>
+            <Destino>Vehicle</Destino>
+            <Tipo>1:N</Tipo>
+        </Relacionamento>
+
+        <Relacionamento>
+            <Origem>User</Origem>
+            <Destino>Ride</Destino>
+            <Tipo>1:N</Tipo>
+        </Relacionamento>
+
+        <Relacionamento>
+            <Origem>Ride</Origem>
+            <Destino>Reservation</Destino>
+            <Tipo>1:N</Tipo>
+        </Relacionamento>
+
+        <Relacionamento>
+            <Origem>User</Origem>
+            <Destino>Reservation</Destino>
+            <Tipo>1:N</Tipo>
+        </Relacionamento>
+
+        <Relacionamento>
+            <Origem>User</Origem>
+            <Destino>Review</Destino>
+            <Tipo>1:N</Tipo>
+        </Relacionamento>
+
+        <Relacionamento>
+            <Origem>User</Origem>
+            <Destino>Location</Destino>
+            <Tipo>1:1</Tipo>
+        </Relacionamento>
+
+    </Relacionamentos>
+
+    <!-- ========================= -->
+    <!-- FLUXO DO SISTEMA -->
+    <!-- ========================= -->
+
+    <Fluxos>
+
+        <Fluxo nome="Fluxo Passageiro">
+
+            <Passo>Registro</Passo>
+            <Passo>Login</Passo>
+            <Passo>Pesquisar Carona</Passo>
+            <Passo>Reservar Lugar</Passo>
+            <Passo>Acompanhar Viagem</Passo>
+            <Passo>Finalizar Viagem</Passo>
+            <Passo>Avaliar Motorista</Passo>
+
+        </Fluxo>
+
+        <Fluxo nome="Fluxo Motorista">
+
+            <Passo>Registro</Passo>
+            <Passo>Cadastrar Veículo</Passo>
+            <Passo>Criar Carona</Passo>
+            <Passo>Iniciar Viagem</Passo>
+            <Passo>Compartilhar Localização</Passo>
+            <Passo>Receber Passageiros</Passo>
+            <Passo>Finalizar Viagem</Passo>
+
+        </Fluxo>
+
+    </Fluxos>
+
+    <!-- ========================= -->
+    <!-- ARQUITETURA -->
+    <!-- ========================= -->
+
+    <Arquitetura>
+
+        <Frontend>
+            <Framework>Angular 19+</Framework>
+            <Biblioteca>Angular Material</Biblioteca>
+            <Biblioteca>Leaflet</Biblioteca>
+            <Biblioteca>Socket.IO</Biblioteca>
+        </Frontend>
+
+        <Backend>
+            <Linguagem>PHP 8+</Linguagem>
+            <Tecnologia>PDO</Tecnologia>
+            <Tecnologia>JWT</Tecnologia>
+            <Tecnologia>WebSockets</Tecnologia>
+        </Backend>
+
+        <Database>
+            <SGBD>MySQL</SGBD>
+            <Hospedagem>Aiven</Hospedagem>
+        </Database>
+
+    </Arquitetura>
+
+</SistemaCaronaAO>

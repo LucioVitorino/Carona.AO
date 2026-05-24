@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/login/login.page.scss"],
+  "sourcesContent": [".auth {\r\n  min-height: calc(100vh - 48px);\r\n  display: grid;\r\n  place-items: center;\r\n  padding: 24px;\r\n}\r\n\r\n.auth__card {\r\n  width: min(560px, 100%);\r\n  padding: 32px;\r\n  border-radius: var(--app-radius);\r\n  border: 1px solid var(--app-border);\r\n  background: rgba(15, 23, 42, 0.88);\r\n  backdrop-filter: blur(18px);\r\n}\r\n\r\n.auth__eyebrow {\r\n  margin: 0 0 8px;\r\n  color: var(--app-accent);\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.16em;\r\n  font-size: 12px;\r\n}\r\n\r\n.auth h2 {\r\n  margin: 0;\r\n  font-size: 34px;\r\n}\r\n\r\n.auth__text {\r\n  color: var(--app-muted);\r\n}\r\n\r\n.auth__form {\r\n  display: grid;\r\n  gap: 16px;\r\n  margin: 24px 0;\r\n}\r\n\r\n.auth__form mat-form-field {\r\n  width: 100%;\r\n}\r\n\r\n.auth__error {\r\n  margin: 0;\r\n  color: #fca5a5;\r\n}\r\n\r\n.auth__link {\r\n  color: var(--app-muted);\r\n}\r\n\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA,KAAA,MAAA,EAAA;AACA,WAAA;AACA,eAAA;AACA,WAAA;;AAGF,CAAA;AACE,SAAA,IAAA,KAAA,EAAA;AACA,WAAA;AACA,iBAAA,IAAA;AACA,UAAA,IAAA,MAAA,IAAA;AACA,cAAA,KAAA,EAAA,EAAA,EAAA,EAAA,EAAA,EAAA;AACA,mBAAA,KAAA;;AAGF,CAAA;AACE,UAAA,EAAA,EAAA;AACA,SAAA,IAAA;AACA,kBAAA;AACA,kBAAA;AACA,aAAA;;AAGF,CAxBA,KAwBA;AACE,UAAA;AACA,aAAA;;AAGF,CAAA;AACE,SAAA,IAAA;;AAGF,CAAA;AACE,WAAA;AACA,OAAA;AACA,UAAA,KAAA;;AAGF,CANA,WAMA;AACE,SAAA;;AAGF,CAAA;AACE,UAAA;AACA,SAAA;;AAGF,CAAA;AACE,SAAA,IAAA;;",
+  "names": []
+}

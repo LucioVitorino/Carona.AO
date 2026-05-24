@@ -1,0 +1,47 @@
+.sidebar {
+  padding: 24px;
+  border-right: 1px solid var(--app-border);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.sidebar__logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--app-primary), var(--app-accent));
+  font-weight: 800;
+}
+
+.sidebar__brand p {
+  margin: 4px 0 0;
+  color: var(--app-muted);
+  font-size: 13px;
+}
+
+.sidebar__nav {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar__nav a {
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--app-text);
+  border: 1px solid transparent;
+}
+
+.sidebar__nav a.is-active,
+.sidebar__nav a:hover {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.24);
+}

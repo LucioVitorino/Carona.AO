@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/navbar.component.scss"],
+  "sourcesContent": [".navbar {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  gap: 16px;\r\n  padding: 24px 24px 12px;\r\n  border-bottom: 1px solid var(--app-border);\r\n  backdrop-filter: blur(16px);\r\n  background: rgba(15, 23, 42, 0.78);\r\n}\r\n\r\n.navbar__eyebrow {\r\n  margin: 0 0 6px;\r\n  color: var(--app-accent);\r\n  font-size: 12px;\r\n  letter-spacing: 0.18em;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.navbar h1 {\r\n  margin: 0;\r\n  font-size: 22px;\r\n}\r\n\r\n.navbar__action {\r\n  padding: 10px 16px;\r\n  border-radius: 999px;\r\n  background: var(--app-primary);\r\n  color: white;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,eAAA;AACA,mBAAA;AACA,OAAA;AACA,WAAA,KAAA,KAAA;AACA,iBAAA,IAAA,MAAA,IAAA;AACA,mBAAA,KAAA;AACA,cAAA,KAAA,EAAA,EAAA,EAAA,EAAA,EAAA,EAAA;;AAGF,CAAA;AACE,UAAA,EAAA,EAAA;AACA,SAAA,IAAA;AACA,aAAA;AACA,kBAAA;AACA,kBAAA;;AAGF,CAnBA,OAmBA;AACE,UAAA;AACA,aAAA;;AAGF,CAAA;AACE,WAAA,KAAA;AACA,iBAAA;AACA,cAAA,IAAA;AACA,SAAA;;",
+  "names": []
+}

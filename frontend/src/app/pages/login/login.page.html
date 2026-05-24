@@ -1,0 +1,27 @@
+<section class="auth">
+  <mat-card class="auth__card">
+    <p class="auth__eyebrow">Acesso seguro</p>
+    <h2>Entrar no Carona.AO</h2>
+    <p class="auth__text">Use as credenciais de demonstração para validar o fluxo do backend.</p>
+
+    <form class="auth__form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="admin@caronaao.local">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="123456">
+      </mat-form-field>
+
+      <p class="auth__error" *ngIf="error">{{ error }}</p>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+        {{ loading ? 'A entrar...' : 'Entrar' }}
+      </button>
+    </form>
+
+    <a routerLink="/" class="auth__link">Voltar para a home</a>
+  </mat-card>
+</section>

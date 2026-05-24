@@ -1,0 +1,25 @@
+<section class="dashboard">
+  <div class="dashboard__header">
+    <div>
+      <p class="dashboard__eyebrow">Visão operacional</p>
+      <h2>Dashboard base</h2>
+    </div>
+
+    <div class="dashboard__status">API: {{ health }}</div>
+  </div>
+
+  <div class="dashboard__grid">
+    <article class="card">
+      <span>Utilizador</span>
+      <strong>{{ auth.user()?.name ?? 'Não autenticado' }}</strong>
+    </article>
+    <article class="card">
+      <span>Role</span>
+      <strong>{{ auth.user()?.role ?? '-' }}</strong>
+    </article>
+    <article class="card">
+      <span>Integração</span>
+      <strong>API backend ativa</strong>
+    </article>
+  </div>
+</section>
