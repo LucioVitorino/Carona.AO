@@ -1,0 +1,42 @@
+.loading-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--app-control-height);
+  border-radius: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform var(--app-transition), box-shadow var(--app-transition), background-color var(--app-transition);
+}
+
+.loading-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.loading-button:disabled {
+  opacity: 0.72;
+}
+
+.loading-button--full-width {
+  width: 100%;
+}
+
+.loading-button__spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  animation: loading-button-spin 0.8s linear infinite;
+}
+
+@keyframes loading-button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

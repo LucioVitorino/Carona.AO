@@ -1,54 +1,9 @@
-var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b ||= {})
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __objRest = (source, exclude) => {
-  var target = {};
-  for (var prop in source)
-    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
-      target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
-        target[prop] = source[prop];
-    }
-  return target;
-};
-var __async = (__this, __arguments, generator) => {
-  return new Promise((resolve, reject) => {
-    var fulfilled = (value) => {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var rejected = (value) => {
-      try {
-        step(generator.throw(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-    step((generator = generator.apply(__this, __arguments)).next());
-  });
-};
+import {
+  __async,
+  __objRest,
+  __spreadProps,
+  __spreadValues
+} from "./chunk-3OV72XIM.js";
 
 // node_modules/@angular/core/fesm2022/untracked-BKcld_ew.mjs
 function defaultEquals(a, b) {
@@ -1552,13 +1507,13 @@ function popNumber(args, defaultValue) {
 }
 
 // node_modules/tslib/tslib.es6.mjs
-function __awaiter(thisArg, _arguments, P, generator) {
+function __awaiter(thisArg, _arguments, P2, generator) {
   function adopt(value) {
-    return value instanceof P ? value : new P(function(resolve) {
+    return value instanceof P2 ? value : new P2(function(resolve) {
       resolve(value);
     });
   }
-  return new (P || (P = Promise))(function(resolve, reject) {
+  return new (P2 || (P2 = Promise))(function(resolve, reject) {
     function fulfilled(value) {
       try {
         step(generator.next(value));
@@ -6161,6 +6116,17 @@ var Injector = class _Injector {
    * @nocollapse
    */
   static __NG_ELEMENT_ID__ = -1;
+};
+var HostAttributeToken = class {
+  attributeName;
+  constructor(attributeName2) {
+    this.attributeName = attributeName2;
+  }
+  /** @internal */
+  __NG_ELEMENT_ID__ = () => \u0275\u0275injectAttribute(this.attributeName);
+  toString() {
+    return `HostAttributeToken ${this.attributeName}`;
+  }
 };
 var HOST_TAG_NAME = new InjectionToken(ngDevMode ? "HOST_TAG_NAME" : "");
 HOST_TAG_NAME.__NG_ELEMENT_ID__ = (flags) => {
@@ -35315,8 +35281,8 @@ function checkNonAnimatableInTimelines(timelines, triggerName, driver) {
 function oneOrMoreTransitionsMatch(matchFns, currentState, nextState, element, params) {
   return matchFns.some((fn) => fn(currentState, nextState, element, params));
 }
-function applyParamDefaults(userParams, defaults2) {
-  const result = __spreadValues({}, defaults2);
+function applyParamDefaults(userParams, defaults3) {
+  const result = __spreadValues({}, defaults3);
   Object.entries(userParams).forEach(([key, value]) => {
     if (value != null) {
       result[key] = value;
@@ -43697,9 +43663,15 @@ function isFakeTouchstartFromScreenReader(event) {
 }
 
 // node_modules/@angular/cdk/fesm2022/keycodes-CpHkExLC.mjs
+var ENTER = 13;
 var SHIFT = 16;
 var CONTROL = 17;
 var ALT = 18;
+var SPACE = 32;
+var LEFT_ARROW = 37;
+var UP_ARROW = 38;
+var RIGHT_ARROW = 39;
+var DOWN_ARROW = 40;
 var META = 91;
 var MAC_META = 224;
 
@@ -46838,14 +46810,14 @@ var MatFormField = class _MatFormField {
   _describedByChanges;
   _animationsDisabled;
   constructor() {
-    const defaults2 = this._defaults;
-    if (defaults2) {
-      if (defaults2.appearance) {
-        this.appearance = defaults2.appearance;
+    const defaults3 = this._defaults;
+    if (defaults3) {
+      if (defaults3.appearance) {
+        this.appearance = defaults3.appearance;
       }
-      this._hideRequiredMarker = Boolean(defaults2?.hideRequiredMarker);
-      if (defaults2.color) {
-        this.color = defaults2.color;
+      this._hideRequiredMarker = Boolean(defaults3?.hideRequiredMarker);
+      if (defaults3.color) {
+        this.color = defaults3.color;
       }
     }
     this._animationsDisabled = inject(ANIMATION_MODULE_TYPE, {
@@ -47515,30 +47487,144 @@ var AuthService = class _AuthService {
     this.http = http;
     this.tokenKey = "caronaao_token";
     this.userKey = "caronaao_user";
+    this.rememberKey = "caronaao_remember_session";
+    this.resetEmailKey = "caronaao_reset_email";
     this.user = signal(this.restoreUser());
   }
-  login(email, password) {
-    return this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).pipe(tap((response) => this.persistSession(response)));
+  login(email, password, rememberSession = true) {
+    return this.http.post(`${environment.apiUrl}/auth/login`, {
+      email,
+      password,
+      rememberSession
+    }).pipe(map((response) => response.data), tap((session) => this.persistSession(session, rememberSession)));
+  }
+  register(payload) {
+    return this.http.post(`${environment.apiUrl}/auth/register`, payload).pipe(map((response) => response.data), tap((session) => this.persistSession(session, true)));
+  }
+  forgotPassword(payload) {
+    return this.http.post(`${environment.apiUrl}/auth/forgot-password`, payload).pipe(map((response) => response.data), tap((result) => this.storeResetEmail(result.email ?? payload.email)));
+  }
+  resetPassword(payload) {
+    return this.http.post(`${environment.apiUrl}/auth/reset-password`, __spreadProps(__spreadValues({}, payload), {
+      password_confirmation: payload.passwordConfirmation
+    })).pipe(map(() => void 0));
+  }
+  refreshSession() {
+    return this.http.post(`${environment.apiUrl}/auth/refresh`, {}).pipe(map((response) => response.data), tap((session) => this.persistSession(session, this.isRemembered())));
   }
   logout() {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userKey);
-    this.user.set(null);
+    this.clearSession();
   }
-  isAuthenticated() {
-    return Boolean(localStorage.getItem(this.tokenKey));
+  getDashboardUrl(user = this.user()) {
+    switch (user?.role) {
+      case "admin":
+        return "/admin";
+      case "driver":
+        return "/motorista";
+      case "passenger":
+        return "/passageiro";
+      default:
+        return "/login";
+    }
   }
   getToken() {
-    return localStorage.getItem(this.tokenKey);
+    return this.getActiveStorage()?.getItem(this.tokenKey) ?? null;
   }
-  persistSession(response) {
-    localStorage.setItem(this.tokenKey, response.token);
-    localStorage.setItem(this.userKey, JSON.stringify(response.user));
-    this.user.set(response.user);
+  isAuthenticated() {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    if (!this.isTokenValid(token)) {
+      this.clearSession();
+      return false;
+    }
+    return true;
+  }
+  isRemembered() {
+    return this.getActiveStorage() === localStorage;
+  }
+  storeResetEmail(email) {
+    localStorage.setItem(this.resetEmailKey, email);
+  }
+  getResetEmail() {
+    return localStorage.getItem(this.resetEmailKey);
+  }
+  clearResetEmail() {
+    localStorage.removeItem(this.resetEmailKey);
+  }
+  persistSession(session, rememberSession) {
+    this.clearSession();
+    const storage = rememberSession ? localStorage : sessionStorage;
+    storage.setItem(this.tokenKey, session.token);
+    storage.setItem(this.userKey, JSON.stringify(session.user));
+    storage.setItem(this.rememberKey, rememberSession ? "1" : "0");
+    this.user.set(session.user);
+  }
+  clearSession() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.rememberKey);
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.userKey);
+    sessionStorage.removeItem(this.rememberKey);
+    this.user.set(null);
   }
   restoreUser() {
-    const raw = localStorage.getItem(this.userKey);
-    return raw ? JSON.parse(raw) : null;
+    const session = this.getStoredSession();
+    return session?.user ?? null;
+  }
+  getStoredSession() {
+    const activeStorage = this.getActiveStorage();
+    if (!activeStorage) {
+      return null;
+    }
+    const token = activeStorage.getItem(this.tokenKey);
+    const rawUser = activeStorage.getItem(this.userKey);
+    if (!token || !rawUser || !this.isTokenValid(token)) {
+      return null;
+    }
+    try {
+      return {
+        token,
+        user: JSON.parse(rawUser)
+      };
+    } catch {
+      return null;
+    }
+  }
+  getActiveStorage() {
+    if (localStorage.getItem(this.tokenKey)) {
+      return localStorage;
+    }
+    if (sessionStorage.getItem(this.tokenKey)) {
+      return sessionStorage;
+    }
+    return null;
+  }
+  isTokenValid(token) {
+    const payload = this.decodeTokenPayload(token);
+    if (!payload) {
+      return false;
+    }
+    if (typeof payload["exp"] === "number") {
+      return payload["exp"] * 1e3 > Date.now();
+    }
+    return true;
+  }
+  decodeTokenPayload(token) {
+    const parts = token.split(".");
+    if (parts.length < 2) {
+      return null;
+    }
+    try {
+      const normalized = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+      const padded = normalized.padEnd(normalized.length + (4 - normalized.length % 4) % 4, "=");
+      const json = atob(padded);
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
   }
   static {
     this.\u0275fac = function AuthService_Factory(__ngFactoryType__) {
@@ -47557,13 +47643,42 @@ var AuthService = class _AuthService {
 })();
 
 // src/app/guards/auth.guard.ts
-var authGuard = () => {
+var authGuard = (_route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
   if (auth.isAuthenticated()) {
     return true;
   }
-  return router.parseUrl("/login");
+  return router.createUrlTree(["/login"], {
+    queryParams: {
+      returnUrl: state.url
+    }
+  });
+};
+
+// src/app/guards/guest.guard.ts
+var guestGuard = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (!auth.isAuthenticated()) {
+    return true;
+  }
+  return router.createUrlTree(["/dashboard"]);
+};
+
+// src/app/guards/role.guard.ts
+var roleGuard = (route) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  const user = auth.user();
+  const roles = route.data["roles"] ?? [];
+  if (!auth.isAuthenticated() || !user) {
+    return router.createUrlTree(["/login"]);
+  }
+  if (roles.length === 0 || roles.includes(user.role) || user.role === "admin") {
+    return true;
+  }
+  return router.createUrlTree([auth.getDashboardUrl(user)]);
 };
 
 // src/app/core/services/api.service.ts
@@ -47601,13 +47716,19 @@ var ApiService = class _ApiService {
 
 // src/app/pages/dashboard/dashboard.page.ts
 var DashboardPage = class _DashboardPage {
-  constructor(api, auth) {
+  constructor(api, router, auth) {
     this.api = api;
+    this.router = router;
     this.auth = auth;
     this.loading = true;
     this.health = "a validar";
   }
   ngOnInit() {
+    const dashboardUrl = this.auth.getDashboardUrl();
+    if (dashboardUrl !== "/login") {
+      this.router.navigateByUrl(dashboardUrl);
+      return;
+    }
     this.api.get("/health").subscribe({
       next: (response) => {
         this.health = response.data.status;
@@ -47621,7 +47742,7 @@ var DashboardPage = class _DashboardPage {
   }
   static {
     this.\u0275fac = function DashboardPage_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _DashboardPage)(\u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService));
+      return new (__ngFactoryType__ || _DashboardPage)(\u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthService));
     };
   }
   static {
@@ -47671,36 +47792,36 @@ var DashboardPage = class _DashboardPage {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DashboardPage, [{
     type: Component,
-    args: [{ selector: "app-dashboard-page", standalone: true, template: `<section class="dashboard">\r
-  <div class="dashboard__header">\r
-    <div>\r
-      <p class="dashboard__eyebrow">Vis\xE3o operacional</p>\r
-      <h2>Dashboard base</h2>\r
-    </div>\r
-\r
-    <div class="dashboard__status">API: {{ health }}</div>\r
-  </div>\r
-\r
-  <div class="dashboard__grid">\r
-    <article class="card">\r
-      <span>Utilizador</span>\r
-      <strong>{{ auth.user()?.name ?? 'N\xE3o autenticado' }}</strong>\r
-    </article>\r
-    <article class="card">\r
-      <span>Role</span>\r
-      <strong>{{ auth.user()?.role ?? '-' }}</strong>\r
-    </article>\r
-    <article class="card">\r
-      <span>Integra\xE7\xE3o</span>\r
-      <strong>API backend ativa</strong>\r
-    </article>\r
-  </div>\r
-</section>\r
+    args: [{ selector: "app-dashboard-page", standalone: true, template: `<section class="dashboard">
+  <div class="dashboard__header">
+    <div>
+      <p class="dashboard__eyebrow">Vis\xE3o operacional</p>
+      <h2>Dashboard base</h2>
+    </div>
+
+    <div class="dashboard__status">API: {{ health }}</div>
+  </div>
+
+  <div class="dashboard__grid">
+    <article class="card">
+      <span>Utilizador</span>
+      <strong>{{ auth.user()?.name ?? 'N\xE3o autenticado' }}</strong>
+    </article>
+    <article class="card">
+      <span>Role</span>
+      <strong>{{ auth.user()?.role ?? '-' }}</strong>
+    </article>
+    <article class="card">
+      <span>Integra\xE7\xE3o</span>
+      <strong>API backend ativa</strong>
+    </article>
+  </div>
+</section>
 `, styles: ["/* src/app/pages/dashboard/dashboard.page.scss */\n.dashboard {\n  display: grid;\n  gap: 20px;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: space-between;\n  gap: 16px;\n  align-items: center;\n}\n.dashboard__eyebrow {\n  margin: 0 0 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.dashboard h2 {\n  margin: 0;\n  font-size: 34px;\n}\n.dashboard__status {\n  padding: 10px 14px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.12);\n  border: 1px solid rgba(16, 185, 129, 0.3);\n}\n.dashboard__grid {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 16px;\n}\n.card {\n  padding: 22px;\n  border-radius: var(--app-radius);\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.82);\n}\n.card span {\n  display: block;\n  margin-bottom: 12px;\n  color: var(--app-muted);\n}\n.card strong {\n  font-size: 20px;\n}\n@media (max-width: 960px) {\n  .dashboard__grid {\n    grid-template-columns: 1fr;\n  }\n  .dashboard__header {\n    flex-direction: column;\n    align-items: flex-start;\n  }\n}\n/*# sourceMappingURL=dashboard.page.css.map */\n"] }]
-  }], () => [{ type: ApiService }, { type: AuthService }], null);
+  }], () => [{ type: ApiService }, { type: Router }, { type: AuthService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DashboardPage, { className: "DashboardPage", filePath: "src/app/pages/dashboard/dashboard.page.ts", lineNumber: 12 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DashboardPage, { className: "DashboardPage", filePath: "src/app/pages/dashboard/dashboard.page.ts", lineNumber: 13 });
 })();
 
 // src/app/pages/home/home.page.ts
@@ -47711,7 +47832,7 @@ var HomePage = class _HomePage {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomePage, selectors: [["app-home-page"]], decls: 29, vars: 0, consts: [[1, "hero"], [1, "hero__copy"], [1, "hero__eyebrow"], [1, "hero__actions"], ["routerLink", "/login", 1, "btn", "btn--primary"], ["routerLink", "/dashboard", 1, "btn", "btn--ghost"], [1, "hero__panel"], [1, "metric"]], template: function HomePage_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomePage, selectors: [["app-home-page"]], decls: 31, vars: 0, consts: [[1, "hero"], [1, "hero__copy"], [1, "hero__eyebrow"], [1, "hero__actions"], ["routerLink", "/login", 1, "btn", "btn--primary"], ["routerLink", "/register", 1, "btn", "btn--ghost"], ["routerLink", "/dashboard", 1, "btn", "btn--ghost"], [1, "hero__panel"], [1, "metric"]], template: function HomePage_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "section", 0)(1, "div", 1)(2, "p", 2);
         \u0275\u0275text(3, "Mobilidade urbana para Angola");
@@ -47726,25 +47847,28 @@ var HomePage = class _HomePage {
         \u0275\u0275text(10, "Entrar");
         \u0275\u0275elementEnd();
         \u0275\u0275elementStart(11, "a", 5);
-        \u0275\u0275text(12, "Abrir dashboard");
+        \u0275\u0275text(12, "Criar conta");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(13, "a", 6);
+        \u0275\u0275text(14, "Abrir dashboard");
         \u0275\u0275elementEnd()()();
-        \u0275\u0275elementStart(13, "div", 6)(14, "div", 7)(15, "span");
-        \u0275\u0275text(16, "API");
+        \u0275\u0275elementStart(15, "div", 7)(16, "div", 8)(17, "span");
+        \u0275\u0275text(18, "API");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(17, "strong");
-        \u0275\u0275text(18, "Conectada");
+        \u0275\u0275elementStart(19, "strong");
+        \u0275\u0275text(20, "Conectada");
         \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(19, "div", 7)(20, "span");
-        \u0275\u0275text(21, "Layout");
+        \u0275\u0275elementStart(21, "div", 8)(22, "span");
+        \u0275\u0275text(23, "Layout");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(22, "strong");
-        \u0275\u0275text(23, "Responsivo");
+        \u0275\u0275elementStart(24, "strong");
+        \u0275\u0275text(25, "Responsivo");
         \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(24, "div", 7)(25, "span");
-        \u0275\u0275text(26, "Auth");
+        \u0275\u0275elementStart(26, "div", 8)(27, "span");
+        \u0275\u0275text(28, "Auth");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(27, "strong");
-        \u0275\u0275text(28, "JWT Base");
+        \u0275\u0275elementStart(29, "strong");
+        \u0275\u0275text(30, "JWT Base");
         \u0275\u0275elementEnd()()()();
       }
     }, dependencies: [RouterLink], styles: ["\n\n.hero[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1.4fr 0.9fr;\n  gap: 24px;\n  align-items: stretch;\n}\n.hero__copy[_ngcontent-%COMP%], \n.hero__panel[_ngcontent-%COMP%] {\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.78);\n  border-radius: var(--app-radius);\n  padding: 28px;\n  backdrop-filter: blur(18px);\n}\n.hero__eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 10px;\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  color: var(--app-accent);\n  font-size: 12px;\n}\n.hero[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: clamp(34px, 5vw, 58px);\n  line-height: 1;\n  max-width: 12ch;\n}\n.hero[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  max-width: 60ch;\n}\n.hero__actions[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 24px;\n}\n.btn[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 12px 18px;\n  border-radius: 999px;\n  border: 1px solid transparent;\n  transition: transform 0.2s ease, border-color 0.2s ease;\n}\n.btn[_ngcontent-%COMP%]:hover {\n  transform: translateY(-1px);\n}\n.btn--primary[_ngcontent-%COMP%] {\n  background: var(--app-primary);\n  color: white;\n}\n.btn--ghost[_ngcontent-%COMP%] {\n  border-color: var(--app-border);\n  background: rgba(255, 255, 255, 0.03);\n}\n.hero__panel[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 14px;\n  align-content: center;\n}\n.metric[_ngcontent-%COMP%] {\n  padding: 18px;\n  border-radius: 18px;\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid var(--app-border);\n}\n.metric[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block;\n  color: var(--app-muted);\n  margin-bottom: 6px;\n}\n.metric[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 24px;\n}\n@media (max-width: 960px) {\n  .hero[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=home.page.css.map */"] });
@@ -47753,7 +47877,7 @@ var HomePage = class _HomePage {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomePage, [{
     type: Component,
-    args: [{ selector: "app-home-page", standalone: true, imports: [RouterLink], template: '<section class="hero">\r\n  <div class="hero__copy">\r\n    <p class="hero__eyebrow">Mobilidade urbana para Angola</p>\r\n    <h2>Caronas inteligentes, reservas r\xE1pidas e rastreio pronto para crescer.</h2>\r\n    <p>\r\n      Estrutura inicial do frontend com layout profissional, navega\xE7\xE3o clara e liga\xE7\xE3o preparada para a API do backend.\r\n    </p>\r\n\r\n    <div class="hero__actions">\r\n      <a routerLink="/login" class="btn btn--primary">Entrar</a>\r\n      <a routerLink="/dashboard" class="btn btn--ghost">Abrir dashboard</a>\r\n    </div>\r\n  </div>\r\n\r\n  <div class="hero__panel">\r\n    <div class="metric">\r\n      <span>API</span>\r\n      <strong>Conectada</strong>\r\n    </div>\r\n    <div class="metric">\r\n      <span>Layout</span>\r\n      <strong>Responsivo</strong>\r\n    </div>\r\n    <div class="metric">\r\n      <span>Auth</span>\r\n      <strong>JWT Base</strong>\r\n    </div>\r\n  </div>\r\n</section>\r\n', styles: ["/* src/app/pages/home/home.page.scss */\n.hero {\n  display: grid;\n  grid-template-columns: 1.4fr 0.9fr;\n  gap: 24px;\n  align-items: stretch;\n}\n.hero__copy,\n.hero__panel {\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.78);\n  border-radius: var(--app-radius);\n  padding: 28px;\n  backdrop-filter: blur(18px);\n}\n.hero__eyebrow {\n  margin: 0 0 10px;\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  color: var(--app-accent);\n  font-size: 12px;\n}\n.hero h2 {\n  margin: 0;\n  font-size: clamp(34px, 5vw, 58px);\n  line-height: 1;\n  max-width: 12ch;\n}\n.hero p {\n  color: var(--app-muted);\n  max-width: 60ch;\n}\n.hero__actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 24px;\n}\n.btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 12px 18px;\n  border-radius: 999px;\n  border: 1px solid transparent;\n  transition: transform 0.2s ease, border-color 0.2s ease;\n}\n.btn:hover {\n  transform: translateY(-1px);\n}\n.btn--primary {\n  background: var(--app-primary);\n  color: white;\n}\n.btn--ghost {\n  border-color: var(--app-border);\n  background: rgba(255, 255, 255, 0.03);\n}\n.hero__panel {\n  display: grid;\n  gap: 14px;\n  align-content: center;\n}\n.metric {\n  padding: 18px;\n  border-radius: 18px;\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid var(--app-border);\n}\n.metric span {\n  display: block;\n  color: var(--app-muted);\n  margin-bottom: 6px;\n}\n.metric strong {\n  font-size: 24px;\n}\n@media (max-width: 960px) {\n  .hero {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=home.page.css.map */\n"] }]
+    args: [{ selector: "app-home-page", standalone: true, imports: [RouterLink], template: '<section class="hero">\n  <div class="hero__copy">\n    <p class="hero__eyebrow">Mobilidade urbana para Angola</p>\n    <h2>Caronas inteligentes, reservas r\xE1pidas e rastreio pronto para crescer.</h2>\n    <p>\n      Estrutura inicial do frontend com layout profissional, navega\xE7\xE3o clara e liga\xE7\xE3o preparada para a API do backend.\n    </p>\n\n    <div class="hero__actions">\n      <a routerLink="/login" class="btn btn--primary">Entrar</a>\n      <a routerLink="/register" class="btn btn--ghost">Criar conta</a>\n      <a routerLink="/dashboard" class="btn btn--ghost">Abrir dashboard</a>\n    </div>\n  </div>\n\n  <div class="hero__panel">\n    <div class="metric">\n      <span>API</span>\n      <strong>Conectada</strong>\n    </div>\n    <div class="metric">\n      <span>Layout</span>\n      <strong>Responsivo</strong>\n    </div>\n    <div class="metric">\n      <span>Auth</span>\n      <strong>JWT Base</strong>\n    </div>\n  </div>\n</section>\n', styles: ["/* src/app/pages/home/home.page.scss */\n.hero {\n  display: grid;\n  grid-template-columns: 1.4fr 0.9fr;\n  gap: 24px;\n  align-items: stretch;\n}\n.hero__copy,\n.hero__panel {\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.78);\n  border-radius: var(--app-radius);\n  padding: 28px;\n  backdrop-filter: blur(18px);\n}\n.hero__eyebrow {\n  margin: 0 0 10px;\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  color: var(--app-accent);\n  font-size: 12px;\n}\n.hero h2 {\n  margin: 0;\n  font-size: clamp(34px, 5vw, 58px);\n  line-height: 1;\n  max-width: 12ch;\n}\n.hero p {\n  color: var(--app-muted);\n  max-width: 60ch;\n}\n.hero__actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 24px;\n}\n.btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 12px 18px;\n  border-radius: 999px;\n  border: 1px solid transparent;\n  transition: transform 0.2s ease, border-color 0.2s ease;\n}\n.btn:hover {\n  transform: translateY(-1px);\n}\n.btn--primary {\n  background: var(--app-primary);\n  color: white;\n}\n.btn--ghost {\n  border-color: var(--app-border);\n  background: rgba(255, 255, 255, 0.03);\n}\n.hero__panel {\n  display: grid;\n  gap: 14px;\n  align-content: center;\n}\n.metric {\n  padding: 18px;\n  border-radius: 18px;\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid var(--app-border);\n}\n.metric span {\n  display: block;\n  color: var(--app-muted);\n  margin-bottom: 6px;\n}\n.metric strong {\n  font-size: 24px;\n}\n@media (max-width: 960px) {\n  .hero {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=home.page.css.map */\n"] }]
   }], null, null);
 })();
 (() => {
@@ -54490,6 +54614,97 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
   }], null, null);
 })();
 
+// node_modules/@angular/material/fesm2022/internal-form-field-grv62mCZ.mjs
+var _c02 = ["mat-internal-form-field", ""];
+var _c12 = ["*"];
+var _MatInternalFormField = class __MatInternalFormField {
+  /** Position of the label relative to the content. */
+  labelPosition;
+  static \u0275fac = function _MatInternalFormField_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || __MatInternalFormField)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: __MatInternalFormField,
+    selectors: [["div", "mat-internal-form-field", ""]],
+    hostAttrs: [1, "mdc-form-field", "mat-internal-form-field"],
+    hostVars: 2,
+    hostBindings: function _MatInternalFormField_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-form-field--align-end", ctx.labelPosition === "before");
+      }
+    },
+    inputs: {
+      labelPosition: "labelPosition"
+    },
+    attrs: _c02,
+    ngContentSelectors: _c12,
+    decls: 1,
+    vars: 0,
+    template: function _MatInternalFormField_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275projection(0);
+      }
+    },
+    styles: [".mat-internal-form-field{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-flex;align-items:center;vertical-align:middle}.mat-internal-form-field>label{margin-left:0;margin-right:auto;padding-left:4px;padding-right:0;order:0}[dir=rtl] .mat-internal-form-field>label{margin-left:auto;margin-right:0;padding-left:0;padding-right:4px}.mdc-form-field--align-end>label{margin-left:auto;margin-right:0;padding-left:0;padding-right:4px;order:-1}[dir=rtl] .mdc-form-field--align-end .mdc-form-field--align-end label{margin-left:0;margin-right:auto;padding-left:4px;padding-right:0}\n"],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(_MatInternalFormField, [{
+    type: Component,
+    args: [{
+      selector: "div[mat-internal-form-field]",
+      template: "<ng-content></ng-content>",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "class": "mdc-form-field mat-internal-form-field",
+        "[class.mdc-form-field--align-end]": 'labelPosition === "before"'
+      },
+      styles: [".mat-internal-form-field{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-flex;align-items:center;vertical-align:middle}.mat-internal-form-field>label{margin-left:0;margin-right:auto;padding-left:4px;padding-right:0;order:0}[dir=rtl] .mat-internal-form-field>label{margin-left:auto;margin-right:0;padding-left:0;padding-right:4px}.mdc-form-field--align-end>label{margin-left:auto;margin-right:0;padding-left:0;padding-right:4px;order:-1}[dir=rtl] .mdc-form-field--align-end .mdc-form-field--align-end label{margin-left:0;margin-right:auto;padding-left:4px;padding-right:0}\n"]
+    }]
+  }], null, {
+    labelPosition: [{
+      type: Input,
+      args: [{
+        required: true
+      }]
+    }]
+  });
+})();
+
+// node_modules/@angular/material/fesm2022/structural-styles-BQUT6wsL.mjs
+var _StructuralStylesLoader = class __StructuralStylesLoader {
+  static \u0275fac = function _StructuralStylesLoader_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || __StructuralStylesLoader)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: __StructuralStylesLoader,
+    selectors: [["structural-styles"]],
+    decls: 0,
+    vars: 0,
+    template: function _StructuralStylesLoader_Template(rf, ctx) {
+    },
+    styles: ['.mat-focus-indicator{position:relative}.mat-focus-indicator::before{top:0;left:0;right:0;bottom:0;position:absolute;box-sizing:border-box;pointer-events:none;display:var(--mat-focus-indicator-display, none);border-width:var(--mat-focus-indicator-border-width, 3px);border-style:var(--mat-focus-indicator-border-style, solid);border-color:var(--mat-focus-indicator-border-color, transparent);border-radius:var(--mat-focus-indicator-border-radius, 4px)}.mat-focus-indicator:focus::before{content:""}@media(forced-colors: active){html{--mat-focus-indicator-display: block}}\n'],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(_StructuralStylesLoader, [{
+    type: Component,
+    args: [{
+      selector: "structural-styles",
+      encapsulation: ViewEncapsulation.None,
+      template: "",
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      styles: ['.mat-focus-indicator{position:relative}.mat-focus-indicator::before{top:0;left:0;right:0;bottom:0;position:absolute;box-sizing:border-box;pointer-events:none;display:var(--mat-focus-indicator-display, none);border-width:var(--mat-focus-indicator-border-width, 3px);border-style:var(--mat-focus-indicator-border-style, solid);border-color:var(--mat-focus-indicator-border-color, transparent);border-radius:var(--mat-focus-indicator-border-radius, 4px)}.mat-focus-indicator:focus::before{content:""}@media(forced-colors: active){html{--mat-focus-indicator-display: block}}\n']
+    }]
+  }], null, null);
+})();
+
 // node_modules/@angular/material/fesm2022/ripple-BT3tzh6F.mjs
 var RippleState;
 (function(RippleState2) {
@@ -55066,347 +55281,646 @@ var MatRipple = class _MatRipple {
   });
 })();
 
-// node_modules/@angular/material/fesm2022/ripple-loader-Ce3DAhPW.mjs
-var eventListenerOptions2 = {
-  capture: true
-};
-var rippleInteractionEvents = ["focus", "mousedown", "mouseenter", "touchstart"];
-var matRippleUninitialized = "mat-ripple-loader-uninitialized";
-var matRippleClassName = "mat-ripple-loader-class-name";
-var matRippleCentered = "mat-ripple-loader-centered";
-var matRippleDisabled = "mat-ripple-loader-disabled";
-var MatRippleLoader = class _MatRippleLoader {
-  _document = inject(DOCUMENT2);
-  _animationMode = inject(ANIMATION_MODULE_TYPE, {
-    optional: true
-  });
-  _globalRippleOptions = inject(MAT_RIPPLE_GLOBAL_OPTIONS, {
-    optional: true
-  });
-  _platform = inject(Platform);
-  _ngZone = inject(NgZone);
-  _injector = inject(Injector);
-  _eventCleanups;
-  _hosts = /* @__PURE__ */ new Map();
-  constructor() {
-    const renderer = inject(RendererFactory2).createRenderer(null, null);
-    this._eventCleanups = this._ngZone.runOutsideAngular(() => {
-      return rippleInteractionEvents.map((name) => _bindEventWithOptions(renderer, this._document, name, this._onInteraction, eventListenerOptions2));
-    });
-  }
-  ngOnDestroy() {
-    const hosts = this._hosts.keys();
-    for (const host of hosts) {
-      this.destroyRipple(host);
-    }
-    this._eventCleanups.forEach((cleanup) => cleanup());
-  }
-  /**
-   * Configures the ripple that will be rendered by the ripple loader.
-   *
-   * Stores the given information about how the ripple should be configured on the host
-   * element so that it can later be retrived & used when the ripple is actually created.
-   */
-  configureRipple(host, config2) {
-    host.setAttribute(matRippleUninitialized, this._globalRippleOptions?.namespace ?? "");
-    if (config2.className || !host.hasAttribute(matRippleClassName)) {
-      host.setAttribute(matRippleClassName, config2.className || "");
-    }
-    if (config2.centered) {
-      host.setAttribute(matRippleCentered, "");
-    }
-    if (config2.disabled) {
-      host.setAttribute(matRippleDisabled, "");
-    }
-  }
-  /** Sets the disabled state on the ripple instance corresponding to the given host element. */
-  setDisabled(host, disabled) {
-    const ripple = this._hosts.get(host);
-    if (ripple) {
-      ripple.target.rippleDisabled = disabled;
-      if (!disabled && !ripple.hasSetUpEvents) {
-        ripple.hasSetUpEvents = true;
-        ripple.renderer.setupTriggerEvents(host);
-      }
-    } else if (disabled) {
-      host.setAttribute(matRippleDisabled, "");
-    } else {
-      host.removeAttribute(matRippleDisabled);
-    }
-  }
-  /**
-   * Handles creating and attaching component internals
-   * when a component is initially interacted with.
-   */
-  _onInteraction = (event) => {
-    const eventTarget = _getEventTarget(event);
-    if (eventTarget instanceof HTMLElement) {
-      const element = eventTarget.closest(`[${matRippleUninitialized}="${this._globalRippleOptions?.namespace ?? ""}"]`);
-      if (element) {
-        this._createRipple(element);
-      }
-    }
+// node_modules/@angular/material/fesm2022/checkbox.mjs
+var _c03 = ["input"];
+var _c13 = ["label"];
+var _c22 = ["*"];
+var MAT_CHECKBOX_DEFAULT_OPTIONS = new InjectionToken("mat-checkbox-default-options", {
+  providedIn: "root",
+  factory: MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY
+});
+function MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY() {
+  return {
+    color: "accent",
+    clickAction: "check-indeterminate",
+    disabledInteractive: false
   };
-  /** Creates a MatRipple and appends it to the given element. */
-  _createRipple(host) {
-    if (!this._document || this._hosts.has(host)) {
-      return;
-    }
-    host.querySelector(".mat-ripple")?.remove();
-    const rippleEl = this._document.createElement("span");
-    rippleEl.classList.add("mat-ripple", host.getAttribute(matRippleClassName));
-    host.append(rippleEl);
-    const isNoopAnimations = this._animationMode === "NoopAnimations";
-    const globalOptions = this._globalRippleOptions;
-    const enterDuration = isNoopAnimations ? 0 : globalOptions?.animation?.enterDuration ?? defaultRippleAnimationConfig.enterDuration;
-    const exitDuration = isNoopAnimations ? 0 : globalOptions?.animation?.exitDuration ?? defaultRippleAnimationConfig.exitDuration;
-    const target = {
-      rippleDisabled: isNoopAnimations || globalOptions?.disabled || host.hasAttribute(matRippleDisabled),
-      rippleConfig: {
-        centered: host.hasAttribute(matRippleCentered),
-        terminateOnPointerUp: globalOptions?.terminateOnPointerUp,
-        animation: {
-          enterDuration,
-          exitDuration
-        }
-      }
-    };
-    const renderer = new RippleRenderer(target, this._ngZone, rippleEl, this._platform, this._injector);
-    const hasSetUpEvents = !target.rippleDisabled;
-    if (hasSetUpEvents) {
-      renderer.setupTriggerEvents(host);
-    }
-    this._hosts.set(host, {
-      target,
-      renderer,
-      hasSetUpEvents
-    });
-    host.removeAttribute(matRippleUninitialized);
-  }
-  destroyRipple(host) {
-    const ripple = this._hosts.get(host);
-    if (ripple) {
-      ripple.renderer._removeTriggerEvents();
-      this._hosts.delete(host);
-    }
-  }
-  static \u0275fac = function MatRippleLoader_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatRippleLoader)();
-  };
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _MatRippleLoader,
-    factory: _MatRippleLoader.\u0275fac,
-    providedIn: "root"
-  });
+}
+var TransitionCheckState;
+(function(TransitionCheckState2) {
+  TransitionCheckState2[TransitionCheckState2["Init"] = 0] = "Init";
+  TransitionCheckState2[TransitionCheckState2["Checked"] = 1] = "Checked";
+  TransitionCheckState2[TransitionCheckState2["Unchecked"] = 2] = "Unchecked";
+  TransitionCheckState2[TransitionCheckState2["Indeterminate"] = 3] = "Indeterminate";
+})(TransitionCheckState || (TransitionCheckState = {}));
+var MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => MatCheckbox),
+  multi: true
 };
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatRippleLoader, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
-})();
-
-// node_modules/@angular/material/fesm2022/structural-styles-BQUT6wsL.mjs
-var _StructuralStylesLoader = class __StructuralStylesLoader {
-  static \u0275fac = function _StructuralStylesLoader_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || __StructuralStylesLoader)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: __StructuralStylesLoader,
-    selectors: [["structural-styles"]],
-    decls: 0,
-    vars: 0,
-    template: function _StructuralStylesLoader_Template(rf, ctx) {
-    },
-    styles: ['.mat-focus-indicator{position:relative}.mat-focus-indicator::before{top:0;left:0;right:0;bottom:0;position:absolute;box-sizing:border-box;pointer-events:none;display:var(--mat-focus-indicator-display, none);border-width:var(--mat-focus-indicator-border-width, 3px);border-style:var(--mat-focus-indicator-border-style, solid);border-color:var(--mat-focus-indicator-border-color, transparent);border-radius:var(--mat-focus-indicator-border-radius, 4px)}.mat-focus-indicator:focus::before{content:""}@media(forced-colors: active){html{--mat-focus-indicator-display: block}}\n'],
-    encapsulation: 2,
-    changeDetection: 0
-  });
+var MatCheckboxChange = class {
+  /** The source checkbox of the event. */
+  source;
+  /** The new `checked` value of the checkbox. */
+  checked;
 };
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(_StructuralStylesLoader, [{
-    type: Component,
-    args: [{
-      selector: "structural-styles",
-      encapsulation: ViewEncapsulation.None,
-      template: "",
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      styles: ['.mat-focus-indicator{position:relative}.mat-focus-indicator::before{top:0;left:0;right:0;bottom:0;position:absolute;box-sizing:border-box;pointer-events:none;display:var(--mat-focus-indicator-display, none);border-width:var(--mat-focus-indicator-border-width, 3px);border-style:var(--mat-focus-indicator-border-style, solid);border-color:var(--mat-focus-indicator-border-color, transparent);border-radius:var(--mat-focus-indicator-border-radius, 4px)}.mat-focus-indicator:focus::before{content:""}@media(forced-colors: active){html{--mat-focus-indicator-display: block}}\n']
-    }]
-  }], null, null);
-})();
-
-// node_modules/@angular/material/fesm2022/icon-button-D1J0zeqv.mjs
-var _c02 = ["mat-icon-button", ""];
-var _c12 = ["*"];
-var _c22 = '.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n';
-var _c32 = "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n";
-var MAT_BUTTON_CONFIG = new InjectionToken("MAT_BUTTON_CONFIG");
-var MAT_BUTTON_HOST = {
-  "[attr.disabled]": "_getDisabledAttribute()",
-  "[attr.aria-disabled]": "_getAriaDisabled()",
-  "[class.mat-mdc-button-disabled]": "disabled",
-  "[class.mat-mdc-button-disabled-interactive]": "disabledInteractive",
-  "[class._mat-animation-noopable]": '_animationMode === "NoopAnimations"',
-  // MDC automatically applies the primary theme color to the button, but we want to support
-  // an unthemed version. If color is undefined, apply a CSS class that makes it easy to
-  // select and style this "theme".
-  "[class.mat-unthemed]": "!color",
-  // Add a class that applies to all buttons. This makes it easier to target if somebody
-  // wants to target all Material buttons.
-  "[class.mat-mdc-button-base]": "true",
-  "[class]": 'color ? "mat-" + color : ""'
-};
-var HOST_SELECTOR_MDC_CLASS_PAIR = [{
-  attribute: "mat-button",
-  mdcClasses: ["mdc-button", "mat-mdc-button"]
-}, {
-  attribute: "mat-flat-button",
-  mdcClasses: ["mdc-button", "mdc-button--unelevated", "mat-mdc-unelevated-button"]
-}, {
-  attribute: "mat-raised-button",
-  mdcClasses: ["mdc-button", "mdc-button--raised", "mat-mdc-raised-button"]
-}, {
-  attribute: "mat-stroked-button",
-  mdcClasses: ["mdc-button", "mdc-button--outlined", "mat-mdc-outlined-button"]
-}, {
-  attribute: "mat-fab",
-  mdcClasses: ["mdc-fab", "mat-mdc-fab-base", "mat-mdc-fab"]
-}, {
-  attribute: "mat-mini-fab",
-  mdcClasses: ["mdc-fab", "mat-mdc-fab-base", "mdc-fab--mini", "mat-mdc-mini-fab"]
-}, {
-  attribute: "mat-icon-button",
-  mdcClasses: ["mdc-icon-button", "mat-mdc-icon-button"]
-}];
-var MatButtonBase = class _MatButtonBase {
+var defaults = MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY();
+var MatCheckbox = class _MatCheckbox {
   _elementRef = inject(ElementRef);
+  _changeDetectorRef = inject(ChangeDetectorRef);
   _ngZone = inject(NgZone);
   _animationMode = inject(ANIMATION_MODULE_TYPE, {
     optional: true
   });
-  _focusMonitor = inject(FocusMonitor);
+  _options = inject(MAT_CHECKBOX_DEFAULT_OPTIONS, {
+    optional: true
+  });
+  /** Focuses the checkbox. */
+  focus() {
+    this._inputElement.nativeElement.focus();
+  }
+  /** Creates the change event that will be emitted by the checkbox. */
+  _createChangeEvent(isChecked) {
+    const event = new MatCheckboxChange();
+    event.source = this;
+    event.checked = isChecked;
+    return event;
+  }
+  /** Gets the element on which to add the animation CSS classes. */
+  _getAnimationTargetElement() {
+    return this._inputElement?.nativeElement;
+  }
+  /** CSS classes to add when transitioning between the different checkbox states. */
+  _animationClasses = {
+    uncheckedToChecked: "mdc-checkbox--anim-unchecked-checked",
+    uncheckedToIndeterminate: "mdc-checkbox--anim-unchecked-indeterminate",
+    checkedToUnchecked: "mdc-checkbox--anim-checked-unchecked",
+    checkedToIndeterminate: "mdc-checkbox--anim-checked-indeterminate",
+    indeterminateToChecked: "mdc-checkbox--anim-indeterminate-checked",
+    indeterminateToUnchecked: "mdc-checkbox--anim-indeterminate-unchecked"
+  };
   /**
-   * Handles the lazy creation of the MatButton ripple.
-   * Used to improve initial load time of large applications.
+   * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
+   * take precedence so this may be omitted.
    */
-  _rippleLoader = inject(MatRippleLoader);
-  /** Whether this button is a FAB. Used to apply the correct class on the ripple. */
-  _isFab = false;
+  ariaLabel = "";
   /**
-   * Theme color of the button. This API is supported in M2 themes only, it has
-   * no effect in M3 themes. For color customization in M3, see https://material.angular.dev/components/button/styling.
+   * Users can specify the `aria-labelledby` attribute which will be forwarded to the input element
+   */
+  ariaLabelledby = null;
+  /** The 'aria-describedby' attribute is read after the element's label and field type. */
+  ariaDescribedby;
+  /**
+   * Users can specify the `aria-expanded` attribute which will be forwarded to the input element
+   */
+  ariaExpanded;
+  /**
+   * Users can specify the `aria-controls` attribute which will be forwarded to the input element
+   */
+  ariaControls;
+  /** Users can specify the `aria-owns` attribute which will be forwarded to the input element */
+  ariaOwns;
+  _uniqueId;
+  /** A unique id for the checkbox input. If none is supplied, it will be auto-generated. */
+  id;
+  /** Returns the unique id for the visual hidden input. */
+  get inputId() {
+    return `${this.id || this._uniqueId}-input`;
+  }
+  /** Whether the checkbox is required. */
+  required;
+  /** Whether the label should appear after or before the checkbox. Defaults to 'after' */
+  labelPosition = "after";
+  /** Name value will be applied to the input element if present */
+  name = null;
+  /** Event emitted when the checkbox's `checked` value changes. */
+  change = new EventEmitter();
+  /** Event emitted when the checkbox's `indeterminate` value changes. */
+  indeterminateChange = new EventEmitter();
+  /** The value attribute of the native input element */
+  value;
+  /** Whether the checkbox has a ripple. */
+  disableRipple;
+  /** The native `<input type="checkbox">` element */
+  _inputElement;
+  /** The native `<label>` element */
+  _labelElement;
+  /** Tabindex for the checkbox. */
+  tabIndex;
+  // TODO(crisbeto): this should be a ThemePalette, but some internal apps were abusing
+  // the lack of type checking previously and assigning random strings.
+  /**
+   * Theme color of the checkbox. This API is supported in M2 themes only, it
+   * has no effect in M3 themes. For color customization in M3, see https://material.angular.dev/components/checkbox/styling.
    *
    * For information on applying color variants in M3, see
    * https://material.angular.dev/guide/material-2-theming#optional-add-backwards-compatibility-styles-for-color-variants
    */
   color;
-  /** Whether the ripple effect is disabled or not. */
-  get disableRipple() {
-    return this._disableRipple;
+  /** Whether the checkbox should remain interactive when it is disabled. */
+  disabledInteractive;
+  /**
+   * Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor.
+   * @docs-private
+   */
+  _onTouched = () => {
+  };
+  _currentAnimationClass = "";
+  _currentCheckState = TransitionCheckState.Init;
+  _controlValueAccessorChangeFn = () => {
+  };
+  _validatorChangeFn = () => {
+  };
+  constructor() {
+    inject(_CdkPrivateStyleLoader).load(_StructuralStylesLoader);
+    const tabIndex = inject(new HostAttributeToken("tabindex"), {
+      optional: true
+    });
+    this._options = this._options || defaults;
+    this.color = this._options.color || defaults.color;
+    this.tabIndex = tabIndex == null ? 0 : parseInt(tabIndex) || 0;
+    this.id = this._uniqueId = inject(_IdGenerator).getId("mat-mdc-checkbox-");
+    this.disabledInteractive = this._options?.disabledInteractive ?? false;
   }
-  set disableRipple(value) {
-    this._disableRipple = value;
-    this._updateRippleDisabled();
+  ngOnChanges(changes) {
+    if (changes["required"]) {
+      this._validatorChangeFn();
+    }
   }
-  _disableRipple = false;
-  /** Whether the button is disabled. */
+  ngAfterViewInit() {
+    this._syncIndeterminate(this._indeterminate);
+  }
+  /** Whether the checkbox is checked. */
+  get checked() {
+    return this._checked;
+  }
+  set checked(value) {
+    if (value != this.checked) {
+      this._checked = value;
+      this._changeDetectorRef.markForCheck();
+    }
+  }
+  _checked = false;
+  /** Whether the checkbox is disabled. */
   get disabled() {
     return this._disabled;
   }
   set disabled(value) {
-    this._disabled = value;
-    this._updateRippleDisabled();
+    if (value !== this.disabled) {
+      this._disabled = value;
+      this._changeDetectorRef.markForCheck();
+    }
   }
   _disabled = false;
-  /** `aria-disabled` value of the button. */
-  ariaDisabled;
   /**
-   * Natively disabled buttons prevent focus and any pointer events from reaching the button.
-   * In some scenarios this might not be desirable, because it can prevent users from finding out
-   * why the button is disabled (e.g. via tooltip). This is also useful for buttons that may
-   * become disabled when activated, which would cause focus to be transferred to the document
-   * body instead of remaining on the button.
-   *
-   * Enabling this input will change the button so that it is styled to be disabled and will be
-   * marked as `aria-disabled`, but it will allow the button to receive events and focus.
-   *
-   * Note that by enabling this, you need to set the `tabindex` yourself if the button isn't
-   * meant to be tabbable and you have to prevent the button action (e.g. form submissions).
+   * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
+   * represent a checkbox with three states, e.g. a checkbox that represents a nested list of
+   * checkable items. Note that whenever checkbox is manually clicked, indeterminate is immediately
+   * set to false.
    */
-  disabledInteractive;
-  constructor() {
-    inject(_CdkPrivateStyleLoader).load(_StructuralStylesLoader);
-    const config2 = inject(MAT_BUTTON_CONFIG, {
-      optional: true
-    });
-    const element = this._elementRef.nativeElement;
-    const classList = element.classList;
-    this.disabledInteractive = config2?.disabledInteractive ?? false;
-    this.color = config2?.color ?? null;
-    this._rippleLoader?.configureRipple(element, {
-      className: "mat-mdc-button-ripple"
-    });
-    for (const {
-      attribute,
-      mdcClasses
-    } of HOST_SELECTOR_MDC_CLASS_PAIR) {
-      if (element.hasAttribute(attribute)) {
-        classList.add(...mdcClasses);
+  get indeterminate() {
+    return this._indeterminate;
+  }
+  set indeterminate(value) {
+    const changed = value != this._indeterminate;
+    this._indeterminate = value;
+    if (changed) {
+      if (this._indeterminate) {
+        this._transitionCheckState(TransitionCheckState.Indeterminate);
+      } else {
+        this._transitionCheckState(this.checked ? TransitionCheckState.Checked : TransitionCheckState.Unchecked);
       }
+      this.indeterminateChange.emit(this._indeterminate);
+    }
+    this._syncIndeterminate(this._indeterminate);
+  }
+  _indeterminate = false;
+  _isRippleDisabled() {
+    return this.disableRipple || this.disabled;
+  }
+  /** Method being called whenever the label text changes. */
+  _onLabelTextChange() {
+    this._changeDetectorRef.detectChanges();
+  }
+  // Implemented as part of ControlValueAccessor.
+  writeValue(value) {
+    this.checked = !!value;
+  }
+  // Implemented as part of ControlValueAccessor.
+  registerOnChange(fn) {
+    this._controlValueAccessorChangeFn = fn;
+  }
+  // Implemented as part of ControlValueAccessor.
+  registerOnTouched(fn) {
+    this._onTouched = fn;
+  }
+  // Implemented as part of ControlValueAccessor.
+  setDisabledState(isDisabled) {
+    this.disabled = isDisabled;
+  }
+  // Implemented as a part of Validator.
+  validate(control) {
+    return this.required && control.value !== true ? {
+      "required": true
+    } : null;
+  }
+  // Implemented as a part of Validator.
+  registerOnValidatorChange(fn) {
+    this._validatorChangeFn = fn;
+  }
+  _transitionCheckState(newState) {
+    let oldState = this._currentCheckState;
+    let element = this._getAnimationTargetElement();
+    if (oldState === newState || !element) {
+      return;
+    }
+    if (this._currentAnimationClass) {
+      element.classList.remove(this._currentAnimationClass);
+    }
+    this._currentAnimationClass = this._getAnimationClassForCheckStateTransition(oldState, newState);
+    this._currentCheckState = newState;
+    if (this._currentAnimationClass.length > 0) {
+      element.classList.add(this._currentAnimationClass);
+      const animationClass = this._currentAnimationClass;
+      this._ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          element.classList.remove(animationClass);
+        }, 1e3);
+      });
     }
   }
-  ngAfterViewInit() {
-    this._focusMonitor.monitor(this._elementRef, true);
-  }
-  ngOnDestroy() {
-    this._focusMonitor.stopMonitoring(this._elementRef);
-    this._rippleLoader?.destroyRipple(this._elementRef.nativeElement);
-  }
-  /** Focuses the button. */
-  focus(origin = "program", options) {
-    if (origin) {
-      this._focusMonitor.focusVia(this._elementRef.nativeElement, origin, options);
-    } else {
-      this._elementRef.nativeElement.focus(options);
+  _emitChangeEvent() {
+    this._controlValueAccessorChangeFn(this.checked);
+    this.change.emit(this._createChangeEvent(this.checked));
+    if (this._inputElement) {
+      this._inputElement.nativeElement.checked = this.checked;
     }
   }
-  _getAriaDisabled() {
-    if (this.ariaDisabled != null) {
-      return this.ariaDisabled;
+  /** Toggles the `checked` state of the checkbox. */
+  toggle() {
+    this.checked = !this.checked;
+    this._controlValueAccessorChangeFn(this.checked);
+  }
+  _handleInputClick() {
+    const clickAction = this._options?.clickAction;
+    if (!this.disabled && clickAction !== "noop") {
+      if (this.indeterminate && clickAction !== "check") {
+        Promise.resolve().then(() => {
+          this._indeterminate = false;
+          this.indeterminateChange.emit(this._indeterminate);
+        });
+      }
+      this._checked = !this._checked;
+      this._transitionCheckState(this._checked ? TransitionCheckState.Checked : TransitionCheckState.Unchecked);
+      this._emitChangeEvent();
+    } else if (this.disabled && this.disabledInteractive || !this.disabled && clickAction === "noop") {
+      this._inputElement.nativeElement.checked = this.checked;
+      this._inputElement.nativeElement.indeterminate = this.indeterminate;
     }
-    return this.disabled && this.disabledInteractive ? true : null;
   }
-  _getDisabledAttribute() {
-    return this.disabledInteractive || !this.disabled ? null : true;
+  _onInteractionEvent(event) {
+    event.stopPropagation();
   }
-  _updateRippleDisabled() {
-    this._rippleLoader?.setDisabled(this._elementRef.nativeElement, this.disableRipple || this.disabled);
+  _onBlur() {
+    Promise.resolve().then(() => {
+      this._onTouched();
+      this._changeDetectorRef.markForCheck();
+    });
   }
-  static \u0275fac = function MatButtonBase_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatButtonBase)();
+  _getAnimationClassForCheckStateTransition(oldState, newState) {
+    if (this._animationMode === "NoopAnimations") {
+      return "";
+    }
+    switch (oldState) {
+      case TransitionCheckState.Init:
+        if (newState === TransitionCheckState.Checked) {
+          return this._animationClasses.uncheckedToChecked;
+        } else if (newState == TransitionCheckState.Indeterminate) {
+          return this._checked ? this._animationClasses.checkedToIndeterminate : this._animationClasses.uncheckedToIndeterminate;
+        }
+        break;
+      case TransitionCheckState.Unchecked:
+        return newState === TransitionCheckState.Checked ? this._animationClasses.uncheckedToChecked : this._animationClasses.uncheckedToIndeterminate;
+      case TransitionCheckState.Checked:
+        return newState === TransitionCheckState.Unchecked ? this._animationClasses.checkedToUnchecked : this._animationClasses.checkedToIndeterminate;
+      case TransitionCheckState.Indeterminate:
+        return newState === TransitionCheckState.Checked ? this._animationClasses.indeterminateToChecked : this._animationClasses.indeterminateToUnchecked;
+    }
+    return "";
+  }
+  /**
+   * Syncs the indeterminate value with the checkbox DOM node.
+   *
+   * We sync `indeterminate` directly on the DOM node, because in Ivy the check for whether a
+   * property is supported on an element boils down to `if (propName in element)`. Domino's
+   * HTMLInputElement doesn't have an `indeterminate` property so Ivy will warn during
+   * server-side rendering.
+   */
+  _syncIndeterminate(value) {
+    const nativeCheckbox = this._inputElement;
+    if (nativeCheckbox) {
+      nativeCheckbox.nativeElement.indeterminate = value;
+    }
+  }
+  _onInputClick() {
+    this._handleInputClick();
+  }
+  _onTouchTargetClick() {
+    this._handleInputClick();
+    if (!this.disabled) {
+      this._inputElement.nativeElement.focus();
+    }
+  }
+  /**
+   *  Prevent click events that come from the `<label/>` element from bubbling. This prevents the
+   *  click handler on the host from triggering twice when clicking on the `<label/>` element. After
+   *  the click event on the `<label/>` propagates, the browsers dispatches click on the associated
+   *  `<input/>`. By preventing clicks on the label by bubbling, we ensure only one click event
+   *  bubbles when the label is clicked.
+   */
+  _preventBubblingFromLabel(event) {
+    if (!!event.target && this._labelElement.nativeElement.contains(event.target)) {
+      event.stopPropagation();
+    }
+  }
+  static \u0275fac = function MatCheckbox_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCheckbox)();
   };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatButtonBase,
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCheckbox,
+    selectors: [["mat-checkbox"]],
+    viewQuery: function MatCheckbox_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c03, 5);
+        \u0275\u0275viewQuery(_c13, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._inputElement = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._labelElement = _t.first);
+      }
+    },
+    hostAttrs: [1, "mat-mdc-checkbox"],
+    hostVars: 16,
+    hostBindings: function MatCheckbox_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275hostProperty("id", ctx.id);
+        \u0275\u0275attribute("tabindex", null)("aria-label", null)("aria-labelledby", null);
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "mat-accent");
+        \u0275\u0275classProp("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mdc-checkbox--disabled", ctx.disabled)("mat-mdc-checkbox-disabled", ctx.disabled)("mat-mdc-checkbox-checked", ctx.checked)("mat-mdc-checkbox-disabled-interactive", ctx.disabledInteractive);
+      }
+    },
     inputs: {
-      color: "color",
+      ariaLabel: [0, "aria-label", "ariaLabel"],
+      ariaLabelledby: [0, "aria-labelledby", "ariaLabelledby"],
+      ariaDescribedby: [0, "aria-describedby", "ariaDescribedby"],
+      ariaExpanded: [2, "aria-expanded", "ariaExpanded", booleanAttribute],
+      ariaControls: [0, "aria-controls", "ariaControls"],
+      ariaOwns: [0, "aria-owns", "ariaOwns"],
+      id: "id",
+      required: [2, "required", "required", booleanAttribute],
+      labelPosition: "labelPosition",
+      name: "name",
+      value: "value",
       disableRipple: [2, "disableRipple", "disableRipple", booleanAttribute],
+      tabIndex: [2, "tabIndex", "tabIndex", (value) => value == null ? void 0 : numberAttribute(value)],
+      color: "color",
+      disabledInteractive: [2, "disabledInteractive", "disabledInteractive", booleanAttribute],
+      checked: [2, "checked", "checked", booleanAttribute],
       disabled: [2, "disabled", "disabled", booleanAttribute],
-      ariaDisabled: [2, "aria-disabled", "ariaDisabled", booleanAttribute],
-      disabledInteractive: [2, "disabledInteractive", "disabledInteractive", booleanAttribute]
-    }
+      indeterminate: [2, "indeterminate", "indeterminate", booleanAttribute]
+    },
+    outputs: {
+      change: "change",
+      indeterminateChange: "indeterminateChange"
+    },
+    exportAs: ["matCheckbox"],
+    features: [\u0275\u0275ProvidersFeature([MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR, {
+      provide: NG_VALIDATORS,
+      useExisting: _MatCheckbox,
+      multi: true
+    }]), \u0275\u0275NgOnChangesFeature],
+    ngContentSelectors: _c22,
+    decls: 15,
+    vars: 23,
+    consts: [["checkbox", ""], ["input", ""], ["label", ""], ["mat-internal-form-field", "", 3, "click", "labelPosition"], [1, "mdc-checkbox"], [1, "mat-mdc-checkbox-touch-target", 3, "click"], ["type", "checkbox", 1, "mdc-checkbox__native-control", 3, "blur", "click", "change", "checked", "indeterminate", "disabled", "id", "required", "tabIndex"], [1, "mdc-checkbox__ripple"], [1, "mdc-checkbox__background"], ["focusable", "false", "viewBox", "0 0 24 24", "aria-hidden", "true", 1, "mdc-checkbox__checkmark"], ["fill", "none", "d", "M1.73,12.91 8.1,19.28 22.79,4.59", 1, "mdc-checkbox__checkmark-path"], [1, "mdc-checkbox__mixedmark"], ["mat-ripple", "", 1, "mat-mdc-checkbox-ripple", "mat-focus-indicator", 3, "matRippleTrigger", "matRippleDisabled", "matRippleCentered"], [1, "mdc-label", 3, "for"]],
+    template: function MatCheckbox_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "div", 3);
+        \u0275\u0275listener("click", function MatCheckbox_Template_div_click_0_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._preventBubblingFromLabel($event));
+        });
+        \u0275\u0275elementStart(1, "div", 4, 0)(3, "div", 5);
+        \u0275\u0275listener("click", function MatCheckbox_Template_div_click_3_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._onTouchTargetClick());
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(4, "input", 6, 1);
+        \u0275\u0275listener("blur", function MatCheckbox_Template_input_blur_4_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._onBlur());
+        })("click", function MatCheckbox_Template_input_click_4_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._onInputClick());
+        })("change", function MatCheckbox_Template_input_change_4_listener($event) {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._onInteractionEvent($event));
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(6, "div", 7);
+        \u0275\u0275elementStart(7, "div", 8);
+        \u0275\u0275namespaceSVG();
+        \u0275\u0275elementStart(8, "svg", 9);
+        \u0275\u0275element(9, "path", 10);
+        \u0275\u0275elementEnd();
+        \u0275\u0275namespaceHTML();
+        \u0275\u0275element(10, "div", 11);
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(11, "div", 12);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(12, "label", 13, 2);
+        \u0275\u0275projection(14);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        const checkbox_r2 = \u0275\u0275reference(2);
+        \u0275\u0275property("labelPosition", ctx.labelPosition);
+        \u0275\u0275advance(4);
+        \u0275\u0275classProp("mdc-checkbox--selected", ctx.checked);
+        \u0275\u0275property("checked", ctx.checked)("indeterminate", ctx.indeterminate)("disabled", ctx.disabled && !ctx.disabledInteractive)("id", ctx.inputId)("required", ctx.required)("tabIndex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex);
+        \u0275\u0275attribute("aria-label", ctx.ariaLabel || null)("aria-labelledby", ctx.ariaLabelledby)("aria-describedby", ctx.ariaDescribedby)("aria-checked", ctx.indeterminate ? "mixed" : null)("aria-controls", ctx.ariaControls)("aria-disabled", ctx.disabled && ctx.disabledInteractive ? true : null)("aria-expanded", ctx.ariaExpanded)("aria-owns", ctx.ariaOwns)("name", ctx.name)("value", ctx.value);
+        \u0275\u0275advance(7);
+        \u0275\u0275property("matRippleTrigger", checkbox_r2)("matRippleDisabled", ctx.disableRipple || ctx.disabled)("matRippleCentered", true);
+        \u0275\u0275advance();
+        \u0275\u0275property("for", ctx.inputId);
+      }
+    },
+    dependencies: [MatRipple, _MatInternalFormField],
+    styles: ['.mdc-checkbox{display:inline-block;position:relative;flex:0 0 18px;box-sizing:content-box;width:18px;height:18px;line-height:0;white-space:nowrap;cursor:pointer;vertical-align:bottom;padding:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2);margin:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2)}.mdc-checkbox:hover>.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:hover>.mat-mdc-checkbox-ripple>.mat-ripple-element{background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control:focus+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-focus-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control:focus~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-unselected-focus-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:active>.mdc-checkbox__native-control+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-pressed-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:active>.mdc-checkbox__native-control~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-unselected-pressed-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:hover .mdc-checkbox__native-control:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));background-color:var(--mdc-checkbox-selected-hover-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:hover .mdc-checkbox__native-control:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-hover-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox .mdc-checkbox__native-control:focus:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity));background-color:var(--mdc-checkbox-selected-focus-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-focus-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:active>.mdc-checkbox__native-control:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity));background-color:var(--mdc-checkbox-selected-pressed-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:active>.mdc-checkbox__native-control:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-pressed-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control~.mat-mdc-checkbox-ripple .mat-ripple-element,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control+.mdc-checkbox__ripple{background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control{position:absolute;margin:0;padding:0;opacity:0;cursor:inherit;z-index:1;width:var(--mdc-checkbox-state-layer-size, 40px);height:var(--mdc-checkbox-state-layer-size, 40px);top:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2);right:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2);left:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2)}.mdc-checkbox--disabled{cursor:default;pointer-events:none}@media(forced-colors: active){.mdc-checkbox--disabled{opacity:.5}}.mdc-checkbox__background{display:inline-flex;position:absolute;align-items:center;justify-content:center;box-sizing:border-box;width:18px;height:18px;border:2px solid currentColor;border-radius:2px;background-color:rgba(0,0,0,0);pointer-events:none;will-change:background-color,border-color;transition:background-color 90ms cubic-bezier(0.4, 0, 0.6, 1),border-color 90ms cubic-bezier(0.4, 0, 0.6, 1);-webkit-print-color-adjust:exact;color-adjust:exact;border-color:var(--mdc-checkbox-unselected-icon-color, var(--mat-sys-on-surface-variant));top:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2);left:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2)}.mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-icon-color, var(--mat-sys-primary))}.mdc-checkbox--disabled .mdc-checkbox__background{border-color:var(--mdc-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mdc-checkbox__native-control:disabled:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:disabled:indeterminate~.mdc-checkbox__background{background-color:var(--mdc-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:rgba(0,0,0,0)}.mdc-checkbox:hover>.mdc-checkbox__native-control:not(:checked)~.mdc-checkbox__background,.mdc-checkbox:hover>.mdc-checkbox__native-control:not(:indeterminate)~.mdc-checkbox__background{border-color:var(--mdc-checkbox-unselected-hover-icon-color, var(--mat-sys-on-surface));background-color:rgba(0,0,0,0)}.mdc-checkbox:hover>.mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox:hover>.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-hover-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-hover-icon-color, var(--mat-sys-primary))}.mdc-checkbox__native-control:focus:focus:not(:checked)~.mdc-checkbox__background,.mdc-checkbox__native-control:focus:focus:not(:indeterminate)~.mdc-checkbox__background{border-color:var(--mdc-checkbox-unselected-focus-icon-color, var(--mat-sys-on-surface))}.mdc-checkbox__native-control:focus:focus:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:focus:focus:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-focus-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-focus-icon-color, var(--mat-sys-primary))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox:hover>.mdc-checkbox__native-control~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__background{border-color:var(--mdc-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{background-color:var(--mdc-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:rgba(0,0,0,0)}.mdc-checkbox__checkmark{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;opacity:0;transition:opacity 180ms cubic-bezier(0.4, 0, 0.6, 1);color:var(--mdc-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}@media(forced-colors: active){.mdc-checkbox__checkmark{color:CanvasText}}.mdc-checkbox--disabled .mdc-checkbox__checkmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__checkmark{color:var(--mdc-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}@media(forced-colors: active){.mdc-checkbox--disabled .mdc-checkbox__checkmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__checkmark{color:CanvasText}}.mdc-checkbox__checkmark-path{transition:stroke-dashoffset 180ms cubic-bezier(0.4, 0, 0.6, 1);stroke:currentColor;stroke-width:3.12px;stroke-dashoffset:29.7833385;stroke-dasharray:29.7833385}.mdc-checkbox__mixedmark{width:100%;height:0;transform:scaleX(0) rotate(0deg);border-width:1px;border-style:solid;opacity:0;transition:opacity 90ms cubic-bezier(0.4, 0, 0.6, 1),transform 90ms cubic-bezier(0.4, 0, 0.6, 1);border-color:var(--mdc-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}@media(forced-colors: active){.mdc-checkbox__mixedmark{margin:0 1px}}.mdc-checkbox--disabled .mdc-checkbox__mixedmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__mixedmark{border-color:var(--mdc-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}.mdc-checkbox--anim-unchecked-checked .mdc-checkbox__background,.mdc-checkbox--anim-unchecked-indeterminate .mdc-checkbox__background,.mdc-checkbox--anim-checked-unchecked .mdc-checkbox__background,.mdc-checkbox--anim-indeterminate-unchecked .mdc-checkbox__background{animation-duration:180ms;animation-timing-function:linear}.mdc-checkbox--anim-unchecked-checked .mdc-checkbox__checkmark-path{animation:mdc-checkbox-unchecked-checked-checkmark-path 180ms linear;transition:none}.mdc-checkbox--anim-unchecked-indeterminate .mdc-checkbox__mixedmark{animation:mdc-checkbox-unchecked-indeterminate-mixedmark 90ms linear;transition:none}.mdc-checkbox--anim-checked-unchecked .mdc-checkbox__checkmark-path{animation:mdc-checkbox-checked-unchecked-checkmark-path 90ms linear;transition:none}.mdc-checkbox--anim-checked-indeterminate .mdc-checkbox__checkmark{animation:mdc-checkbox-checked-indeterminate-checkmark 90ms linear;transition:none}.mdc-checkbox--anim-checked-indeterminate .mdc-checkbox__mixedmark{animation:mdc-checkbox-checked-indeterminate-mixedmark 90ms linear;transition:none}.mdc-checkbox--anim-indeterminate-checked .mdc-checkbox__checkmark{animation:mdc-checkbox-indeterminate-checked-checkmark 500ms linear;transition:none}.mdc-checkbox--anim-indeterminate-checked .mdc-checkbox__mixedmark{animation:mdc-checkbox-indeterminate-checked-mixedmark 500ms linear;transition:none}.mdc-checkbox--anim-indeterminate-unchecked .mdc-checkbox__mixedmark{animation:mdc-checkbox-indeterminate-unchecked-mixedmark 300ms linear;transition:none}.mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{transition:border-color 90ms cubic-bezier(0, 0, 0.2, 1),background-color 90ms cubic-bezier(0, 0, 0.2, 1)}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path,.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path{stroke-dashoffset:0}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__checkmark{transition:opacity 180ms cubic-bezier(0, 0, 0.2, 1),transform 180ms cubic-bezier(0, 0, 0.2, 1);opacity:1}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__mixedmark{transform:scaleX(1) rotate(-45deg)}.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__checkmark{transform:rotate(45deg);opacity:0;transition:opacity 90ms cubic-bezier(0.4, 0, 0.6, 1),transform 90ms cubic-bezier(0.4, 0, 0.6, 1)}.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__mixedmark{transform:scaleX(1) rotate(0deg);opacity:1}@keyframes mdc-checkbox-unchecked-checked-checkmark-path{0%,50%{stroke-dashoffset:29.7833385}50%{animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}100%{stroke-dashoffset:0}}@keyframes mdc-checkbox-unchecked-indeterminate-mixedmark{0%,68.2%{transform:scaleX(0)}68.2%{animation-timing-function:cubic-bezier(0, 0, 0, 1)}100%{transform:scaleX(1)}}@keyframes mdc-checkbox-checked-unchecked-checkmark-path{from{animation-timing-function:cubic-bezier(0.4, 0, 1, 1);opacity:1;stroke-dashoffset:0}to{opacity:0;stroke-dashoffset:-29.7833385}}@keyframes mdc-checkbox-checked-indeterminate-checkmark{from{animation-timing-function:cubic-bezier(0, 0, 0.2, 1);transform:rotate(0deg);opacity:1}to{transform:rotate(45deg);opacity:0}}@keyframes mdc-checkbox-indeterminate-checked-checkmark{from{animation-timing-function:cubic-bezier(0.14, 0, 0, 1);transform:rotate(45deg);opacity:0}to{transform:rotate(360deg);opacity:1}}@keyframes mdc-checkbox-checked-indeterminate-mixedmark{from{animation-timing-function:cubic-bezier(0, 0, 0.2, 1);transform:rotate(-45deg);opacity:0}to{transform:rotate(0deg);opacity:1}}@keyframes mdc-checkbox-indeterminate-checked-mixedmark{from{animation-timing-function:cubic-bezier(0.14, 0, 0, 1);transform:rotate(0deg);opacity:1}to{transform:rotate(315deg);opacity:0}}@keyframes mdc-checkbox-indeterminate-unchecked-mixedmark{0%{animation-timing-function:linear;transform:scaleX(1);opacity:1}32.8%,100%{transform:scaleX(0);opacity:0}}.mat-mdc-checkbox{display:inline-block;position:relative;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mat-mdc-checkbox-touch-target,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__native-control,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__ripple,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mat-mdc-checkbox-ripple::before,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__checkmark,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__mixedmark{transition:none !important;animation:none !important}.mat-mdc-checkbox label{cursor:pointer}.mat-mdc-checkbox .mat-internal-form-field{color:var(--mat-checkbox-label-text-color, var(--mat-sys-on-surface));font-family:var(--mat-checkbox-label-text-font, var(--mat-sys-body-medium-font));line-height:var(--mat-checkbox-label-text-line-height, var(--mat-sys-body-medium-line-height));font-size:var(--mat-checkbox-label-text-size, var(--mat-sys-body-medium-size));letter-spacing:var(--mat-checkbox-label-text-tracking, var(--mat-sys-body-medium-tracking));font-weight:var(--mat-checkbox-label-text-weight, var(--mat-sys-body-medium-weight))}.mat-mdc-checkbox.mat-mdc-checkbox-disabled.mat-mdc-checkbox-disabled-interactive{pointer-events:auto}.mat-mdc-checkbox.mat-mdc-checkbox-disabled.mat-mdc-checkbox-disabled-interactive input{cursor:default}.mat-mdc-checkbox.mat-mdc-checkbox-disabled label{cursor:default;color:var(--mat-checkbox-disabled-label-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-checkbox label:empty{display:none}.mat-mdc-checkbox .mdc-checkbox__ripple{opacity:0}.mat-mdc-checkbox .mat-mdc-checkbox-ripple,.mdc-checkbox__ripple{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:50%;pointer-events:none}.mat-mdc-checkbox .mat-mdc-checkbox-ripple:not(:empty),.mdc-checkbox__ripple:not(:empty){transform:translateZ(0)}.mat-mdc-checkbox-ripple .mat-ripple-element{opacity:.1}.mat-mdc-checkbox-touch-target{position:absolute;top:50%;left:50%;height:48px;width:48px;transform:translate(-50%, -50%);display:var(--mat-checkbox-touch-target-display, block)}.mat-mdc-checkbox .mat-mdc-checkbox-ripple::before{border-radius:50%}.mdc-checkbox__native-control:focus~.mat-focus-indicator::before{content:""}\n'],
+    encapsulation: 2,
+    changeDetection: 0
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonBase, [{
-    type: Directive
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCheckbox, [{
+    type: Component,
+    args: [{
+      selector: "mat-checkbox",
+      host: {
+        "class": "mat-mdc-checkbox",
+        "[attr.tabindex]": "null",
+        "[attr.aria-label]": "null",
+        "[attr.aria-labelledby]": "null",
+        "[class._mat-animation-noopable]": `_animationMode === 'NoopAnimations'`,
+        "[class.mdc-checkbox--disabled]": "disabled",
+        "[id]": "id",
+        // Add classes that users can use to more easily target disabled or checked checkboxes.
+        "[class.mat-mdc-checkbox-disabled]": "disabled",
+        "[class.mat-mdc-checkbox-checked]": "checked",
+        "[class.mat-mdc-checkbox-disabled-interactive]": "disabledInteractive",
+        "[class]": 'color ? "mat-" + color : "mat-accent"'
+      },
+      providers: [MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR, {
+        provide: NG_VALIDATORS,
+        useExisting: MatCheckbox,
+        multi: true
+      }],
+      exportAs: "matCheckbox",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      imports: [MatRipple, _MatInternalFormField],
+      template: `<div mat-internal-form-field [labelPosition]="labelPosition" (click)="_preventBubblingFromLabel($event)">
+  <div #checkbox class="mdc-checkbox">
+    <!-- Render this element first so the input is on top. -->
+    <div class="mat-mdc-checkbox-touch-target" (click)="_onTouchTargetClick()"></div>
+    <input #input
+           type="checkbox"
+           class="mdc-checkbox__native-control"
+           [class.mdc-checkbox--selected]="checked"
+           [attr.aria-label]="ariaLabel || null"
+           [attr.aria-labelledby]="ariaLabelledby"
+           [attr.aria-describedby]="ariaDescribedby"
+           [attr.aria-checked]="indeterminate ? 'mixed' : null"
+           [attr.aria-controls]="ariaControls"
+           [attr.aria-disabled]="disabled && disabledInteractive ? true : null"
+           [attr.aria-expanded]="ariaExpanded"
+           [attr.aria-owns]="ariaOwns"
+           [attr.name]="name"
+           [attr.value]="value"
+           [checked]="checked"
+           [indeterminate]="indeterminate"
+           [disabled]="disabled && !disabledInteractive"
+           [id]="inputId"
+           [required]="required"
+           [tabIndex]="disabled && !disabledInteractive ? -1 : tabIndex"
+           (blur)="_onBlur()"
+           (click)="_onInputClick()"
+           (change)="_onInteractionEvent($event)"/>
+    <div class="mdc-checkbox__ripple"></div>
+    <div class="mdc-checkbox__background">
+      <svg class="mdc-checkbox__checkmark"
+           focusable="false"
+           viewBox="0 0 24 24"
+           aria-hidden="true">
+        <path class="mdc-checkbox__checkmark-path"
+              fill="none"
+              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+      </svg>
+      <div class="mdc-checkbox__mixedmark"></div>
+    </div>
+    <div class="mat-mdc-checkbox-ripple mat-focus-indicator" mat-ripple
+      [matRippleTrigger]="checkbox"
+      [matRippleDisabled]="disableRipple || disabled"
+      [matRippleCentered]="true"></div>
+  </div>
+  <!--
+    Avoid putting a click handler on the <label/> to fix duplicate navigation stop on Talk Back
+    (#14385). Putting a click handler on the <label/> caused this bug because the browser produced
+    an unnecessary accessibility tree node.
+  -->
+  <label class="mdc-label" #label [for]="inputId">
+    <ng-content></ng-content>
+  </label>
+</div>
+`,
+      styles: ['.mdc-checkbox{display:inline-block;position:relative;flex:0 0 18px;box-sizing:content-box;width:18px;height:18px;line-height:0;white-space:nowrap;cursor:pointer;vertical-align:bottom;padding:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2);margin:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2)}.mdc-checkbox:hover>.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:hover>.mat-mdc-checkbox-ripple>.mat-ripple-element{background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control:focus+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-focus-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control:focus~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-unselected-focus-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:active>.mdc-checkbox__native-control+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-unselected-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity));background-color:var(--mdc-checkbox-unselected-pressed-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:active>.mdc-checkbox__native-control~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-unselected-pressed-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:hover .mdc-checkbox__native-control:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity));background-color:var(--mdc-checkbox-selected-hover-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:hover .mdc-checkbox__native-control:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-hover-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox .mdc-checkbox__native-control:focus:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity));background-color:var(--mdc-checkbox-selected-focus-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-focus-state-layer-color, var(--mat-sys-primary))}.mdc-checkbox:active>.mdc-checkbox__native-control:checked+.mdc-checkbox__ripple{opacity:var(--mdc-checkbox-selected-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity));background-color:var(--mdc-checkbox-selected-pressed-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox:active>.mdc-checkbox__native-control:checked~.mat-mdc-checkbox-ripple .mat-ripple-element{background-color:var(--mdc-checkbox-selected-pressed-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control~.mat-mdc-checkbox-ripple .mat-ripple-element,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control+.mdc-checkbox__ripple{background-color:var(--mdc-checkbox-unselected-hover-state-layer-color, var(--mat-sys-on-surface))}.mdc-checkbox .mdc-checkbox__native-control{position:absolute;margin:0;padding:0;opacity:0;cursor:inherit;z-index:1;width:var(--mdc-checkbox-state-layer-size, 40px);height:var(--mdc-checkbox-state-layer-size, 40px);top:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2);right:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2);left:calc((var(--mdc-checkbox-state-layer-size, 40px) - var(--mdc-checkbox-state-layer-size, 40px))/2)}.mdc-checkbox--disabled{cursor:default;pointer-events:none}@media(forced-colors: active){.mdc-checkbox--disabled{opacity:.5}}.mdc-checkbox__background{display:inline-flex;position:absolute;align-items:center;justify-content:center;box-sizing:border-box;width:18px;height:18px;border:2px solid currentColor;border-radius:2px;background-color:rgba(0,0,0,0);pointer-events:none;will-change:background-color,border-color;transition:background-color 90ms cubic-bezier(0.4, 0, 0.6, 1),border-color 90ms cubic-bezier(0.4, 0, 0.6, 1);-webkit-print-color-adjust:exact;color-adjust:exact;border-color:var(--mdc-checkbox-unselected-icon-color, var(--mat-sys-on-surface-variant));top:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2);left:calc((var(--mdc-checkbox-state-layer-size, 40px) - 18px)/2)}.mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-icon-color, var(--mat-sys-primary))}.mdc-checkbox--disabled .mdc-checkbox__background{border-color:var(--mdc-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mdc-checkbox__native-control:disabled:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:disabled:indeterminate~.mdc-checkbox__background{background-color:var(--mdc-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:rgba(0,0,0,0)}.mdc-checkbox:hover>.mdc-checkbox__native-control:not(:checked)~.mdc-checkbox__background,.mdc-checkbox:hover>.mdc-checkbox__native-control:not(:indeterminate)~.mdc-checkbox__background{border-color:var(--mdc-checkbox-unselected-hover-icon-color, var(--mat-sys-on-surface));background-color:rgba(0,0,0,0)}.mdc-checkbox:hover>.mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox:hover>.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-hover-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-hover-icon-color, var(--mat-sys-primary))}.mdc-checkbox__native-control:focus:focus:not(:checked)~.mdc-checkbox__background,.mdc-checkbox__native-control:focus:focus:not(:indeterminate)~.mdc-checkbox__background{border-color:var(--mdc-checkbox-unselected-focus-icon-color, var(--mat-sys-on-surface))}.mdc-checkbox__native-control:focus:focus:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:focus:focus:indeterminate~.mdc-checkbox__background{border-color:var(--mdc-checkbox-selected-focus-icon-color, var(--mat-sys-primary));background-color:var(--mdc-checkbox-selected-focus-icon-color, var(--mat-sys-primary))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox:hover>.mdc-checkbox__native-control~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__background{border-color:var(--mdc-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{background-color:var(--mdc-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:rgba(0,0,0,0)}.mdc-checkbox__checkmark{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;opacity:0;transition:opacity 180ms cubic-bezier(0.4, 0, 0.6, 1);color:var(--mdc-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}@media(forced-colors: active){.mdc-checkbox__checkmark{color:CanvasText}}.mdc-checkbox--disabled .mdc-checkbox__checkmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__checkmark{color:var(--mdc-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}@media(forced-colors: active){.mdc-checkbox--disabled .mdc-checkbox__checkmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__checkmark{color:CanvasText}}.mdc-checkbox__checkmark-path{transition:stroke-dashoffset 180ms cubic-bezier(0.4, 0, 0.6, 1);stroke:currentColor;stroke-width:3.12px;stroke-dashoffset:29.7833385;stroke-dasharray:29.7833385}.mdc-checkbox__mixedmark{width:100%;height:0;transform:scaleX(0) rotate(0deg);border-width:1px;border-style:solid;opacity:0;transition:opacity 90ms cubic-bezier(0.4, 0, 0.6, 1),transform 90ms cubic-bezier(0.4, 0, 0.6, 1);border-color:var(--mdc-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}@media(forced-colors: active){.mdc-checkbox__mixedmark{margin:0 1px}}.mdc-checkbox--disabled .mdc-checkbox__mixedmark,.mdc-checkbox--disabled.mat-mdc-checkbox-disabled-interactive .mdc-checkbox__mixedmark{border-color:var(--mdc-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}.mdc-checkbox--anim-unchecked-checked .mdc-checkbox__background,.mdc-checkbox--anim-unchecked-indeterminate .mdc-checkbox__background,.mdc-checkbox--anim-checked-unchecked .mdc-checkbox__background,.mdc-checkbox--anim-indeterminate-unchecked .mdc-checkbox__background{animation-duration:180ms;animation-timing-function:linear}.mdc-checkbox--anim-unchecked-checked .mdc-checkbox__checkmark-path{animation:mdc-checkbox-unchecked-checked-checkmark-path 180ms linear;transition:none}.mdc-checkbox--anim-unchecked-indeterminate .mdc-checkbox__mixedmark{animation:mdc-checkbox-unchecked-indeterminate-mixedmark 90ms linear;transition:none}.mdc-checkbox--anim-checked-unchecked .mdc-checkbox__checkmark-path{animation:mdc-checkbox-checked-unchecked-checkmark-path 90ms linear;transition:none}.mdc-checkbox--anim-checked-indeterminate .mdc-checkbox__checkmark{animation:mdc-checkbox-checked-indeterminate-checkmark 90ms linear;transition:none}.mdc-checkbox--anim-checked-indeterminate .mdc-checkbox__mixedmark{animation:mdc-checkbox-checked-indeterminate-mixedmark 90ms linear;transition:none}.mdc-checkbox--anim-indeterminate-checked .mdc-checkbox__checkmark{animation:mdc-checkbox-indeterminate-checked-checkmark 500ms linear;transition:none}.mdc-checkbox--anim-indeterminate-checked .mdc-checkbox__mixedmark{animation:mdc-checkbox-indeterminate-checked-mixedmark 500ms linear;transition:none}.mdc-checkbox--anim-indeterminate-unchecked .mdc-checkbox__mixedmark{animation:mdc-checkbox-indeterminate-unchecked-mixedmark 300ms linear;transition:none}.mdc-checkbox__native-control:checked~.mdc-checkbox__background,.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{transition:border-color 90ms cubic-bezier(0, 0, 0.2, 1),background-color 90ms cubic-bezier(0, 0, 0.2, 1)}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path,.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path{stroke-dashoffset:0}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__checkmark{transition:opacity 180ms cubic-bezier(0, 0, 0.2, 1),transform 180ms cubic-bezier(0, 0, 0.2, 1);opacity:1}.mdc-checkbox__native-control:checked~.mdc-checkbox__background>.mdc-checkbox__mixedmark{transform:scaleX(1) rotate(-45deg)}.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__checkmark{transform:rotate(45deg);opacity:0;transition:opacity 90ms cubic-bezier(0.4, 0, 0.6, 1),transform 90ms cubic-bezier(0.4, 0, 0.6, 1)}.mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background>.mdc-checkbox__mixedmark{transform:scaleX(1) rotate(0deg);opacity:1}@keyframes mdc-checkbox-unchecked-checked-checkmark-path{0%,50%{stroke-dashoffset:29.7833385}50%{animation-timing-function:cubic-bezier(0, 0, 0.2, 1)}100%{stroke-dashoffset:0}}@keyframes mdc-checkbox-unchecked-indeterminate-mixedmark{0%,68.2%{transform:scaleX(0)}68.2%{animation-timing-function:cubic-bezier(0, 0, 0, 1)}100%{transform:scaleX(1)}}@keyframes mdc-checkbox-checked-unchecked-checkmark-path{from{animation-timing-function:cubic-bezier(0.4, 0, 1, 1);opacity:1;stroke-dashoffset:0}to{opacity:0;stroke-dashoffset:-29.7833385}}@keyframes mdc-checkbox-checked-indeterminate-checkmark{from{animation-timing-function:cubic-bezier(0, 0, 0.2, 1);transform:rotate(0deg);opacity:1}to{transform:rotate(45deg);opacity:0}}@keyframes mdc-checkbox-indeterminate-checked-checkmark{from{animation-timing-function:cubic-bezier(0.14, 0, 0, 1);transform:rotate(45deg);opacity:0}to{transform:rotate(360deg);opacity:1}}@keyframes mdc-checkbox-checked-indeterminate-mixedmark{from{animation-timing-function:cubic-bezier(0, 0, 0.2, 1);transform:rotate(-45deg);opacity:0}to{transform:rotate(0deg);opacity:1}}@keyframes mdc-checkbox-indeterminate-checked-mixedmark{from{animation-timing-function:cubic-bezier(0.14, 0, 0, 1);transform:rotate(0deg);opacity:1}to{transform:rotate(315deg);opacity:0}}@keyframes mdc-checkbox-indeterminate-unchecked-mixedmark{0%{animation-timing-function:linear;transform:scaleX(1);opacity:1}32.8%,100%{transform:scaleX(0);opacity:0}}.mat-mdc-checkbox{display:inline-block;position:relative;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mat-mdc-checkbox-touch-target,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__native-control,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__ripple,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mat-mdc-checkbox-ripple::before,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__checkmark,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__checkmark>.mdc-checkbox__checkmark-path,.mat-mdc-checkbox._mat-animation-noopable>.mat-internal-form-field>.mdc-checkbox>.mdc-checkbox__background>.mdc-checkbox__mixedmark{transition:none !important;animation:none !important}.mat-mdc-checkbox label{cursor:pointer}.mat-mdc-checkbox .mat-internal-form-field{color:var(--mat-checkbox-label-text-color, var(--mat-sys-on-surface));font-family:var(--mat-checkbox-label-text-font, var(--mat-sys-body-medium-font));line-height:var(--mat-checkbox-label-text-line-height, var(--mat-sys-body-medium-line-height));font-size:var(--mat-checkbox-label-text-size, var(--mat-sys-body-medium-size));letter-spacing:var(--mat-checkbox-label-text-tracking, var(--mat-sys-body-medium-tracking));font-weight:var(--mat-checkbox-label-text-weight, var(--mat-sys-body-medium-weight))}.mat-mdc-checkbox.mat-mdc-checkbox-disabled.mat-mdc-checkbox-disabled-interactive{pointer-events:auto}.mat-mdc-checkbox.mat-mdc-checkbox-disabled.mat-mdc-checkbox-disabled-interactive input{cursor:default}.mat-mdc-checkbox.mat-mdc-checkbox-disabled label{cursor:default;color:var(--mat-checkbox-disabled-label-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-checkbox label:empty{display:none}.mat-mdc-checkbox .mdc-checkbox__ripple{opacity:0}.mat-mdc-checkbox .mat-mdc-checkbox-ripple,.mdc-checkbox__ripple{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:50%;pointer-events:none}.mat-mdc-checkbox .mat-mdc-checkbox-ripple:not(:empty),.mdc-checkbox__ripple:not(:empty){transform:translateZ(0)}.mat-mdc-checkbox-ripple .mat-ripple-element{opacity:.1}.mat-mdc-checkbox-touch-target{position:absolute;top:50%;left:50%;height:48px;width:48px;transform:translate(-50%, -50%);display:var(--mat-checkbox-touch-target-display, block)}.mat-mdc-checkbox .mat-mdc-checkbox-ripple::before{border-radius:50%}.mdc-checkbox__native-control:focus~.mat-focus-indicator::before{content:""}\n']
+    }]
   }], () => [], {
-    color: [{
+    ariaLabel: [{
+      type: Input,
+      args: ["aria-label"]
+    }],
+    ariaLabelledby: [{
+      type: Input,
+      args: ["aria-labelledby"]
+    }],
+    ariaDescribedby: [{
+      type: Input,
+      args: ["aria-describedby"]
+    }],
+    ariaExpanded: [{
+      type: Input,
+      args: [{
+        alias: "aria-expanded",
+        transform: booleanAttribute
+      }]
+    }],
+    ariaControls: [{
+      type: Input,
+      args: ["aria-controls"]
+    }],
+    ariaOwns: [{
+      type: Input,
+      args: ["aria-owns"]
+    }],
+    id: [{
+      type: Input
+    }],
+    required: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    labelPosition: [{
+      type: Input
+    }],
+    name: [{
+      type: Input
+    }],
+    change: [{
+      type: Output
+    }],
+    indeterminateChange: [{
+      type: Output
+    }],
+    value: [{
       type: Input
     }],
     disableRipple: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    _inputElement: [{
+      type: ViewChild,
+      args: ["input"]
+    }],
+    _labelElement: [{
+      type: ViewChild,
+      args: ["label"]
+    }],
+    tabIndex: [{
+      type: Input,
+      args: [{
+        transform: (value) => value == null ? void 0 : numberAttribute(value)
+      }]
+    }],
+    color: [{
+      type: Input
+    }],
+    disabledInteractive: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    checked: [{
       type: Input,
       args: [{
         transform: booleanAttribute
@@ -55418,14 +55932,7 @@ var MatButtonBase = class _MatButtonBase {
         transform: booleanAttribute
       }]
     }],
-    ariaDisabled: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute,
-        alias: "aria-disabled"
-      }]
-    }],
-    disabledInteractive: [{
+    indeterminate: [{
       type: Input,
       args: [{
         transform: booleanAttribute
@@ -55433,1226 +55940,978 @@ var MatButtonBase = class _MatButtonBase {
     }]
   });
 })();
-var MAT_ANCHOR_HOST = {
-  // Note that this is basically a noop on anchors,
-  // but it appears that some internal apps depend on it.
-  "[attr.disabled]": "_getDisabledAttribute()",
-  "[class.mat-mdc-button-disabled]": "disabled",
-  "[class.mat-mdc-button-disabled-interactive]": "disabledInteractive",
-  "[class._mat-animation-noopable]": '_animationMode === "NoopAnimations"',
-  // Note that we ignore the user-specified tabindex when it's disabled for
-  // consistency with the `mat-button` applied on native buttons where even
-  // though they have an index, they're not tabbable.
-  "[attr.tabindex]": "disabled && !disabledInteractive ? -1 : tabIndex",
-  "[attr.aria-disabled]": "_getAriaDisabled()",
-  // MDC automatically applies the primary theme color to the button, but we want to support
-  // an unthemed version. If color is undefined, apply a CSS class that makes it easy to
-  // select and style this "theme".
-  "[class.mat-unthemed]": "!color",
-  // Add a class that applies to all buttons. This makes it easier to target if somebody
-  // wants to target all Material buttons.
-  "[class.mat-mdc-button-base]": "true",
-  "[class]": 'color ? "mat-" + color : ""'
+var MAT_CHECKBOX_REQUIRED_VALIDATOR = {
+  provide: NG_VALIDATORS,
+  useExisting: forwardRef(() => MatCheckboxRequiredValidator),
+  multi: true
 };
-var MatAnchorBase = class _MatAnchorBase extends MatButtonBase {
-  _renderer = inject(Renderer2);
-  _cleanupClick;
-  tabIndex;
-  ngOnInit() {
-    this._ngZone.runOutsideAngular(() => {
-      this._cleanupClick = this._renderer.listen(this._elementRef.nativeElement, "click", this._haltDisabledEvents);
-    });
-  }
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this._cleanupClick?.();
-  }
-  _haltDisabledEvents = (event) => {
-    if (this.disabled) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  };
-  _getAriaDisabled() {
-    if (this.ariaDisabled != null) {
-      return this.ariaDisabled;
-    }
-    return this.disabled || null;
-  }
+var MatCheckboxRequiredValidator = class _MatCheckboxRequiredValidator extends CheckboxRequiredValidator {
   static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275MatAnchorBase_BaseFactory;
-    return function MatAnchorBase_Factory(__ngFactoryType__) {
-      return (\u0275MatAnchorBase_BaseFactory || (\u0275MatAnchorBase_BaseFactory = \u0275\u0275getInheritedFactory(_MatAnchorBase)))(__ngFactoryType__ || _MatAnchorBase);
+    let \u0275MatCheckboxRequiredValidator_BaseFactory;
+    return function MatCheckboxRequiredValidator_Factory(__ngFactoryType__) {
+      return (\u0275MatCheckboxRequiredValidator_BaseFactory || (\u0275MatCheckboxRequiredValidator_BaseFactory = \u0275\u0275getInheritedFactory(_MatCheckboxRequiredValidator)))(__ngFactoryType__ || _MatCheckboxRequiredValidator);
     };
   })();
   static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatAnchorBase,
-    inputs: {
-      tabIndex: [2, "tabIndex", "tabIndex", (value) => {
-        return value == null ? void 0 : numberAttribute(value);
-      }]
-    },
-    features: [\u0275\u0275InheritDefinitionFeature]
+    type: _MatCheckboxRequiredValidator,
+    selectors: [["mat-checkbox", "required", "", "formControlName", ""], ["mat-checkbox", "required", "", "formControl", ""], ["mat-checkbox", "required", "", "ngModel", ""]],
+    features: [\u0275\u0275ProvidersFeature([MAT_CHECKBOX_REQUIRED_VALIDATOR]), \u0275\u0275InheritDefinitionFeature]
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatAnchorBase, [{
-    type: Directive
-  }], null, {
-    tabIndex: [{
-      type: Input,
-      args: [{
-        transform: (value) => {
-          return value == null ? void 0 : numberAttribute(value);
-        }
-      }]
-    }]
-  });
-})();
-var MatIconButton = class _MatIconButton extends MatButtonBase {
-  constructor() {
-    super();
-    this._rippleLoader.configureRipple(this._elementRef.nativeElement, {
-      centered: true
-    });
-  }
-  static \u0275fac = function MatIconButton_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatIconButton)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatIconButton,
-    selectors: [["button", "mat-icon-button", ""]],
-    hostVars: 14,
-    hostBindings: function MatIconButton_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
-      }
-    },
-    exportAs: ["matButton"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c02,
-    ngContentSelectors: _c12,
-    decls: 4,
-    vars: 0,
-    consts: [[1, "mat-mdc-button-persistent-ripple", "mdc-icon-button__ripple"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatIconButton_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef();
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275element(2, "span", 1)(3, "span", 2);
-      }
-    },
-    styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconButton, [{
-    type: Component,
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCheckboxRequiredValidator, [{
+    type: Directive,
     args: [{
-      selector: `button[mat-icon-button]`,
-      host: MAT_BUTTON_HOST,
-      exportAs: "matButton",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
-
-<ng-content></ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
-    }]
-  }], () => [], null);
-})();
-var MatIconAnchor = class _MatIconAnchor extends MatAnchorBase {
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275MatIconAnchor_BaseFactory;
-    return function MatIconAnchor_Factory(__ngFactoryType__) {
-      return (\u0275MatIconAnchor_BaseFactory || (\u0275MatIconAnchor_BaseFactory = \u0275\u0275getInheritedFactory(_MatIconAnchor)))(__ngFactoryType__ || _MatIconAnchor);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatIconAnchor,
-    selectors: [["a", "mat-icon-button", ""]],
-    hostVars: 15,
-    hostBindings: function MatIconAnchor_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
-      }
-    },
-    exportAs: ["matButton", "matAnchor"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c02,
-    ngContentSelectors: _c12,
-    decls: 4,
-    vars: 0,
-    consts: [[1, "mat-mdc-button-persistent-ripple", "mdc-icon-button__ripple"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatIconAnchor_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef();
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275element(2, "span", 1)(3, "span", 2);
-      }
-    },
-    styles: [_c22, _c32],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconAnchor, [{
-    type: Component,
-    args: [{
-      selector: `a[mat-icon-button]`,
-      host: MAT_ANCHOR_HOST,
-      exportAs: "matButton, matAnchor",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
-
-<ng-content></ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+      selector: `mat-checkbox[required][formControlName],
+             mat-checkbox[required][formControl], mat-checkbox[required][ngModel]`,
+      providers: [MAT_CHECKBOX_REQUIRED_VALIDATOR]
     }]
   }], null, null);
 })();
-
-// node_modules/@angular/material/fesm2022/index-SYVYjXwK.mjs
-var MatRippleModule = class _MatRippleModule {
-  static \u0275fac = function MatRippleModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatRippleModule)();
+var _MatCheckboxRequiredValidatorModule = class __MatCheckboxRequiredValidatorModule {
+  static \u0275fac = function _MatCheckboxRequiredValidatorModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || __MatCheckboxRequiredValidatorModule)();
   };
   static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _MatRippleModule,
-    imports: [MatCommonModule, MatRipple],
-    exports: [MatRipple, MatCommonModule]
+    type: __MatCheckboxRequiredValidatorModule,
+    imports: [MatCheckboxRequiredValidator],
+    exports: [MatCheckboxRequiredValidator]
   });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [MatCommonModule, MatCommonModule]
-  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatRippleModule, [{
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(_MatCheckboxRequiredValidatorModule, [{
     type: NgModule,
     args: [{
-      imports: [MatCommonModule, MatRipple],
-      exports: [MatRipple, MatCommonModule]
+      imports: [MatCheckboxRequiredValidator],
+      exports: [MatCheckboxRequiredValidator]
     }]
   }], null, null);
 })();
-
-// node_modules/@angular/material/fesm2022/button.mjs
-var _c03 = ["mat-button", ""];
-var _c13 = [[["", 8, "material-icons", 3, "iconPositionEnd", ""], ["mat-icon", 3, "iconPositionEnd", ""], ["", "matButtonIcon", "", 3, "iconPositionEnd", ""]], "*", [["", "iconPositionEnd", "", 8, "material-icons"], ["mat-icon", "iconPositionEnd", ""], ["", "matButtonIcon", "", "iconPositionEnd", ""]]];
-var _c23 = [".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])", "*", ".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]"];
-var _c33 = '.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n';
-var _c42 = "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n";
-var _c52 = ["mat-fab", ""];
-var _c62 = ["mat-mini-fab", ""];
-var _c72 = '.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n';
-var MatButton = class _MatButton extends MatButtonBase {
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275MatButton_BaseFactory;
-    return function MatButton_Factory(__ngFactoryType__) {
-      return (\u0275MatButton_BaseFactory || (\u0275MatButton_BaseFactory = \u0275\u0275getInheritedFactory(_MatButton)))(__ngFactoryType__ || _MatButton);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatButton,
-    selectors: [["button", "mat-button", ""], ["button", "mat-raised-button", ""], ["button", "mat-flat-button", ""], ["button", "mat-stroked-button", ""]],
-    hostVars: 14,
-    hostBindings: function MatButton_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
-      }
-    },
-    exportAs: ["matButton"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c03,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatButton_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
-      }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
-      }
-    },
-    styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"],
-    encapsulation: 2,
-    changeDetection: 0
+var MatCheckboxModule = class _MatCheckboxModule {
+  static \u0275fac = function MatCheckboxModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCheckboxModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatCheckboxModule,
+    imports: [MatCheckbox, MatCommonModule],
+    exports: [MatCheckbox, MatCommonModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [MatCheckbox, MatCommonModule, MatCommonModule]
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButton, [{
-    type: Component,
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCheckboxModule, [{
+    type: NgModule,
     args: [{
-      selector: `
-    button[mat-button], button[mat-raised-button], button[mat-flat-button],
-    button[mat-stroked-button]
-  `,
-      host: MAT_BUTTON_HOST,
-      exportAs: "matButton",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+      imports: [MatCheckbox, MatCommonModule],
+      exports: [MatCheckbox, MatCommonModule]
     }]
   }], null, null);
 })();
-var MatAnchor = class _MatAnchor extends MatAnchorBase {
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275MatAnchor_BaseFactory;
-    return function MatAnchor_Factory(__ngFactoryType__) {
-      return (\u0275MatAnchor_BaseFactory || (\u0275MatAnchor_BaseFactory = \u0275\u0275getInheritedFactory(_MatAnchor)))(__ngFactoryType__ || _MatAnchor);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatAnchor,
-    selectors: [["a", "mat-button", ""], ["a", "mat-raised-button", ""], ["a", "mat-flat-button", ""], ["a", "mat-stroked-button", ""]],
-    hostVars: 15,
-    hostBindings: function MatAnchor_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+
+// node_modules/@angular/material/fesm2022/icon-registry-B2IMBfNA.mjs
+var policy2;
+function getPolicy2() {
+  if (policy2 === void 0) {
+    policy2 = null;
+    if (typeof window !== "undefined") {
+      const ttWindow = window;
+      if (ttWindow.trustedTypes !== void 0) {
+        policy2 = ttWindow.trustedTypes.createPolicy("angular#components", {
+          createHTML: (s) => s
+        });
       }
-    },
-    exportAs: ["matButton", "matAnchor"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c03,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatAnchor_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+    }
+  }
+  return policy2;
+}
+function trustedHTMLFromString2(html) {
+  return getPolicy2()?.createHTML(html) || html;
+}
+function getMatIconNameNotFoundError(iconName) {
+  return Error(`Unable to find icon with the name "${iconName}"`);
+}
+function getMatIconNoHttpProviderError() {
+  return Error("Could not find HttpClient for use with Angular Material icons. Please add provideHttpClient() to your providers.");
+}
+function getMatIconFailedToSanitizeUrlError(url) {
+  return Error(`The URL provided to MatIconRegistry was not trusted as a resource URL via Angular's DomSanitizer. Attempted URL was "${url}".`);
+}
+function getMatIconFailedToSanitizeLiteralError(literal) {
+  return Error(`The literal provided to MatIconRegistry was not trusted as safe HTML by Angular's DomSanitizer. Attempted literal was "${literal}".`);
+}
+var SvgIconConfig = class {
+  url;
+  svgText;
+  options;
+  svgElement;
+  constructor(url, svgText, options) {
+    this.url = url;
+    this.svgText = svgText;
+    this.options = options;
+  }
+};
+var MatIconRegistry = class _MatIconRegistry {
+  _httpClient;
+  _sanitizer;
+  _errorHandler;
+  _document;
+  /**
+   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:[icon]".
+   */
+  _svgIconConfigs = /* @__PURE__ */ new Map();
+  /**
+   * SvgIconConfig objects and cached SVG elements for icon sets, keyed by namespace.
+   * Multiple icon sets can be registered under the same namespace.
+   */
+  _iconSetConfigs = /* @__PURE__ */ new Map();
+  /** Cache for icons loaded by direct URLs. */
+  _cachedIconsByUrl = /* @__PURE__ */ new Map();
+  /** In-progress icon fetches. Used to coalesce multiple requests to the same URL. */
+  _inProgressUrlFetches = /* @__PURE__ */ new Map();
+  /** Map from font identifiers to their CSS class names. Used for icon fonts. */
+  _fontCssClassesByAlias = /* @__PURE__ */ new Map();
+  /** Registered icon resolver functions. */
+  _resolvers = [];
+  /**
+   * The CSS classes to apply when an `<mat-icon>` component has no icon name, url, or font
+   * specified. The default 'material-icons' value assumes that the material icon font has been
+   * loaded as described at https://google.github.io/material-design-icons/#icon-font-for-the-web
+   */
+  _defaultFontSetClass = ["material-icons", "mat-ligature-font"];
+  constructor(_httpClient, _sanitizer, document2, _errorHandler) {
+    this._httpClient = _httpClient;
+    this._sanitizer = _sanitizer;
+    this._errorHandler = _errorHandler;
+    this._document = document2;
+  }
+  /**
+   * Registers an icon by URL in the default namespace.
+   * @param iconName Name under which the icon should be registered.
+   * @param url
+   */
+  addSvgIcon(iconName, url, options) {
+    return this.addSvgIconInNamespace("", iconName, url, options);
+  }
+  /**
+   * Registers an icon using an HTML string in the default namespace.
+   * @param iconName Name under which the icon should be registered.
+   * @param literal SVG source of the icon.
+   */
+  addSvgIconLiteral(iconName, literal, options) {
+    return this.addSvgIconLiteralInNamespace("", iconName, literal, options);
+  }
+  /**
+   * Registers an icon by URL in the specified namespace.
+   * @param namespace Namespace in which the icon should be registered.
+   * @param iconName Name under which the icon should be registered.
+   * @param url
+   */
+  addSvgIconInNamespace(namespace, iconName, url, options) {
+    return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig(url, null, options));
+  }
+  /**
+   * Registers an icon resolver function with the registry. The function will be invoked with the
+   * name and namespace of an icon when the registry tries to resolve the URL from which to fetch
+   * the icon. The resolver is expected to return a `SafeResourceUrl` that points to the icon,
+   * an object with the icon URL and icon options, or `null` if the icon is not supported. Resolvers
+   * will be invoked in the order in which they have been registered.
+   * @param resolver Resolver function to be registered.
+   */
+  addSvgIconResolver(resolver) {
+    this._resolvers.push(resolver);
+    return this;
+  }
+  /**
+   * Registers an icon using an HTML string in the specified namespace.
+   * @param namespace Namespace in which the icon should be registered.
+   * @param iconName Name under which the icon should be registered.
+   * @param literal SVG source of the icon.
+   */
+  addSvgIconLiteralInNamespace(namespace, iconName, literal, options) {
+    const cleanLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
+    if (!cleanLiteral) {
+      throw getMatIconFailedToSanitizeLiteralError(literal);
+    }
+    const trustedLiteral = trustedHTMLFromString2(cleanLiteral);
+    return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig("", trustedLiteral, options));
+  }
+  /**
+   * Registers an icon set by URL in the default namespace.
+   * @param url
+   */
+  addSvgIconSet(url, options) {
+    return this.addSvgIconSetInNamespace("", url, options);
+  }
+  /**
+   * Registers an icon set using an HTML string in the default namespace.
+   * @param literal SVG source of the icon set.
+   */
+  addSvgIconSetLiteral(literal, options) {
+    return this.addSvgIconSetLiteralInNamespace("", literal, options);
+  }
+  /**
+   * Registers an icon set by URL in the specified namespace.
+   * @param namespace Namespace in which to register the icon set.
+   * @param url
+   */
+  addSvgIconSetInNamespace(namespace, url, options) {
+    return this._addSvgIconSetConfig(namespace, new SvgIconConfig(url, null, options));
+  }
+  /**
+   * Registers an icon set using an HTML string in the specified namespace.
+   * @param namespace Namespace in which to register the icon set.
+   * @param literal SVG source of the icon set.
+   */
+  addSvgIconSetLiteralInNamespace(namespace, literal, options) {
+    const cleanLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
+    if (!cleanLiteral) {
+      throw getMatIconFailedToSanitizeLiteralError(literal);
+    }
+    const trustedLiteral = trustedHTMLFromString2(cleanLiteral);
+    return this._addSvgIconSetConfig(namespace, new SvgIconConfig("", trustedLiteral, options));
+  }
+  /**
+   * Defines an alias for CSS class names to be used for icon fonts. Creating an matIcon
+   * component with the alias as the fontSet input will cause the class name to be applied
+   * to the `<mat-icon>` element.
+   *
+   * If the registered font is a ligature font, then don't forget to also include the special
+   * class `mat-ligature-font` to allow the usage via attribute. So register like this:
+   *
+   * ```ts
+   * iconRegistry.registerFontClassAlias('f1', 'font1 mat-ligature-font');
+   * ```
+   *
+   * And use like this:
+   *
+   * ```html
+   * <mat-icon fontSet="f1" fontIcon="home"></mat-icon>
+   * ```
+   *
+   * @param alias Alias for the font.
+   * @param classNames Class names override to be used instead of the alias.
+   */
+  registerFontClassAlias(alias, classNames = alias) {
+    this._fontCssClassesByAlias.set(alias, classNames);
+    return this;
+  }
+  /**
+   * Returns the CSS class name associated with the alias by a previous call to
+   * registerFontClassAlias. If no CSS class has been associated, returns the alias unmodified.
+   */
+  classNameForFontAlias(alias) {
+    return this._fontCssClassesByAlias.get(alias) || alias;
+  }
+  /**
+   * Sets the CSS classes to be used for icon fonts when an `<mat-icon>` component does not
+   * have a fontSet input value, and is not loading an icon by name or URL.
+   */
+  setDefaultFontSetClass(...classNames) {
+    this._defaultFontSetClass = classNames;
+    return this;
+  }
+  /**
+   * Returns the CSS classes to be used for icon fonts when an `<mat-icon>` component does not
+   * have a fontSet input value, and is not loading an icon by name or URL.
+   */
+  getDefaultFontSetClass() {
+    return this._defaultFontSetClass;
+  }
+  /**
+   * Returns an Observable that produces the icon (as an `<svg>` DOM element) from the given URL.
+   * The response from the URL may be cached so this will not always cause an HTTP request, but
+   * the produced element will always be a new copy of the originally fetched icon. (That is,
+   * it will not contain any modifications made to elements previously returned).
+   *
+   * @param safeUrl URL from which to fetch the SVG icon.
+   */
+  getSvgIconFromUrl(safeUrl) {
+    const url = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, safeUrl);
+    if (!url) {
+      throw getMatIconFailedToSanitizeUrlError(safeUrl);
+    }
+    const cachedIcon = this._cachedIconsByUrl.get(url);
+    if (cachedIcon) {
+      return of(cloneSvg(cachedIcon));
+    }
+    return this._loadSvgIconFromConfig(new SvgIconConfig(safeUrl, null)).pipe(tap((svg) => this._cachedIconsByUrl.set(url, svg)), map((svg) => cloneSvg(svg)));
+  }
+  /**
+   * Returns an Observable that produces the icon (as an `<svg>` DOM element) with the given name
+   * and namespace. The icon must have been previously registered with addIcon or addIconSet;
+   * if not, the Observable will throw an error.
+   *
+   * @param name Name of the icon to be retrieved.
+   * @param namespace Namespace in which to look for the icon.
+   */
+  getNamedSvgIcon(name, namespace = "") {
+    const key = iconKey(namespace, name);
+    let config2 = this._svgIconConfigs.get(key);
+    if (config2) {
+      return this._getSvgFromConfig(config2);
+    }
+    config2 = this._getIconConfigFromResolvers(namespace, name);
+    if (config2) {
+      this._svgIconConfigs.set(key, config2);
+      return this._getSvgFromConfig(config2);
+    }
+    const iconSetConfigs = this._iconSetConfigs.get(namespace);
+    if (iconSetConfigs) {
+      return this._getSvgFromIconSetConfigs(name, iconSetConfigs);
+    }
+    return throwError(getMatIconNameNotFoundError(key));
+  }
+  ngOnDestroy() {
+    this._resolvers = [];
+    this._svgIconConfigs.clear();
+    this._iconSetConfigs.clear();
+    this._cachedIconsByUrl.clear();
+  }
+  /**
+   * Returns the cached icon for a SvgIconConfig if available, or fetches it from its URL if not.
+   */
+  _getSvgFromConfig(config2) {
+    if (config2.svgText) {
+      return of(cloneSvg(this._svgElementFromConfig(config2)));
+    } else {
+      return this._loadSvgIconFromConfig(config2).pipe(map((svg) => cloneSvg(svg)));
+    }
+  }
+  /**
+   * Attempts to find an icon with the specified name in any of the SVG icon sets.
+   * First searches the available cached icons for a nested element with a matching name, and
+   * if found copies the element to a new `<svg>` element. If not found, fetches all icon sets
+   * that have not been cached, and searches again after all fetches are completed.
+   * The returned Observable produces the SVG element if possible, and throws
+   * an error if no icon with the specified name can be found.
+   */
+  _getSvgFromIconSetConfigs(name, iconSetConfigs) {
+    const namedIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
+    if (namedIcon) {
+      return of(namedIcon);
+    }
+    const iconSetFetchRequests = iconSetConfigs.filter((iconSetConfig) => !iconSetConfig.svgText).map((iconSetConfig) => {
+      return this._loadSvgIconSetFromConfig(iconSetConfig).pipe(catchError((err) => {
+        const url = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, iconSetConfig.url);
+        const errorMessage = `Loading icon set URL: ${url} failed: ${err.message}`;
+        this._errorHandler.handleError(new Error(errorMessage));
+        return of(null);
+      }));
+    });
+    return forkJoin(iconSetFetchRequests).pipe(map(() => {
+      const foundIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
+      if (!foundIcon) {
+        throw getMatIconNameNotFoundError(name);
       }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      return foundIcon;
+    }));
+  }
+  /**
+   * Searches the cached SVG elements for the given icon sets for a nested icon element whose "id"
+   * tag matches the specified name. If found, copies the nested element to a new SVG element and
+   * returns it. Returns null if no matching element is found.
+   */
+  _extractIconWithNameFromAnySet(iconName, iconSetConfigs) {
+    for (let i = iconSetConfigs.length - 1; i >= 0; i--) {
+      const config2 = iconSetConfigs[i];
+      if (config2.svgText && config2.svgText.toString().indexOf(iconName) > -1) {
+        const svg = this._svgElementFromConfig(config2);
+        const foundIcon = this._extractSvgIconFromSet(svg, iconName, config2.options);
+        if (foundIcon) {
+          return foundIcon;
+        }
       }
-    },
-    styles: [_c33, _c42],
-    encapsulation: 2,
-    changeDetection: 0
+    }
+    return null;
+  }
+  /**
+   * Loads the content of the icon URL specified in the SvgIconConfig and creates an SVG element
+   * from it.
+   */
+  _loadSvgIconFromConfig(config2) {
+    return this._fetchIcon(config2).pipe(tap((svgText) => config2.svgText = svgText), map(() => this._svgElementFromConfig(config2)));
+  }
+  /**
+   * Loads the content of the icon set URL specified in the
+   * SvgIconConfig and attaches it to the config.
+   */
+  _loadSvgIconSetFromConfig(config2) {
+    if (config2.svgText) {
+      return of(null);
+    }
+    return this._fetchIcon(config2).pipe(tap((svgText) => config2.svgText = svgText));
+  }
+  /**
+   * Searches the cached element of the given SvgIconConfig for a nested icon element whose "id"
+   * tag matches the specified name. If found, copies the nested element to a new SVG element and
+   * returns it. Returns null if no matching element is found.
+   */
+  _extractSvgIconFromSet(iconSet, iconName, options) {
+    const iconSource = iconSet.querySelector(`[id="${iconName}"]`);
+    if (!iconSource) {
+      return null;
+    }
+    const iconElement = iconSource.cloneNode(true);
+    iconElement.removeAttribute("id");
+    if (iconElement.nodeName.toLowerCase() === "svg") {
+      return this._setSvgAttributes(iconElement, options);
+    }
+    if (iconElement.nodeName.toLowerCase() === "symbol") {
+      return this._setSvgAttributes(this._toSvgElement(iconElement), options);
+    }
+    const svg = this._svgElementFromString(trustedHTMLFromString2("<svg></svg>"));
+    svg.appendChild(iconElement);
+    return this._setSvgAttributes(svg, options);
+  }
+  /**
+   * Creates a DOM element from the given SVG string.
+   */
+  _svgElementFromString(str) {
+    const div = this._document.createElement("DIV");
+    div.innerHTML = str;
+    const svg = div.querySelector("svg");
+    if (!svg) {
+      throw Error("<svg> tag not found");
+    }
+    return svg;
+  }
+  /**
+   * Converts an element into an SVG node by cloning all of its children.
+   */
+  _toSvgElement(element) {
+    const svg = this._svgElementFromString(trustedHTMLFromString2("<svg></svg>"));
+    const attributes = element.attributes;
+    for (let i = 0; i < attributes.length; i++) {
+      const {
+        name,
+        value
+      } = attributes[i];
+      if (name !== "id") {
+        svg.setAttribute(name, value);
+      }
+    }
+    for (let i = 0; i < element.childNodes.length; i++) {
+      if (element.childNodes[i].nodeType === this._document.ELEMENT_NODE) {
+        svg.appendChild(element.childNodes[i].cloneNode(true));
+      }
+    }
+    return svg;
+  }
+  /**
+   * Sets the default attributes for an SVG element to be used as an icon.
+   */
+  _setSvgAttributes(svg, options) {
+    svg.setAttribute("fit", "");
+    svg.setAttribute("height", "100%");
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    svg.setAttribute("focusable", "false");
+    if (options && options.viewBox) {
+      svg.setAttribute("viewBox", options.viewBox);
+    }
+    return svg;
+  }
+  /**
+   * Returns an Observable which produces the string contents of the given icon. Results may be
+   * cached, so future calls with the same URL may not cause another HTTP request.
+   */
+  _fetchIcon(iconConfig) {
+    const {
+      url: safeUrl,
+      options
+    } = iconConfig;
+    const withCredentials = options?.withCredentials ?? false;
+    if (!this._httpClient) {
+      throw getMatIconNoHttpProviderError();
+    }
+    if (safeUrl == null) {
+      throw Error(`Cannot fetch icon from URL "${safeUrl}".`);
+    }
+    const url = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, safeUrl);
+    if (!url) {
+      throw getMatIconFailedToSanitizeUrlError(safeUrl);
+    }
+    const inProgressFetch = this._inProgressUrlFetches.get(url);
+    if (inProgressFetch) {
+      return inProgressFetch;
+    }
+    const req = this._httpClient.get(url, {
+      responseType: "text",
+      withCredentials
+    }).pipe(map((svg) => {
+      return trustedHTMLFromString2(svg);
+    }), finalize(() => this._inProgressUrlFetches.delete(url)), share());
+    this._inProgressUrlFetches.set(url, req);
+    return req;
+  }
+  /**
+   * Registers an icon config by name in the specified namespace.
+   * @param namespace Namespace in which to register the icon config.
+   * @param iconName Name under which to register the config.
+   * @param config Config to be registered.
+   */
+  _addSvgIconConfig(namespace, iconName, config2) {
+    this._svgIconConfigs.set(iconKey(namespace, iconName), config2);
+    return this;
+  }
+  /**
+   * Registers an icon set config in the specified namespace.
+   * @param namespace Namespace in which to register the icon config.
+   * @param config Config to be registered.
+   */
+  _addSvgIconSetConfig(namespace, config2) {
+    const configNamespace = this._iconSetConfigs.get(namespace);
+    if (configNamespace) {
+      configNamespace.push(config2);
+    } else {
+      this._iconSetConfigs.set(namespace, [config2]);
+    }
+    return this;
+  }
+  /** Parses a config's text into an SVG element. */
+  _svgElementFromConfig(config2) {
+    if (!config2.svgElement) {
+      const svg = this._svgElementFromString(config2.svgText);
+      this._setSvgAttributes(svg, config2.options);
+      config2.svgElement = svg;
+    }
+    return config2.svgElement;
+  }
+  /** Tries to create an icon config through the registered resolver functions. */
+  _getIconConfigFromResolvers(namespace, name) {
+    for (let i = 0; i < this._resolvers.length; i++) {
+      const result = this._resolvers[i](name, namespace);
+      if (result) {
+        return isSafeUrlWithOptions(result) ? new SvgIconConfig(result.url, null, result.options) : new SvgIconConfig(result, null);
+      }
+    }
+    return void 0;
+  }
+  static \u0275fac = function MatIconRegistry_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatIconRegistry)(\u0275\u0275inject(HttpClient, 8), \u0275\u0275inject(DomSanitizer), \u0275\u0275inject(DOCUMENT2, 8), \u0275\u0275inject(ErrorHandler));
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _MatIconRegistry,
+    factory: _MatIconRegistry.\u0275fac,
+    providedIn: "root"
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatAnchor, [{
-    type: Component,
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconRegistry, [{
+    type: Injectable,
     args: [{
-      selector: `a[mat-button], a[mat-raised-button], a[mat-flat-button], a[mat-stroked-button]`,
-      exportAs: "matButton, matAnchor",
-      host: MAT_ANCHOR_HOST,
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+      providedIn: "root"
     }]
-  }], null, null);
+  }], () => [{
+    type: HttpClient,
+    decorators: [{
+      type: Optional
+    }]
+  }, {
+    type: DomSanitizer
+  }, {
+    type: void 0,
+    decorators: [{
+      type: Optional
+    }, {
+      type: Inject,
+      args: [DOCUMENT2]
+    }]
+  }, {
+    type: ErrorHandler
+  }], null);
 })();
-var MAT_FAB_DEFAULT_OPTIONS = new InjectionToken("mat-mdc-fab-default-options", {
+function ICON_REGISTRY_PROVIDER_FACTORY(parentRegistry, httpClient, sanitizer, errorHandler2, document2) {
+  return parentRegistry || new MatIconRegistry(httpClient, sanitizer, document2, errorHandler2);
+}
+var ICON_REGISTRY_PROVIDER = {
+  // If there is already an MatIconRegistry available, use that. Otherwise, provide a new one.
+  provide: MatIconRegistry,
+  deps: [[new Optional(), new SkipSelf(), MatIconRegistry], [new Optional(), HttpClient], DomSanitizer, ErrorHandler, [new Optional(), DOCUMENT2]],
+  useFactory: ICON_REGISTRY_PROVIDER_FACTORY
+};
+function cloneSvg(svg) {
+  return svg.cloneNode(true);
+}
+function iconKey(namespace, name) {
+  return namespace + ":" + name;
+}
+function isSafeUrlWithOptions(value) {
+  return !!(value.url && value.options);
+}
+
+// node_modules/@angular/material/fesm2022/icon.mjs
+var _c04 = ["*"];
+var MAT_ICON_DEFAULT_OPTIONS = new InjectionToken("MAT_ICON_DEFAULT_OPTIONS");
+var MAT_ICON_LOCATION = new InjectionToken("mat-icon-location", {
   providedIn: "root",
-  factory: MAT_FAB_DEFAULT_OPTIONS_FACTORY
+  factory: MAT_ICON_LOCATION_FACTORY
 });
-function MAT_FAB_DEFAULT_OPTIONS_FACTORY() {
+function MAT_ICON_LOCATION_FACTORY() {
+  const _document2 = inject(DOCUMENT2);
+  const _location = _document2 ? _document2.location : null;
   return {
-    // The FAB by default has its color set to accent.
-    color: "accent"
+    // Note that this needs to be a function, rather than a property, because Angular
+    // will only resolve it once, but we want the current path on each call.
+    getPathname: () => _location ? _location.pathname + _location.search : ""
   };
 }
-var defaults = MAT_FAB_DEFAULT_OPTIONS_FACTORY();
-var MatFabButton = class _MatFabButton extends MatButtonBase {
-  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
-    optional: true
-  });
-  _isFab = true;
-  extended;
-  constructor() {
-    super();
-    this._options = this._options || defaults;
-    this.color = this._options.color || defaults.color;
+var funcIriAttributes = ["clip-path", "color-profile", "src", "cursor", "fill", "filter", "marker", "marker-start", "marker-mid", "marker-end", "mask", "stroke"];
+var funcIriAttributeSelector = funcIriAttributes.map((attr) => `[${attr}]`).join(", ");
+var funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
+var MatIcon = class _MatIcon {
+  _elementRef = inject(ElementRef);
+  _iconRegistry = inject(MatIconRegistry);
+  _location = inject(MAT_ICON_LOCATION);
+  _errorHandler = inject(ErrorHandler);
+  _defaultColor;
+  /**
+   * Theme color of the icon. This API is supported in M2 themes only, it
+   * has no effect in M3 themes. For color customization in M3, see https://material.angular.dev/components/icon/styling.
+   *
+   * For information on applying color variants in M3, see
+   * https://material.angular.dev/guide/material-2-theming#optional-add-backwards-compatibility-styles-for-color-variants
+   */
+  get color() {
+    return this._color || this._defaultColor;
   }
-  static \u0275fac = function MatFabButton_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatFabButton)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatFabButton,
-    selectors: [["button", "mat-fab", ""]],
-    hostVars: 18,
-    hostBindings: function MatFabButton_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true)("mdc-fab--extended", ctx.extended)("mat-mdc-extended-fab", ctx.extended);
-      }
-    },
-    inputs: {
-      extended: [2, "extended", "extended", booleanAttribute]
-    },
-    exportAs: ["matButton"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c52,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatFabButton_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
-      }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
-      }
-    },
-    styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n'],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatFabButton, [{
-    type: Component,
-    args: [{
-      selector: `button[mat-fab]`,
-      host: __spreadProps(__spreadValues({}, MAT_BUTTON_HOST), {
-        "[class.mdc-fab--extended]": "extended",
-        "[class.mat-mdc-extended-fab]": "extended"
-      }),
-      exportAs: "matButton",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
-    }]
-  }], () => [], {
-    extended: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }]
-  });
-})();
-var MatMiniFabButton = class _MatMiniFabButton extends MatButtonBase {
-  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
-    optional: true
-  });
-  _isFab = true;
-  constructor() {
-    super();
-    this._options = this._options || defaults;
-    this.color = this._options.color || defaults.color;
+  set color(value) {
+    this._color = value;
   }
-  static \u0275fac = function MatMiniFabButton_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatMiniFabButton)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatMiniFabButton,
-    selectors: [["button", "mat-mini-fab", ""]],
-    hostVars: 14,
-    hostBindings: function MatMiniFabButton_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
-      }
-    },
-    exportAs: ["matButton"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c62,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatMiniFabButton_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
-      }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
-      }
-    },
-    styles: [_c72],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatMiniFabButton, [{
-    type: Component,
-    args: [{
-      selector: `button[mat-mini-fab]`,
-      host: MAT_BUTTON_HOST,
-      exportAs: "matButton",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
-    }]
-  }], () => [], null);
-})();
-var MatFabAnchor = class _MatFabAnchor extends MatAnchor {
-  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
-    optional: true
-  });
-  _isFab = true;
-  extended;
-  constructor() {
-    super();
-    this._options = this._options || defaults;
-    this.color = this._options.color || defaults.color;
+  _color;
+  /**
+   * Whether the icon should be inlined, automatically sizing the icon to match the font size of
+   * the element the icon is contained in.
+   */
+  inline = false;
+  /** Name of the icon in the SVG icon set. */
+  get svgIcon() {
+    return this._svgIcon;
   }
-  static \u0275fac = function MatFabAnchor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatFabAnchor)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatFabAnchor,
-    selectors: [["a", "mat-fab", ""]],
-    hostVars: 19,
-    hostBindings: function MatFabAnchor_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true)("mdc-fab--extended", ctx.extended)("mat-mdc-extended-fab", ctx.extended);
+  set svgIcon(value) {
+    if (value !== this._svgIcon) {
+      if (value) {
+        this._updateSvgIcon(value);
+      } else if (this._svgIcon) {
+        this._clearSvgElement();
       }
-    },
-    inputs: {
-      extended: [2, "extended", "extended", booleanAttribute]
-    },
-    exportAs: ["matButton", "matAnchor"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c52,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatFabAnchor_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
-      }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
-      }
-    },
-    styles: [_c72],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatFabAnchor, [{
-    type: Component,
-    args: [{
-      selector: `a[mat-fab]`,
-      host: __spreadProps(__spreadValues({}, MAT_ANCHOR_HOST), {
-        "[class.mdc-fab--extended]": "extended",
-        "[class.mat-mdc-extended-fab]": "extended"
-      }),
-      exportAs: "matButton, matAnchor",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
-    }]
-  }], () => [], {
-    extended: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }]
-  });
-})();
-var MatMiniFabAnchor = class _MatMiniFabAnchor extends MatAnchor {
-  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
-    optional: true
-  });
-  _isFab = true;
-  constructor() {
-    super();
-    this._options = this._options || defaults;
-    this.color = this._options.color || defaults.color;
+      this._svgIcon = value;
+    }
   }
-  static \u0275fac = function MatMiniFabAnchor_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatMiniFabAnchor)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatMiniFabAnchor,
-    selectors: [["a", "mat-mini-fab", ""]],
-    hostVars: 15,
-    hostBindings: function MatMiniFabAnchor_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
-        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
-        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
-      }
-    },
-    exportAs: ["matButton", "matAnchor"],
-    features: [\u0275\u0275InheritDefinitionFeature],
-    attrs: _c62,
-    ngContentSelectors: _c23,
-    decls: 7,
-    vars: 4,
-    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
-    template: function MatMiniFabAnchor_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c13);
-        \u0275\u0275element(0, "span", 0);
-        \u0275\u0275projection(1);
-        \u0275\u0275elementStart(2, "span", 1);
-        \u0275\u0275projection(3, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(4, 2);
-        \u0275\u0275element(5, "span", 2)(6, "span", 3);
-      }
-      if (rf & 2) {
-        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
-      }
-    },
-    styles: [_c72],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatMiniFabAnchor, [{
-    type: Component,
-    args: [{
-      selector: `a[mat-mini-fab]`,
-      host: MAT_ANCHOR_HOST,
-      exportAs: "matButton, matAnchor",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      template: `<span
-    class="mat-mdc-button-persistent-ripple"
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
-
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
-</ng-content>
-
-<span class="mdc-button__label"><ng-content></ng-content></span>
-
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
-</ng-content>
-
-<!--
-  The indicator can't be directly on the button, because MDC uses ::before for high contrast
-  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
--->
-<span class="mat-focus-indicator"></span>
-
-<span class="mat-mdc-button-touch-target"></span>
-`,
-      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
-    }]
-  }], () => [], null);
-})();
-var MatButtonModule = class _MatButtonModule {
-  static \u0275fac = function MatButtonModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatButtonModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _MatButtonModule,
-    imports: [MatCommonModule, MatRippleModule, MatAnchor, MatButton, MatIconAnchor, MatMiniFabAnchor, MatMiniFabButton, MatIconButton, MatFabAnchor, MatFabButton],
-    exports: [MatAnchor, MatButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton, MatFabAnchor, MatFabButton, MatCommonModule]
-  });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [MatCommonModule, MatRippleModule, MatCommonModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonModule, [{
-    type: NgModule,
-    args: [{
-      imports: [MatCommonModule, MatRippleModule, MatAnchor, MatButton, MatIconAnchor, MatMiniFabAnchor, MatMiniFabButton, MatIconButton, MatFabAnchor, MatFabButton],
-      exports: [MatAnchor, MatButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton, MatFabAnchor, MatFabButton, MatCommonModule]
-    }]
-  }], null, null);
-})();
-
-// node_modules/@angular/material/fesm2022/card.mjs
-var _c04 = ["*"];
-var _c14 = [[["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], [["", "mat-card-image", ""], ["", "matCardImage", ""], ["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""], ["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""], ["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""], ["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]], "*"];
-var _c24 = ["mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]", "*"];
-var _c34 = [[["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]], [["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], "*"];
-var _c43 = ["[mat-card-avatar], [matCardAvatar]", "mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "*"];
-var MAT_CARD_CONFIG = new InjectionToken("MAT_CARD_CONFIG");
-var MatCard = class _MatCard {
-  appearance;
+  _svgIcon;
+  /** Font set that the icon is a part of. */
+  get fontSet() {
+    return this._fontSet;
+  }
+  set fontSet(value) {
+    const newValue = this._cleanupFontValue(value);
+    if (newValue !== this._fontSet) {
+      this._fontSet = newValue;
+      this._updateFontIconClasses();
+    }
+  }
+  _fontSet;
+  /** Name of an icon within a font set. */
+  get fontIcon() {
+    return this._fontIcon;
+  }
+  set fontIcon(value) {
+    const newValue = this._cleanupFontValue(value);
+    if (newValue !== this._fontIcon) {
+      this._fontIcon = newValue;
+      this._updateFontIconClasses();
+    }
+  }
+  _fontIcon;
+  _previousFontSetClass = [];
+  _previousFontIconClass;
+  _svgName;
+  _svgNamespace;
+  /** Keeps track of the current page path. */
+  _previousPath;
+  /** Keeps track of the elements and attributes that we've prefixed with the current path. */
+  _elementsWithExternalReferences;
+  /** Subscription to the current in-progress SVG icon request. */
+  _currentIconFetch = Subscription.EMPTY;
   constructor() {
-    const config2 = inject(MAT_CARD_CONFIG, {
+    const ariaHidden = inject(new HostAttributeToken("aria-hidden"), {
       optional: true
     });
-    this.appearance = config2?.appearance || "raised";
+    const defaults3 = inject(MAT_ICON_DEFAULT_OPTIONS, {
+      optional: true
+    });
+    if (defaults3) {
+      if (defaults3.color) {
+        this.color = this._defaultColor = defaults3.color;
+      }
+      if (defaults3.fontSet) {
+        this.fontSet = defaults3.fontSet;
+      }
+    }
+    if (!ariaHidden) {
+      this._elementRef.nativeElement.setAttribute("aria-hidden", "true");
+    }
   }
-  static \u0275fac = function MatCard_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCard)();
+  /**
+   * Splits an svgIcon binding value into its icon set and icon name components.
+   * Returns a 2-element array of [(icon set), (icon name)].
+   * The separator for the two fields is ':'. If there is no separator, an empty
+   * string is returned for the icon set and the entire value is returned for
+   * the icon name. If the argument is falsy, returns an array of two empty strings.
+   * Throws an error if the name contains two or more ':' separators.
+   * Examples:
+   *   `'social:cake' -> ['social', 'cake']
+   *   'penguin' -> ['', 'penguin']
+   *   null -> ['', '']
+   *   'a:b:c' -> (throws Error)`
+   */
+  _splitIconName(iconName) {
+    if (!iconName) {
+      return ["", ""];
+    }
+    const parts = iconName.split(":");
+    switch (parts.length) {
+      case 1:
+        return ["", parts[0]];
+      // Use default namespace.
+      case 2:
+        return parts;
+      default:
+        throw Error(`Invalid icon name: "${iconName}"`);
+    }
+  }
+  ngOnInit() {
+    this._updateFontIconClasses();
+  }
+  ngAfterViewChecked() {
+    const cachedElements = this._elementsWithExternalReferences;
+    if (cachedElements && cachedElements.size) {
+      const newPath = this._location.getPathname();
+      if (newPath !== this._previousPath) {
+        this._previousPath = newPath;
+        this._prependPathToReferences(newPath);
+      }
+    }
+  }
+  ngOnDestroy() {
+    this._currentIconFetch.unsubscribe();
+    if (this._elementsWithExternalReferences) {
+      this._elementsWithExternalReferences.clear();
+    }
+  }
+  _usingFontIcon() {
+    return !this.svgIcon;
+  }
+  _setSvgElement(svg) {
+    this._clearSvgElement();
+    const path = this._location.getPathname();
+    this._previousPath = path;
+    this._cacheChildrenWithExternalReferences(svg);
+    this._prependPathToReferences(path);
+    this._elementRef.nativeElement.appendChild(svg);
+  }
+  _clearSvgElement() {
+    const layoutElement = this._elementRef.nativeElement;
+    let childCount = layoutElement.childNodes.length;
+    if (this._elementsWithExternalReferences) {
+      this._elementsWithExternalReferences.clear();
+    }
+    while (childCount--) {
+      const child = layoutElement.childNodes[childCount];
+      if (child.nodeType !== 1 || child.nodeName.toLowerCase() === "svg") {
+        child.remove();
+      }
+    }
+  }
+  _updateFontIconClasses() {
+    if (!this._usingFontIcon()) {
+      return;
+    }
+    const elem = this._elementRef.nativeElement;
+    const fontSetClasses = (this.fontSet ? this._iconRegistry.classNameForFontAlias(this.fontSet).split(/ +/) : this._iconRegistry.getDefaultFontSetClass()).filter((className) => className.length > 0);
+    this._previousFontSetClass.forEach((className) => elem.classList.remove(className));
+    fontSetClasses.forEach((className) => elem.classList.add(className));
+    this._previousFontSetClass = fontSetClasses;
+    if (this.fontIcon !== this._previousFontIconClass && !fontSetClasses.includes("mat-ligature-font")) {
+      if (this._previousFontIconClass) {
+        elem.classList.remove(this._previousFontIconClass);
+      }
+      if (this.fontIcon) {
+        elem.classList.add(this.fontIcon);
+      }
+      this._previousFontIconClass = this.fontIcon;
+    }
+  }
+  /**
+   * Cleans up a value to be used as a fontIcon or fontSet.
+   * Since the value ends up being assigned as a CSS class, we
+   * have to trim the value and omit space-separated values.
+   */
+  _cleanupFontValue(value) {
+    return typeof value === "string" ? value.trim().split(" ")[0] : value;
+  }
+  /**
+   * Prepends the current path to all elements that have an attribute pointing to a `FuncIRI`
+   * reference. This is required because WebKit browsers require references to be prefixed with
+   * the current path, if the page has a `base` tag.
+   */
+  _prependPathToReferences(path) {
+    const elements = this._elementsWithExternalReferences;
+    if (elements) {
+      elements.forEach((attrs, element) => {
+        attrs.forEach((attr) => {
+          element.setAttribute(attr.name, `url('${path}#${attr.value}')`);
+        });
+      });
+    }
+  }
+  /**
+   * Caches the children of an SVG element that have `url()`
+   * references that we need to prefix with the current path.
+   */
+  _cacheChildrenWithExternalReferences(element) {
+    const elementsWithFuncIri = element.querySelectorAll(funcIriAttributeSelector);
+    const elements = this._elementsWithExternalReferences = this._elementsWithExternalReferences || /* @__PURE__ */ new Map();
+    for (let i = 0; i < elementsWithFuncIri.length; i++) {
+      funcIriAttributes.forEach((attr) => {
+        const elementWithReference = elementsWithFuncIri[i];
+        const value = elementWithReference.getAttribute(attr);
+        const match2 = value ? value.match(funcIriPattern) : null;
+        if (match2) {
+          let attributes = elements.get(elementWithReference);
+          if (!attributes) {
+            attributes = [];
+            elements.set(elementWithReference, attributes);
+          }
+          attributes.push({
+            name: attr,
+            value: match2[1]
+          });
+        }
+      });
+    }
+  }
+  /** Sets a new SVG icon with a particular name. */
+  _updateSvgIcon(rawName) {
+    this._svgNamespace = null;
+    this._svgName = null;
+    this._currentIconFetch.unsubscribe();
+    if (rawName) {
+      const [namespace, iconName] = this._splitIconName(rawName);
+      if (namespace) {
+        this._svgNamespace = namespace;
+      }
+      if (iconName) {
+        this._svgName = iconName;
+      }
+      this._currentIconFetch = this._iconRegistry.getNamedSvgIcon(iconName, namespace).pipe(take(1)).subscribe((svg) => this._setSvgElement(svg), (err) => {
+        const errorMessage = `Error retrieving icon ${namespace}:${iconName}! ${err.message}`;
+        this._errorHandler.handleError(new Error(errorMessage));
+      });
+    }
+  }
+  static \u0275fac = function MatIcon_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatIcon)();
   };
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatCard,
-    selectors: [["mat-card"]],
-    hostAttrs: [1, "mat-mdc-card", "mdc-card"],
-    hostVars: 4,
-    hostBindings: function MatCard_HostBindings(rf, ctx) {
+    type: _MatIcon,
+    selectors: [["mat-icon"]],
+    hostAttrs: ["role", "img", 1, "mat-icon", "notranslate"],
+    hostVars: 10,
+    hostBindings: function MatIcon_HostBindings(rf, ctx) {
       if (rf & 2) {
-        \u0275\u0275classProp("mat-mdc-card-outlined", ctx.appearance === "outlined")("mdc-card--outlined", ctx.appearance === "outlined");
+        \u0275\u0275attribute("data-mat-icon-type", ctx._usingFontIcon() ? "font" : "svg")("data-mat-icon-name", ctx._svgName || ctx.fontIcon)("data-mat-icon-namespace", ctx._svgNamespace || ctx.fontSet)("fontIcon", ctx._usingFontIcon() ? ctx.fontIcon : null);
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-icon-inline", ctx.inline)("mat-icon-no-color", ctx.color !== "primary" && ctx.color !== "accent" && ctx.color !== "warn");
       }
     },
     inputs: {
-      appearance: "appearance"
+      color: "color",
+      inline: [2, "inline", "inline", booleanAttribute],
+      svgIcon: "svgIcon",
+      fontSet: "fontSet",
+      fontIcon: "fontIcon"
     },
-    exportAs: ["matCard"],
+    exportAs: ["matIcon"],
     ngContentSelectors: _c04,
     decls: 1,
     vars: 0,
-    template: function MatCard_Template(rf, ctx) {
+    template: function MatIcon_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275projectionDef();
         \u0275\u0275projection(0);
       }
     },
-    styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mdc-elevated-card-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mdc-outlined-card-container-color, var(--mat-sys-surface));border-radius:var(--mdc-outlined-card-container-shape, var(--mat-sys-corner-medium));border-width:var(--mdc-outlined-card-outline-width, 1px);border-color:var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mdc-outlined-card-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n'],
+    styles: ["mat-icon,mat-icon.mat-primary,mat-icon.mat-accent,mat-icon.mat-warn{color:var(--mat-icon-color, inherit)}.mat-icon{-webkit-user-select:none;user-select:none;background-repeat:no-repeat;display:inline-block;fill:currentColor;height:24px;width:24px;overflow:hidden}.mat-icon.mat-icon-inline{font-size:inherit;height:inherit;line-height:inherit;width:inherit}.mat-icon.mat-ligature-font[fontIcon]::before{content:attr(fontIcon)}[dir=rtl] .mat-icon-rtl-mirror{transform:scale(-1, 1)}.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon{display:block}.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon-button .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button .mat-icon{margin:auto}\n"],
     encapsulation: 2,
     changeDetection: 0
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCard, [{
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIcon, [{
     type: Component,
     args: [{
-      selector: "mat-card",
+      template: "<ng-content></ng-content>",
+      selector: "mat-icon",
+      exportAs: "matIcon",
       host: {
-        "class": "mat-mdc-card mdc-card",
-        "[class.mat-mdc-card-outlined]": 'appearance === "outlined"',
-        "[class.mdc-card--outlined]": 'appearance === "outlined"'
+        "role": "img",
+        "class": "mat-icon notranslate",
+        "[class]": 'color ? "mat-" + color : ""',
+        "[attr.data-mat-icon-type]": '_usingFontIcon() ? "font" : "svg"',
+        "[attr.data-mat-icon-name]": "_svgName || fontIcon",
+        "[attr.data-mat-icon-namespace]": "_svgNamespace || fontSet",
+        "[attr.fontIcon]": "_usingFontIcon() ? fontIcon : null",
+        "[class.mat-icon-inline]": "inline",
+        "[class.mat-icon-no-color]": 'color !== "primary" && color !== "accent" && color !== "warn"'
       },
-      exportAs: "matCard",
       encapsulation: ViewEncapsulation.None,
       changeDetection: ChangeDetectionStrategy.OnPush,
-      template: "<ng-content></ng-content>\n",
-      styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mdc-elevated-card-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mdc-outlined-card-container-color, var(--mat-sys-surface));border-radius:var(--mdc-outlined-card-container-shape, var(--mat-sys-corner-medium));border-width:var(--mdc-outlined-card-outline-width, 1px);border-color:var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mdc-outlined-card-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n']
+      styles: ["mat-icon,mat-icon.mat-primary,mat-icon.mat-accent,mat-icon.mat-warn{color:var(--mat-icon-color, inherit)}.mat-icon{-webkit-user-select:none;user-select:none;background-repeat:no-repeat;display:inline-block;fill:currentColor;height:24px;width:24px;overflow:hidden}.mat-icon.mat-icon-inline{font-size:inherit;height:inherit;line-height:inherit;width:inherit}.mat-icon.mat-ligature-font[fontIcon]::before{content:attr(fontIcon)}[dir=rtl] .mat-icon-rtl-mirror{transform:scale(-1, 1)}.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon{display:block}.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon-button .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button .mat-icon{margin:auto}\n"]
     }]
   }], () => [], {
-    appearance: [{
+    color: [{
+      type: Input
+    }],
+    inline: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    svgIcon: [{
+      type: Input
+    }],
+    fontSet: [{
+      type: Input
+    }],
+    fontIcon: [{
       type: Input
     }]
   });
 })();
-var MatCardTitle = class _MatCardTitle {
-  static \u0275fac = function MatCardTitle_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardTitle)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardTitle,
-    selectors: [["mat-card-title"], ["", "mat-card-title", ""], ["", "matCardTitle", ""]],
-    hostAttrs: [1, "mat-mdc-card-title"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitle, [{
-    type: Directive,
-    args: [{
-      selector: `mat-card-title, [mat-card-title], [matCardTitle]`,
-      host: {
-        "class": "mat-mdc-card-title"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardTitleGroup = class _MatCardTitleGroup {
-  static \u0275fac = function MatCardTitleGroup_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardTitleGroup)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatCardTitleGroup,
-    selectors: [["mat-card-title-group"]],
-    hostAttrs: [1, "mat-mdc-card-title-group"],
-    ngContentSelectors: _c24,
-    decls: 4,
-    vars: 0,
-    template: function MatCardTitleGroup_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c14);
-        \u0275\u0275elementStart(0, "div");
-        \u0275\u0275projection(1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(2, 1);
-        \u0275\u0275projection(3, 2);
-      }
-    },
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitleGroup, [{
-    type: Component,
-    args: [{
-      selector: "mat-card-title-group",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      host: {
-        "class": "mat-mdc-card-title-group"
-      },
-      template: '<div>\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content select="[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]"></ng-content>\n<ng-content></ng-content>\n'
-    }]
-  }], null, null);
-})();
-var MatCardContent = class _MatCardContent {
-  static \u0275fac = function MatCardContent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardContent)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardContent,
-    selectors: [["mat-card-content"]],
-    hostAttrs: [1, "mat-mdc-card-content"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardContent, [{
-    type: Directive,
-    args: [{
-      selector: "mat-card-content",
-      host: {
-        "class": "mat-mdc-card-content"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardSubtitle = class _MatCardSubtitle {
-  static \u0275fac = function MatCardSubtitle_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardSubtitle)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardSubtitle,
-    selectors: [["mat-card-subtitle"], ["", "mat-card-subtitle", ""], ["", "matCardSubtitle", ""]],
-    hostAttrs: [1, "mat-mdc-card-subtitle"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSubtitle, [{
-    type: Directive,
-    args: [{
-      selector: `mat-card-subtitle, [mat-card-subtitle], [matCardSubtitle]`,
-      host: {
-        "class": "mat-mdc-card-subtitle"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardActions = class _MatCardActions {
-  // TODO(jelbourn): deprecate `align` in favor of `actionPosition` or `actionAlignment`
-  // as to not conflict with the native `align` attribute.
-  /** Position of the actions inside the card. */
-  align = "start";
-  static \u0275fac = function MatCardActions_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardActions)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardActions,
-    selectors: [["mat-card-actions"]],
-    hostAttrs: [1, "mat-mdc-card-actions", "mdc-card__actions"],
-    hostVars: 2,
-    hostBindings: function MatCardActions_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275classProp("mat-mdc-card-actions-align-end", ctx.align === "end");
-      }
-    },
-    inputs: {
-      align: "align"
-    },
-    exportAs: ["matCardActions"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardActions, [{
-    type: Directive,
-    args: [{
-      selector: "mat-card-actions",
-      exportAs: "matCardActions",
-      host: {
-        "class": "mat-mdc-card-actions mdc-card__actions",
-        "[class.mat-mdc-card-actions-align-end]": 'align === "end"'
-      }
-    }]
-  }], null, {
-    align: [{
-      type: Input
-    }]
-  });
-})();
-var MatCardHeader = class _MatCardHeader {
-  static \u0275fac = function MatCardHeader_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardHeader)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _MatCardHeader,
-    selectors: [["mat-card-header"]],
-    hostAttrs: [1, "mat-mdc-card-header"],
-    ngContentSelectors: _c43,
-    decls: 4,
-    vars: 0,
-    consts: [[1, "mat-mdc-card-header-text"]],
-    template: function MatCardHeader_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef(_c34);
-        \u0275\u0275projection(0);
-        \u0275\u0275elementStart(1, "div", 0);
-        \u0275\u0275projection(2, 1);
-        \u0275\u0275elementEnd();
-        \u0275\u0275projection(3, 2);
-      }
-    },
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardHeader, [{
-    type: Component,
-    args: [{
-      selector: "mat-card-header",
-      encapsulation: ViewEncapsulation.None,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      host: {
-        "class": "mat-mdc-card-header"
-      },
-      template: '<ng-content select="[mat-card-avatar], [matCardAvatar]"></ng-content>\n<div class="mat-mdc-card-header-text">\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content></ng-content>\n'
-    }]
-  }], null, null);
-})();
-var MatCardFooter = class _MatCardFooter {
-  static \u0275fac = function MatCardFooter_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardFooter)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardFooter,
-    selectors: [["mat-card-footer"]],
-    hostAttrs: [1, "mat-mdc-card-footer"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardFooter, [{
-    type: Directive,
-    args: [{
-      selector: "mat-card-footer",
-      host: {
-        "class": "mat-mdc-card-footer"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardImage = class _MatCardImage {
-  static \u0275fac = function MatCardImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardImage)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardImage,
-    selectors: [["", "mat-card-image", ""], ["", "matCardImage", ""]],
-    hostAttrs: [1, "mat-mdc-card-image", "mdc-card__media"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardImage, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-image], [matCardImage]",
-      host: {
-        "class": "mat-mdc-card-image mdc-card__media"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardSmImage = class _MatCardSmImage {
-  static \u0275fac = function MatCardSmImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardSmImage)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardSmImage,
-    selectors: [["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""]],
-    hostAttrs: [1, "mat-mdc-card-sm-image", "mdc-card__media"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSmImage, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-sm-image], [matCardImageSmall]",
-      host: {
-        "class": "mat-mdc-card-sm-image mdc-card__media"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardMdImage = class _MatCardMdImage {
-  static \u0275fac = function MatCardMdImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardMdImage)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardMdImage,
-    selectors: [["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""]],
-    hostAttrs: [1, "mat-mdc-card-md-image", "mdc-card__media"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardMdImage, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-md-image], [matCardImageMedium]",
-      host: {
-        "class": "mat-mdc-card-md-image mdc-card__media"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardLgImage = class _MatCardLgImage {
-  static \u0275fac = function MatCardLgImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardLgImage)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardLgImage,
-    selectors: [["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""]],
-    hostAttrs: [1, "mat-mdc-card-lg-image", "mdc-card__media"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardLgImage, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-lg-image], [matCardImageLarge]",
-      host: {
-        "class": "mat-mdc-card-lg-image mdc-card__media"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardXlImage = class _MatCardXlImage {
-  static \u0275fac = function MatCardXlImage_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardXlImage)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardXlImage,
-    selectors: [["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]],
-    hostAttrs: [1, "mat-mdc-card-xl-image", "mdc-card__media"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardXlImage, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-xl-image], [matCardImageXLarge]",
-      host: {
-        "class": "mat-mdc-card-xl-image mdc-card__media"
-      }
-    }]
-  }], null, null);
-})();
-var MatCardAvatar = class _MatCardAvatar {
-  static \u0275fac = function MatCardAvatar_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardAvatar)();
-  };
-  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-    type: _MatCardAvatar,
-    selectors: [["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]],
-    hostAttrs: [1, "mat-mdc-card-avatar"]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardAvatar, [{
-    type: Directive,
-    args: [{
-      selector: "[mat-card-avatar], [matCardAvatar]",
-      host: {
-        "class": "mat-mdc-card-avatar"
-      }
-    }]
-  }], null, null);
-})();
-var CARD_DIRECTIVES = [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage];
-var MatCardModule = class _MatCardModule {
-  static \u0275fac = function MatCardModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MatCardModule)();
+var MatIconModule = class _MatIconModule {
+  static \u0275fac = function MatIconModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatIconModule)();
   };
   static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _MatCardModule,
-    imports: [MatCommonModule, MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage],
-    exports: [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage, MatCommonModule]
+    type: _MatIconModule,
+    imports: [MatCommonModule, MatIcon],
+    exports: [MatIcon, MatCommonModule]
   });
   static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
     imports: [MatCommonModule, MatCommonModule]
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardModule, [{
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconModule, [{
     type: NgModule,
     args: [{
-      imports: [MatCommonModule, ...CARD_DIRECTIVES],
-      exports: [CARD_DIRECTIVES, MatCommonModule]
+      imports: [MatCommonModule, MatIcon],
+      exports: [MatIcon, MatCommonModule]
     }]
   }], null, null);
 })();
@@ -57742,30 +58001,1973 @@ var MatInputModule = class _MatInputModule {
   }], null, null);
 })();
 
-// src/app/pages/login/login.page.ts
-function LoginPage_p_17_Template(rf, ctx) {
+// src/app/core/utils/user-feedback.ts
+var fallbackMessages = {
+  "Invalid credentials": "Email ou senha incorretos. Verifique e tente novamente.",
+  "email and password are required": "Digite o email e a senha para entrar.",
+  "Email already registered": "J\xE1 existe uma conta com este email.",
+  "Invalid email format": "Digite um email v\xE1lido.",
+  "Valid email is required": "Digite um email v\xE1lido.",
+  "Invalid or expired token": "Este link j\xE1 expirou. Pe\xE7a uma nova recupera\xE7\xE3o de senha.",
+  "Passwords do not match": "As senhas n\xE3o coincidem. Confirme e tente novamente."
+};
+function userFeedback(response, fallback) {
+  const message = readMessage(response);
+  if (!message) {
+    return fallback;
+  }
+  return fallbackMessages[message] ?? message;
+}
+function readMessage(response) {
+  if (!response || typeof response !== "object") {
+    return "";
+  }
+  const maybeResponse = response;
+  const value = maybeResponse.error?.error ?? maybeResponse.error?.message;
+  return typeof value === "string" ? value : "";
+}
+
+// src/app/shared/components/auth/alert-message.component.ts
+function AlertMessageComponent_div_0_strong_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 10);
+    \u0275\u0275elementStart(0, "strong");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.title);
+  }
+}
+function AlertMessageComponent_div_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275element(1, "div", 1);
+    \u0275\u0275elementStart(2, "div");
+    \u0275\u0275template(3, AlertMessageComponent_div_0_strong_3_Template, 2, 1, "strong", 2);
+    \u0275\u0275elementStart(4, "p");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMapInterpolate1("alert-message alert-message--", ctx_r0.type, "");
+    \u0275\u0275advance(3);
+    \u0275\u0275property("ngIf", ctx_r0.title);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.message);
+  }
+}
+var AlertMessageComponent = class _AlertMessageComponent {
+  constructor() {
+    this.type = "info";
+    this.title = "";
+    this.message = "";
+  }
+  static {
+    this.\u0275fac = function AlertMessageComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _AlertMessageComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AlertMessageComponent, selectors: [["app-alert-message"]], inputs: { type: "type", title: "title", message: "message" }, decls: 1, vars: 1, consts: [[3, "class", 4, "ngIf"], [1, "alert-message__badge"], [4, "ngIf"]], template: function AlertMessageComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275template(0, AlertMessageComponent_div_0_Template, 6, 5, "div", 0);
+      }
+      if (rf & 2) {
+        \u0275\u0275property("ngIf", ctx.message);
+      }
+    }, dependencies: [NgIf], styles: ["\n\n.alert-message[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  gap: 12px;\n  align-items: start;\n  padding: 12px 14px;\n  border-radius: 14px;\n  border: 1px solid transparent;\n  margin-bottom: 16px;\n}\n.alert-message__badge[_ngcontent-%COMP%] {\n  width: 12px;\n  height: 12px;\n  margin-top: 4px;\n  border-radius: 999px;\n}\n.alert-message[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  display: block;\n  margin-bottom: 2px;\n}\n.alert-message[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  line-height: 1.5;\n}\n.alert-message--error[_ngcontent-%COMP%] {\n  background: rgba(239, 68, 68, 0.08);\n  border-color: rgba(239, 68, 68, 0.24);\n  color: #fecaca;\n}\n.alert-message--error[_ngcontent-%COMP%]   .alert-message__badge[_ngcontent-%COMP%] {\n  background: #ef4444;\n}\n.alert-message--success[_ngcontent-%COMP%] {\n  background: rgba(16, 185, 129, 0.08);\n  border-color: rgba(16, 185, 129, 0.24);\n  color: #a7f3d0;\n}\n.alert-message--success[_ngcontent-%COMP%]   .alert-message__badge[_ngcontent-%COMP%] {\n  background: #10b981;\n}\n.alert-message--info[_ngcontent-%COMP%] {\n  background: rgba(37, 99, 235, 0.08);\n  border-color: rgba(37, 99, 235, 0.24);\n  color: #bfdbfe;\n}\n.alert-message--info[_ngcontent-%COMP%]   .alert-message__badge[_ngcontent-%COMP%] {\n  background: #2563eb;\n}\n/*# sourceMappingURL=alert-message.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AlertMessageComponent, [{
+    type: Component,
+    args: [{ selector: "app-alert-message", standalone: true, imports: [NgIf], template: '<div class="alert-message alert-message--{{ type }}" *ngIf="message">\n  <div class="alert-message__badge"></div>\n  <div>\n    <strong *ngIf="title">{{ title }}</strong>\n    <p>{{ message }}</p>\n  </div>\n</div>', styles: ["/* src/app/shared/components/auth/alert-message.component.scss */\n.alert-message {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  gap: 12px;\n  align-items: start;\n  padding: 12px 14px;\n  border-radius: 14px;\n  border: 1px solid transparent;\n  margin-bottom: 16px;\n}\n.alert-message__badge {\n  width: 12px;\n  height: 12px;\n  margin-top: 4px;\n  border-radius: 999px;\n}\n.alert-message strong {\n  display: block;\n  margin-bottom: 2px;\n}\n.alert-message p {\n  margin: 0;\n  line-height: 1.5;\n}\n.alert-message--error {\n  background: rgba(239, 68, 68, 0.08);\n  border-color: rgba(239, 68, 68, 0.24);\n  color: #fecaca;\n}\n.alert-message--error .alert-message__badge {\n  background: #ef4444;\n}\n.alert-message--success {\n  background: rgba(16, 185, 129, 0.08);\n  border-color: rgba(16, 185, 129, 0.24);\n  color: #a7f3d0;\n}\n.alert-message--success .alert-message__badge {\n  background: #10b981;\n}\n.alert-message--info {\n  background: rgba(37, 99, 235, 0.08);\n  border-color: rgba(37, 99, 235, 0.24);\n  color: #bfdbfe;\n}\n.alert-message--info .alert-message__badge {\n  background: #2563eb;\n}\n/*# sourceMappingURL=alert-message.component.css.map */\n"] }]
+  }], null, { type: [{
+    type: Input
+  }], title: [{
+    type: Input
+  }], message: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AlertMessageComponent, { className: "AlertMessageComponent", filePath: "src/app/shared/components/auth/alert-message.component.ts", lineNumber: 11 });
+})();
+
+// node_modules/@angular/material/fesm2022/card.mjs
+var _c05 = ["*"];
+var _c14 = [[["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], [["", "mat-card-image", ""], ["", "matCardImage", ""], ["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""], ["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""], ["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""], ["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]], "*"];
+var _c23 = ["mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]", "*"];
+var _c32 = [[["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]], [["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], "*"];
+var _c42 = ["[mat-card-avatar], [matCardAvatar]", "mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "*"];
+var MAT_CARD_CONFIG = new InjectionToken("MAT_CARD_CONFIG");
+var MatCard = class _MatCard {
+  appearance;
+  constructor() {
+    const config2 = inject(MAT_CARD_CONFIG, {
+      optional: true
+    });
+    this.appearance = config2?.appearance || "raised";
+  }
+  static \u0275fac = function MatCard_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCard)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCard,
+    selectors: [["mat-card"]],
+    hostAttrs: [1, "mat-mdc-card", "mdc-card"],
+    hostVars: 4,
+    hostBindings: function MatCard_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mat-mdc-card-outlined", ctx.appearance === "outlined")("mdc-card--outlined", ctx.appearance === "outlined");
+      }
+    },
+    inputs: {
+      appearance: "appearance"
+    },
+    exportAs: ["matCard"],
+    ngContentSelectors: _c05,
+    decls: 1,
+    vars: 0,
+    template: function MatCard_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275projection(0);
+      }
+    },
+    styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mdc-elevated-card-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mdc-outlined-card-container-color, var(--mat-sys-surface));border-radius:var(--mdc-outlined-card-container-shape, var(--mat-sys-corner-medium));border-width:var(--mdc-outlined-card-outline-width, 1px);border-color:var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mdc-outlined-card-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n'],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCard, [{
+    type: Component,
+    args: [{
+      selector: "mat-card",
+      host: {
+        "class": "mat-mdc-card mdc-card",
+        "[class.mat-mdc-card-outlined]": 'appearance === "outlined"',
+        "[class.mdc-card--outlined]": 'appearance === "outlined"'
+      },
+      exportAs: "matCard",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: "<ng-content></ng-content>\n",
+      styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-color:var(--mdc-elevated-card-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mdc-elevated-card-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mdc-elevated-card-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mdc-outlined-card-container-color, var(--mat-sys-surface));border-radius:var(--mdc-outlined-card-container-shape, var(--mat-sys-corner-medium));border-width:var(--mdc-outlined-card-outline-width, 1px);border-color:var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mdc-outlined-card-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n']
+    }]
+  }], () => [], {
+    appearance: [{
+      type: Input
+    }]
+  });
+})();
+var MatCardTitle = class _MatCardTitle {
+  static \u0275fac = function MatCardTitle_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardTitle)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardTitle,
+    selectors: [["mat-card-title"], ["", "mat-card-title", ""], ["", "matCardTitle", ""]],
+    hostAttrs: [1, "mat-mdc-card-title"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitle, [{
+    type: Directive,
+    args: [{
+      selector: `mat-card-title, [mat-card-title], [matCardTitle]`,
+      host: {
+        "class": "mat-mdc-card-title"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardTitleGroup = class _MatCardTitleGroup {
+  static \u0275fac = function MatCardTitleGroup_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardTitleGroup)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCardTitleGroup,
+    selectors: [["mat-card-title-group"]],
+    hostAttrs: [1, "mat-mdc-card-title-group"],
+    ngContentSelectors: _c23,
+    decls: 4,
+    vars: 0,
+    template: function MatCardTitleGroup_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c14);
+        \u0275\u0275elementStart(0, "div");
+        \u0275\u0275projection(1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(2, 1);
+        \u0275\u0275projection(3, 2);
+      }
+    },
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitleGroup, [{
+    type: Component,
+    args: [{
+      selector: "mat-card-title-group",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "class": "mat-mdc-card-title-group"
+      },
+      template: '<div>\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content select="[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]"></ng-content>\n<ng-content></ng-content>\n'
+    }]
+  }], null, null);
+})();
+var MatCardContent = class _MatCardContent {
+  static \u0275fac = function MatCardContent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardContent)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardContent,
+    selectors: [["mat-card-content"]],
+    hostAttrs: [1, "mat-mdc-card-content"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardContent, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-content",
+      host: {
+        "class": "mat-mdc-card-content"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardSubtitle = class _MatCardSubtitle {
+  static \u0275fac = function MatCardSubtitle_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardSubtitle)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardSubtitle,
+    selectors: [["mat-card-subtitle"], ["", "mat-card-subtitle", ""], ["", "matCardSubtitle", ""]],
+    hostAttrs: [1, "mat-mdc-card-subtitle"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSubtitle, [{
+    type: Directive,
+    args: [{
+      selector: `mat-card-subtitle, [mat-card-subtitle], [matCardSubtitle]`,
+      host: {
+        "class": "mat-mdc-card-subtitle"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardActions = class _MatCardActions {
+  // TODO(jelbourn): deprecate `align` in favor of `actionPosition` or `actionAlignment`
+  // as to not conflict with the native `align` attribute.
+  /** Position of the actions inside the card. */
+  align = "start";
+  static \u0275fac = function MatCardActions_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardActions)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardActions,
+    selectors: [["mat-card-actions"]],
+    hostAttrs: [1, "mat-mdc-card-actions", "mdc-card__actions"],
+    hostVars: 2,
+    hostBindings: function MatCardActions_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mat-mdc-card-actions-align-end", ctx.align === "end");
+      }
+    },
+    inputs: {
+      align: "align"
+    },
+    exportAs: ["matCardActions"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardActions, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-actions",
+      exportAs: "matCardActions",
+      host: {
+        "class": "mat-mdc-card-actions mdc-card__actions",
+        "[class.mat-mdc-card-actions-align-end]": 'align === "end"'
+      }
+    }]
+  }], null, {
+    align: [{
+      type: Input
+    }]
+  });
+})();
+var MatCardHeader = class _MatCardHeader {
+  static \u0275fac = function MatCardHeader_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardHeader)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCardHeader,
+    selectors: [["mat-card-header"]],
+    hostAttrs: [1, "mat-mdc-card-header"],
+    ngContentSelectors: _c42,
+    decls: 4,
+    vars: 0,
+    consts: [[1, "mat-mdc-card-header-text"]],
+    template: function MatCardHeader_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c32);
+        \u0275\u0275projection(0);
+        \u0275\u0275elementStart(1, "div", 0);
+        \u0275\u0275projection(2, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(3, 2);
+      }
+    },
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardHeader, [{
+    type: Component,
+    args: [{
+      selector: "mat-card-header",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "class": "mat-mdc-card-header"
+      },
+      template: '<ng-content select="[mat-card-avatar], [matCardAvatar]"></ng-content>\n<div class="mat-mdc-card-header-text">\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content></ng-content>\n'
+    }]
+  }], null, null);
+})();
+var MatCardFooter = class _MatCardFooter {
+  static \u0275fac = function MatCardFooter_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardFooter)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardFooter,
+    selectors: [["mat-card-footer"]],
+    hostAttrs: [1, "mat-mdc-card-footer"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardFooter, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-footer",
+      host: {
+        "class": "mat-mdc-card-footer"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardImage = class _MatCardImage {
+  static \u0275fac = function MatCardImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardImage,
+    selectors: [["", "mat-card-image", ""], ["", "matCardImage", ""]],
+    hostAttrs: [1, "mat-mdc-card-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-image], [matCardImage]",
+      host: {
+        "class": "mat-mdc-card-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardSmImage = class _MatCardSmImage {
+  static \u0275fac = function MatCardSmImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardSmImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardSmImage,
+    selectors: [["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""]],
+    hostAttrs: [1, "mat-mdc-card-sm-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSmImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-sm-image], [matCardImageSmall]",
+      host: {
+        "class": "mat-mdc-card-sm-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardMdImage = class _MatCardMdImage {
+  static \u0275fac = function MatCardMdImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardMdImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardMdImage,
+    selectors: [["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""]],
+    hostAttrs: [1, "mat-mdc-card-md-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardMdImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-md-image], [matCardImageMedium]",
+      host: {
+        "class": "mat-mdc-card-md-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardLgImage = class _MatCardLgImage {
+  static \u0275fac = function MatCardLgImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardLgImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardLgImage,
+    selectors: [["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""]],
+    hostAttrs: [1, "mat-mdc-card-lg-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardLgImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-lg-image], [matCardImageLarge]",
+      host: {
+        "class": "mat-mdc-card-lg-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardXlImage = class _MatCardXlImage {
+  static \u0275fac = function MatCardXlImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardXlImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardXlImage,
+    selectors: [["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]],
+    hostAttrs: [1, "mat-mdc-card-xl-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardXlImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-xl-image], [matCardImageXLarge]",
+      host: {
+        "class": "mat-mdc-card-xl-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardAvatar = class _MatCardAvatar {
+  static \u0275fac = function MatCardAvatar_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardAvatar)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardAvatar,
+    selectors: [["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]],
+    hostAttrs: [1, "mat-mdc-card-avatar"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardAvatar, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-avatar], [matCardAvatar]",
+      host: {
+        "class": "mat-mdc-card-avatar"
+      }
+    }]
+  }], null, null);
+})();
+var CARD_DIRECTIVES = [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage];
+var MatCardModule = class _MatCardModule {
+  static \u0275fac = function MatCardModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatCardModule,
+    imports: [MatCommonModule, MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage],
+    exports: [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage, MatCommonModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [MatCommonModule, MatCommonModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardModule, [{
+    type: NgModule,
+    args: [{
+      imports: [MatCommonModule, ...CARD_DIRECTIVES],
+      exports: [CARD_DIRECTIVES, MatCommonModule]
+    }]
+  }], null, null);
+})();
+
+// src/app/shared/components/auth/auth-card.component.ts
+var _c06 = ["*"];
+var AuthCardComponent = class _AuthCardComponent {
+  static {
+    this.\u0275fac = function AuthCardComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _AuthCardComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AuthCardComponent, selectors: [["app-auth-card"]], ngContentSelectors: _c06, decls: 2, vars: 0, consts: [[1, "auth-card"]], template: function AuthCardComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "mat-card", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementEnd();
+      }
+    }, dependencies: [MatCardModule, MatCard], styles: ['\n\n.auth-card[_ngcontent-%COMP%] {\n  position: relative;\n  overflow: hidden;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-strong);\n  backdrop-filter: blur(18px);\n  padding: 28px;\n  color: var(--app-text);\n  box-shadow: var(--app-shadow-strong);\n  transition:\n    transform var(--app-transition),\n    border-color var(--app-transition),\n    box-shadow var(--app-transition);\n}\n.auth-card[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  inset: 0;\n  border-radius: inherit;\n  background:\n    linear-gradient(\n      135deg,\n      rgba(37, 99, 235, 0.05),\n      rgba(16, 185, 129, 0.025));\n  pointer-events: none;\n}\n.auth-card[_ngcontent-%COMP%]    > *[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n}\n.auth-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-1px);\n  border-color: rgba(37, 99, 235, 0.28);\n  box-shadow: 0 28px 90px rgba(2, 10, 28, 0.46);\n}\n/*# sourceMappingURL=auth-card.component.css.map */'] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AuthCardComponent, [{
+    type: Component,
+    args: [{ selector: "app-auth-card", standalone: true, imports: [MatCardModule], template: '<mat-card class="auth-card">\n  <ng-content />\n</mat-card>', styles: ['/* src/app/shared/components/auth/auth-card.component.scss */\n.auth-card {\n  position: relative;\n  overflow: hidden;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-strong);\n  backdrop-filter: blur(18px);\n  padding: 28px;\n  color: var(--app-text);\n  box-shadow: var(--app-shadow-strong);\n  transition:\n    transform var(--app-transition),\n    border-color var(--app-transition),\n    box-shadow var(--app-transition);\n}\n.auth-card::before {\n  content: "";\n  position: absolute;\n  inset: 0;\n  border-radius: inherit;\n  background:\n    linear-gradient(\n      135deg,\n      rgba(37, 99, 235, 0.05),\n      rgba(16, 185, 129, 0.025));\n  pointer-events: none;\n}\n.auth-card > * {\n  position: relative;\n  z-index: 1;\n}\n.auth-card:hover {\n  transform: translateY(-1px);\n  border-color: rgba(37, 99, 235, 0.28);\n  box-shadow: 0 28px 90px rgba(2, 10, 28, 0.46);\n}\n/*# sourceMappingURL=auth-card.component.css.map */\n'] }]
+  }], null, null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthCardComponent, { className: "AuthCardComponent", filePath: "src/app/shared/components/auth/auth-card.component.ts", lineNumber: 11 });
+})();
+
+// node_modules/@angular/material/fesm2022/ripple-loader-Ce3DAhPW.mjs
+var eventListenerOptions2 = {
+  capture: true
+};
+var rippleInteractionEvents = ["focus", "mousedown", "mouseenter", "touchstart"];
+var matRippleUninitialized = "mat-ripple-loader-uninitialized";
+var matRippleClassName = "mat-ripple-loader-class-name";
+var matRippleCentered = "mat-ripple-loader-centered";
+var matRippleDisabled = "mat-ripple-loader-disabled";
+var MatRippleLoader = class _MatRippleLoader {
+  _document = inject(DOCUMENT2);
+  _animationMode = inject(ANIMATION_MODULE_TYPE, {
+    optional: true
+  });
+  _globalRippleOptions = inject(MAT_RIPPLE_GLOBAL_OPTIONS, {
+    optional: true
+  });
+  _platform = inject(Platform);
+  _ngZone = inject(NgZone);
+  _injector = inject(Injector);
+  _eventCleanups;
+  _hosts = /* @__PURE__ */ new Map();
+  constructor() {
+    const renderer = inject(RendererFactory2).createRenderer(null, null);
+    this._eventCleanups = this._ngZone.runOutsideAngular(() => {
+      return rippleInteractionEvents.map((name) => _bindEventWithOptions(renderer, this._document, name, this._onInteraction, eventListenerOptions2));
+    });
+  }
+  ngOnDestroy() {
+    const hosts = this._hosts.keys();
+    for (const host of hosts) {
+      this.destroyRipple(host);
+    }
+    this._eventCleanups.forEach((cleanup) => cleanup());
+  }
+  /**
+   * Configures the ripple that will be rendered by the ripple loader.
+   *
+   * Stores the given information about how the ripple should be configured on the host
+   * element so that it can later be retrived & used when the ripple is actually created.
+   */
+  configureRipple(host, config2) {
+    host.setAttribute(matRippleUninitialized, this._globalRippleOptions?.namespace ?? "");
+    if (config2.className || !host.hasAttribute(matRippleClassName)) {
+      host.setAttribute(matRippleClassName, config2.className || "");
+    }
+    if (config2.centered) {
+      host.setAttribute(matRippleCentered, "");
+    }
+    if (config2.disabled) {
+      host.setAttribute(matRippleDisabled, "");
+    }
+  }
+  /** Sets the disabled state on the ripple instance corresponding to the given host element. */
+  setDisabled(host, disabled) {
+    const ripple = this._hosts.get(host);
+    if (ripple) {
+      ripple.target.rippleDisabled = disabled;
+      if (!disabled && !ripple.hasSetUpEvents) {
+        ripple.hasSetUpEvents = true;
+        ripple.renderer.setupTriggerEvents(host);
+      }
+    } else if (disabled) {
+      host.setAttribute(matRippleDisabled, "");
+    } else {
+      host.removeAttribute(matRippleDisabled);
+    }
+  }
+  /**
+   * Handles creating and attaching component internals
+   * when a component is initially interacted with.
+   */
+  _onInteraction = (event) => {
+    const eventTarget = _getEventTarget(event);
+    if (eventTarget instanceof HTMLElement) {
+      const element = eventTarget.closest(`[${matRippleUninitialized}="${this._globalRippleOptions?.namespace ?? ""}"]`);
+      if (element) {
+        this._createRipple(element);
+      }
+    }
+  };
+  /** Creates a MatRipple and appends it to the given element. */
+  _createRipple(host) {
+    if (!this._document || this._hosts.has(host)) {
+      return;
+    }
+    host.querySelector(".mat-ripple")?.remove();
+    const rippleEl = this._document.createElement("span");
+    rippleEl.classList.add("mat-ripple", host.getAttribute(matRippleClassName));
+    host.append(rippleEl);
+    const isNoopAnimations = this._animationMode === "NoopAnimations";
+    const globalOptions = this._globalRippleOptions;
+    const enterDuration = isNoopAnimations ? 0 : globalOptions?.animation?.enterDuration ?? defaultRippleAnimationConfig.enterDuration;
+    const exitDuration = isNoopAnimations ? 0 : globalOptions?.animation?.exitDuration ?? defaultRippleAnimationConfig.exitDuration;
+    const target = {
+      rippleDisabled: isNoopAnimations || globalOptions?.disabled || host.hasAttribute(matRippleDisabled),
+      rippleConfig: {
+        centered: host.hasAttribute(matRippleCentered),
+        terminateOnPointerUp: globalOptions?.terminateOnPointerUp,
+        animation: {
+          enterDuration,
+          exitDuration
+        }
+      }
+    };
+    const renderer = new RippleRenderer(target, this._ngZone, rippleEl, this._platform, this._injector);
+    const hasSetUpEvents = !target.rippleDisabled;
+    if (hasSetUpEvents) {
+      renderer.setupTriggerEvents(host);
+    }
+    this._hosts.set(host, {
+      target,
+      renderer,
+      hasSetUpEvents
+    });
+    host.removeAttribute(matRippleUninitialized);
+  }
+  destroyRipple(host) {
+    const ripple = this._hosts.get(host);
+    if (ripple) {
+      ripple.renderer._removeTriggerEvents();
+      this._hosts.delete(host);
+    }
+  }
+  static \u0275fac = function MatRippleLoader_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatRippleLoader)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _MatRippleLoader,
+    factory: _MatRippleLoader.\u0275fac,
+    providedIn: "root"
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatRippleLoader, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], () => [], null);
+})();
+
+// node_modules/@angular/material/fesm2022/icon-button-D1J0zeqv.mjs
+var _c07 = ["mat-icon-button", ""];
+var _c15 = ["*"];
+var _c24 = '.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n';
+var _c33 = "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n";
+var MAT_BUTTON_CONFIG = new InjectionToken("MAT_BUTTON_CONFIG");
+var MAT_BUTTON_HOST = {
+  "[attr.disabled]": "_getDisabledAttribute()",
+  "[attr.aria-disabled]": "_getAriaDisabled()",
+  "[class.mat-mdc-button-disabled]": "disabled",
+  "[class.mat-mdc-button-disabled-interactive]": "disabledInteractive",
+  "[class._mat-animation-noopable]": '_animationMode === "NoopAnimations"',
+  // MDC automatically applies the primary theme color to the button, but we want to support
+  // an unthemed version. If color is undefined, apply a CSS class that makes it easy to
+  // select and style this "theme".
+  "[class.mat-unthemed]": "!color",
+  // Add a class that applies to all buttons. This makes it easier to target if somebody
+  // wants to target all Material buttons.
+  "[class.mat-mdc-button-base]": "true",
+  "[class]": 'color ? "mat-" + color : ""'
+};
+var HOST_SELECTOR_MDC_CLASS_PAIR = [{
+  attribute: "mat-button",
+  mdcClasses: ["mdc-button", "mat-mdc-button"]
+}, {
+  attribute: "mat-flat-button",
+  mdcClasses: ["mdc-button", "mdc-button--unelevated", "mat-mdc-unelevated-button"]
+}, {
+  attribute: "mat-raised-button",
+  mdcClasses: ["mdc-button", "mdc-button--raised", "mat-mdc-raised-button"]
+}, {
+  attribute: "mat-stroked-button",
+  mdcClasses: ["mdc-button", "mdc-button--outlined", "mat-mdc-outlined-button"]
+}, {
+  attribute: "mat-fab",
+  mdcClasses: ["mdc-fab", "mat-mdc-fab-base", "mat-mdc-fab"]
+}, {
+  attribute: "mat-mini-fab",
+  mdcClasses: ["mdc-fab", "mat-mdc-fab-base", "mdc-fab--mini", "mat-mdc-mini-fab"]
+}, {
+  attribute: "mat-icon-button",
+  mdcClasses: ["mdc-icon-button", "mat-mdc-icon-button"]
+}];
+var MatButtonBase = class _MatButtonBase {
+  _elementRef = inject(ElementRef);
+  _ngZone = inject(NgZone);
+  _animationMode = inject(ANIMATION_MODULE_TYPE, {
+    optional: true
+  });
+  _focusMonitor = inject(FocusMonitor);
+  /**
+   * Handles the lazy creation of the MatButton ripple.
+   * Used to improve initial load time of large applications.
+   */
+  _rippleLoader = inject(MatRippleLoader);
+  /** Whether this button is a FAB. Used to apply the correct class on the ripple. */
+  _isFab = false;
+  /**
+   * Theme color of the button. This API is supported in M2 themes only, it has
+   * no effect in M3 themes. For color customization in M3, see https://material.angular.dev/components/button/styling.
+   *
+   * For information on applying color variants in M3, see
+   * https://material.angular.dev/guide/material-2-theming#optional-add-backwards-compatibility-styles-for-color-variants
+   */
+  color;
+  /** Whether the ripple effect is disabled or not. */
+  get disableRipple() {
+    return this._disableRipple;
+  }
+  set disableRipple(value) {
+    this._disableRipple = value;
+    this._updateRippleDisabled();
+  }
+  _disableRipple = false;
+  /** Whether the button is disabled. */
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(value) {
+    this._disabled = value;
+    this._updateRippleDisabled();
+  }
+  _disabled = false;
+  /** `aria-disabled` value of the button. */
+  ariaDisabled;
+  /**
+   * Natively disabled buttons prevent focus and any pointer events from reaching the button.
+   * In some scenarios this might not be desirable, because it can prevent users from finding out
+   * why the button is disabled (e.g. via tooltip). This is also useful for buttons that may
+   * become disabled when activated, which would cause focus to be transferred to the document
+   * body instead of remaining on the button.
+   *
+   * Enabling this input will change the button so that it is styled to be disabled and will be
+   * marked as `aria-disabled`, but it will allow the button to receive events and focus.
+   *
+   * Note that by enabling this, you need to set the `tabindex` yourself if the button isn't
+   * meant to be tabbable and you have to prevent the button action (e.g. form submissions).
+   */
+  disabledInteractive;
+  constructor() {
+    inject(_CdkPrivateStyleLoader).load(_StructuralStylesLoader);
+    const config2 = inject(MAT_BUTTON_CONFIG, {
+      optional: true
+    });
+    const element = this._elementRef.nativeElement;
+    const classList = element.classList;
+    this.disabledInteractive = config2?.disabledInteractive ?? false;
+    this.color = config2?.color ?? null;
+    this._rippleLoader?.configureRipple(element, {
+      className: "mat-mdc-button-ripple"
+    });
+    for (const {
+      attribute,
+      mdcClasses
+    } of HOST_SELECTOR_MDC_CLASS_PAIR) {
+      if (element.hasAttribute(attribute)) {
+        classList.add(...mdcClasses);
+      }
+    }
+  }
+  ngAfterViewInit() {
+    this._focusMonitor.monitor(this._elementRef, true);
+  }
+  ngOnDestroy() {
+    this._focusMonitor.stopMonitoring(this._elementRef);
+    this._rippleLoader?.destroyRipple(this._elementRef.nativeElement);
+  }
+  /** Focuses the button. */
+  focus(origin = "program", options) {
+    if (origin) {
+      this._focusMonitor.focusVia(this._elementRef.nativeElement, origin, options);
+    } else {
+      this._elementRef.nativeElement.focus(options);
+    }
+  }
+  _getAriaDisabled() {
+    if (this.ariaDisabled != null) {
+      return this.ariaDisabled;
+    }
+    return this.disabled && this.disabledInteractive ? true : null;
+  }
+  _getDisabledAttribute() {
+    return this.disabledInteractive || !this.disabled ? null : true;
+  }
+  _updateRippleDisabled() {
+    this._rippleLoader?.setDisabled(this._elementRef.nativeElement, this.disableRipple || this.disabled);
+  }
+  static \u0275fac = function MatButtonBase_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatButtonBase)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatButtonBase,
+    inputs: {
+      color: "color",
+      disableRipple: [2, "disableRipple", "disableRipple", booleanAttribute],
+      disabled: [2, "disabled", "disabled", booleanAttribute],
+      ariaDisabled: [2, "aria-disabled", "ariaDisabled", booleanAttribute],
+      disabledInteractive: [2, "disabledInteractive", "disabledInteractive", booleanAttribute]
+    }
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonBase, [{
+    type: Directive
+  }], () => [], {
+    color: [{
+      type: Input
+    }],
+    disableRipple: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    disabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    ariaDisabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute,
+        alias: "aria-disabled"
+      }]
+    }],
+    disabledInteractive: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }]
+  });
+})();
+var MAT_ANCHOR_HOST = {
+  // Note that this is basically a noop on anchors,
+  // but it appears that some internal apps depend on it.
+  "[attr.disabled]": "_getDisabledAttribute()",
+  "[class.mat-mdc-button-disabled]": "disabled",
+  "[class.mat-mdc-button-disabled-interactive]": "disabledInteractive",
+  "[class._mat-animation-noopable]": '_animationMode === "NoopAnimations"',
+  // Note that we ignore the user-specified tabindex when it's disabled for
+  // consistency with the `mat-button` applied on native buttons where even
+  // though they have an index, they're not tabbable.
+  "[attr.tabindex]": "disabled && !disabledInteractive ? -1 : tabIndex",
+  "[attr.aria-disabled]": "_getAriaDisabled()",
+  // MDC automatically applies the primary theme color to the button, but we want to support
+  // an unthemed version. If color is undefined, apply a CSS class that makes it easy to
+  // select and style this "theme".
+  "[class.mat-unthemed]": "!color",
+  // Add a class that applies to all buttons. This makes it easier to target if somebody
+  // wants to target all Material buttons.
+  "[class.mat-mdc-button-base]": "true",
+  "[class]": 'color ? "mat-" + color : ""'
+};
+var MatAnchorBase = class _MatAnchorBase extends MatButtonBase {
+  _renderer = inject(Renderer2);
+  _cleanupClick;
+  tabIndex;
+  ngOnInit() {
+    this._ngZone.runOutsideAngular(() => {
+      this._cleanupClick = this._renderer.listen(this._elementRef.nativeElement, "click", this._haltDisabledEvents);
+    });
+  }
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this._cleanupClick?.();
+  }
+  _haltDisabledEvents = (event) => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  };
+  _getAriaDisabled() {
+    if (this.ariaDisabled != null) {
+      return this.ariaDisabled;
+    }
+    return this.disabled || null;
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275MatAnchorBase_BaseFactory;
+    return function MatAnchorBase_Factory(__ngFactoryType__) {
+      return (\u0275MatAnchorBase_BaseFactory || (\u0275MatAnchorBase_BaseFactory = \u0275\u0275getInheritedFactory(_MatAnchorBase)))(__ngFactoryType__ || _MatAnchorBase);
+    };
+  })();
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatAnchorBase,
+    inputs: {
+      tabIndex: [2, "tabIndex", "tabIndex", (value) => {
+        return value == null ? void 0 : numberAttribute(value);
+      }]
+    },
+    features: [\u0275\u0275InheritDefinitionFeature]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatAnchorBase, [{
+    type: Directive
+  }], null, {
+    tabIndex: [{
+      type: Input,
+      args: [{
+        transform: (value) => {
+          return value == null ? void 0 : numberAttribute(value);
+        }
+      }]
+    }]
+  });
+})();
+var MatIconButton = class _MatIconButton extends MatButtonBase {
+  constructor() {
+    super();
+    this._rippleLoader.configureRipple(this._elementRef.nativeElement, {
+      centered: true
+    });
+  }
+  static \u0275fac = function MatIconButton_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatIconButton)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatIconButton,
+    selectors: [["button", "mat-icon-button", ""]],
+    hostVars: 14,
+    hostBindings: function MatIconButton_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c07,
+    ngContentSelectors: _c15,
+    decls: 4,
+    vars: 0,
+    consts: [[1, "mat-mdc-button-persistent-ripple", "mdc-icon-button__ripple"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatIconButton_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275element(2, "span", 1)(3, "span", 2);
+      }
+    },
+    styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconButton, [{
+    type: Component,
+    args: [{
+      selector: `button[mat-icon-button]`,
+      host: MAT_BUTTON_HOST,
+      exportAs: "matButton",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+
+<ng-content></ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+    }]
+  }], () => [], null);
+})();
+var MatIconAnchor = class _MatIconAnchor extends MatAnchorBase {
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275MatIconAnchor_BaseFactory;
+    return function MatIconAnchor_Factory(__ngFactoryType__) {
+      return (\u0275MatIconAnchor_BaseFactory || (\u0275MatIconAnchor_BaseFactory = \u0275\u0275getInheritedFactory(_MatIconAnchor)))(__ngFactoryType__ || _MatIconAnchor);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatIconAnchor,
+    selectors: [["a", "mat-icon-button", ""]],
+    hostVars: 15,
+    hostBindings: function MatIconAnchor_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton", "matAnchor"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c07,
+    ngContentSelectors: _c15,
+    decls: 4,
+    vars: 0,
+    consts: [[1, "mat-mdc-button-persistent-ripple", "mdc-icon-button__ripple"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatIconAnchor_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275element(2, "span", 1)(3, "span", 2);
+      }
+    },
+    styles: [_c24, _c33],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatIconAnchor, [{
+    type: Component,
+    args: [{
+      selector: `a[mat-icon-button]`,
+      host: MAT_ANCHOR_HOST,
+      exportAs: "matButton, matAnchor",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+
+<ng-content></ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-icon-button{-webkit-user-select:none;user-select:none;display:inline-block;position:relative;box-sizing:border-box;border:none;outline:none;background-color:rgba(0,0,0,0);fill:currentColor;color:inherit;text-decoration:none;cursor:pointer;z-index:0;overflow:visible;border-radius:50%;flex-shrink:0;text-align:center;width:var(--mdc-icon-button-state-layer-size, 40px);height:var(--mdc-icon-button-state-layer-size, 40px);padding:calc(calc(var(--mdc-icon-button-state-layer-size, 40px) - var(--mdc-icon-button-icon-size, 24px)) / 2);font-size:var(--mdc-icon-button-icon-size, 24px);color:var(--mdc-icon-button-icon-color, var(--mat-sys-on-surface-variant));-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-icon-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-icon-button .mdc-button__label,.mat-mdc-icon-button .mat-icon{z-index:1;position:relative}.mat-mdc-icon-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-icon-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-icon-button .mat-ripple-element{background-color:var(--mat-icon-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-icon-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-icon-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-icon-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-icon-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-icon-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-icon-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-icon-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-icon-button-touch-target-display, block)}.mat-mdc-icon-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-icon-button[disabled],.mat-mdc-icon-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-icon-button-disabled-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-icon-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-icon-button img,.mat-mdc-icon-button svg{width:var(--mdc-icon-button-icon-size, 24px);height:var(--mdc-icon-button-icon-size, 24px);vertical-align:baseline}.mat-mdc-icon-button .mat-mdc-button-persistent-ripple{border-radius:50%}.mat-mdc-icon-button[hidden]{display:none}.mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before{background:rgba(0,0,0,0);opacity:1}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+    }]
+  }], null, null);
+})();
+
+// node_modules/@angular/material/fesm2022/index-SYVYjXwK.mjs
+var MatRippleModule = class _MatRippleModule {
+  static \u0275fac = function MatRippleModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatRippleModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatRippleModule,
+    imports: [MatCommonModule, MatRipple],
+    exports: [MatRipple, MatCommonModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [MatCommonModule, MatCommonModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatRippleModule, [{
+    type: NgModule,
+    args: [{
+      imports: [MatCommonModule, MatRipple],
+      exports: [MatRipple, MatCommonModule]
+    }]
+  }], null, null);
+})();
+
+// node_modules/@angular/material/fesm2022/button.mjs
+var _c08 = ["mat-button", ""];
+var _c16 = [[["", 8, "material-icons", 3, "iconPositionEnd", ""], ["mat-icon", 3, "iconPositionEnd", ""], ["", "matButtonIcon", "", 3, "iconPositionEnd", ""]], "*", [["", "iconPositionEnd", "", 8, "material-icons"], ["mat-icon", "iconPositionEnd", ""], ["", "matButtonIcon", "", "iconPositionEnd", ""]]];
+var _c25 = [".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])", "*", ".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]"];
+var _c34 = '.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n';
+var _c43 = "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n";
+var _c52 = ["mat-fab", ""];
+var _c62 = ["mat-mini-fab", ""];
+var _c72 = '.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n';
+var MatButton = class _MatButton extends MatButtonBase {
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275MatButton_BaseFactory;
+    return function MatButton_Factory(__ngFactoryType__) {
+      return (\u0275MatButton_BaseFactory || (\u0275MatButton_BaseFactory = \u0275\u0275getInheritedFactory(_MatButton)))(__ngFactoryType__ || _MatButton);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatButton,
+    selectors: [["button", "mat-button", ""], ["button", "mat-raised-button", ""], ["button", "mat-flat-button", ""], ["button", "mat-stroked-button", ""]],
+    hostVars: 14,
+    hostBindings: function MatButton_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c08,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatButton_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButton, [{
+    type: Component,
+    args: [{
+      selector: `
+    button[mat-button], button[mat-raised-button], button[mat-flat-button],
+    button[mat-stroked-button]
+  `,
+      host: MAT_BUTTON_HOST,
+      exportAs: "matButton",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+    }]
+  }], null, null);
+})();
+var MatAnchor = class _MatAnchor extends MatAnchorBase {
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275MatAnchor_BaseFactory;
+    return function MatAnchor_Factory(__ngFactoryType__) {
+      return (\u0275MatAnchor_BaseFactory || (\u0275MatAnchor_BaseFactory = \u0275\u0275getInheritedFactory(_MatAnchor)))(__ngFactoryType__ || _MatAnchor);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatAnchor,
+    selectors: [["a", "mat-button", ""], ["a", "mat-raised-button", ""], ["a", "mat-flat-button", ""], ["a", "mat-stroked-button", ""]],
+    hostVars: 15,
+    hostBindings: function MatAnchor_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton", "matAnchor"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c08,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatAnchor_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: [_c34, _c43],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatAnchor, [{
+    type: Component,
+    args: [{
+      selector: `a[mat-button], a[mat-raised-button], a[mat-flat-button], a[mat-stroked-button]`,
+      exportAs: "matButton, matAnchor",
+      host: MAT_ANCHOR_HOST,
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-button-base{text-decoration:none}.mdc-button{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:64px;border:none;outline:none;line-height:inherit;-webkit-appearance:none;overflow:visible;vertical-align:middle;background:rgba(0,0,0,0);padding:0 8px}.mdc-button::-moz-focus-inner{padding:0;border:0}.mdc-button:active{outline:none}.mdc-button:hover{cursor:pointer}.mdc-button:disabled{cursor:default;pointer-events:none}.mdc-button[hidden]{display:none}.mdc-button .mdc-button__label{position:relative}.mat-mdc-button{padding:0 var(--mat-text-button-horizontal-padding, 12px);height:var(--mdc-text-button-container-height, 40px);font-family:var(--mdc-text-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-text-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-text-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-text-button-label-text-transform);font-weight:var(--mdc-text-button-label-text-weight, var(--mat-sys-label-large-weight))}.mat-mdc-button,.mat-mdc-button .mdc-button__ripple{border-radius:var(--mdc-text-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-button:not(:disabled){color:var(--mdc-text-button-label-text-color, var(--mat-sys-primary))}.mat-mdc-button[disabled],.mat-mdc-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-text-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-mdc-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button:has(.material-icons,mat-icon,[matButtonIcon]){padding:0 var(--mat-text-button-with-icon-horizontal-padding, 16px)}.mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}[dir=rtl] .mat-mdc-button>.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}.mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-offset, -4px);margin-left:var(--mat-text-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon{margin-right:var(--mat-text-button-icon-spacing, 8px);margin-left:var(--mat-text-button-icon-offset, -4px)}.mat-mdc-button .mat-ripple-element{background-color:var(--mat-text-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-text-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-text-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-text-button-touch-target-display, block)}.mat-mdc-unelevated-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-filled-button-container-height, 40px);font-family:var(--mdc-filled-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-filled-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-filled-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-filled-button-label-text-transform);font-weight:var(--mdc-filled-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-filled-button-horizontal-padding, 24px)}.mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-unelevated-button>.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}.mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-offset, -8px);margin-left:var(--mat-filled-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon{margin-right:var(--mat-filled-button-icon-spacing, 8px);margin-left:var(--mat-filled-button-icon-offset, -8px)}.mat-mdc-unelevated-button .mat-ripple-element{background-color:var(--mat-filled-button-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-state-layer-color, var(--mat-sys-on-primary))}.mat-mdc-unelevated-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-filled-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-unelevated-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-unelevated-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-unelevated-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-filled-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-unelevated-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-filled-button-touch-target-display, block)}.mat-mdc-unelevated-button:not(:disabled){color:var(--mdc-filled-button-label-text-color, var(--mat-sys-on-primary));background-color:var(--mdc-filled-button-container-color, var(--mat-sys-primary))}.mat-mdc-unelevated-button,.mat-mdc-unelevated-button .mdc-button__ripple{border-radius:var(--mdc-filled-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-unelevated-button[disabled],.mat-mdc-unelevated-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-filled-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-filled-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-unelevated-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-raised-button{transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);box-shadow:var(--mdc-protected-button-container-elevation-shadow, var(--mat-sys-level1));height:var(--mdc-protected-button-container-height, 40px);font-family:var(--mdc-protected-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-protected-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-protected-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-protected-button-label-text-transform);font-weight:var(--mdc-protected-button-label-text-weight, var(--mat-sys-label-large-weight));padding:0 var(--mat-protected-button-horizontal-padding, 24px)}.mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-raised-button>.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}.mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-offset, -8px);margin-left:var(--mat-protected-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon{margin-right:var(--mat-protected-button-icon-spacing, 8px);margin-left:var(--mat-protected-button-icon-offset, -8px)}.mat-mdc-raised-button .mat-ripple-element{background-color:var(--mat-protected-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-raised-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-protected-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-raised-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-raised-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-raised-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-protected-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-raised-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-protected-button-touch-target-display, block)}.mat-mdc-raised-button:not(:disabled){color:var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));background-color:var(--mdc-protected-button-container-color, var(--mat-sys-surface))}.mat-mdc-raised-button,.mat-mdc-raised-button .mdc-button__ripple{border-radius:var(--mdc-protected-button-container-shape, var(--mat-sys-corner-full))}.mat-mdc-raised-button:hover{box-shadow:var(--mdc-protected-button-hover-container-elevation-shadow, var(--mat-sys-level2))}.mat-mdc-raised-button:focus{box-shadow:var(--mdc-protected-button-focus-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button:active,.mat-mdc-raised-button:focus:active{box-shadow:var(--mdc-protected-button-pressed-container-elevation-shadow, var(--mat-sys-level1))}.mat-mdc-raised-button[disabled],.mat-mdc-raised-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-protected-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mdc-protected-button-disabled-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled{box-shadow:var(--mdc-protected-button-disabled-container-elevation-shadow, var(--mat-sys-level0))}.mat-mdc-raised-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-outlined-button{border-style:solid;transition:border 280ms cubic-bezier(0.4, 0, 0.2, 1);height:var(--mdc-outlined-button-container-height, 40px);font-family:var(--mdc-outlined-button-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-outlined-button-label-text-size, var(--mat-sys-label-large-size));letter-spacing:var(--mdc-outlined-button-label-text-tracking, var(--mat-sys-label-large-tracking));text-transform:var(--mdc-outlined-button-label-text-transform);font-weight:var(--mdc-outlined-button-label-text-weight, var(--mat-sys-label-large-weight));border-radius:var(--mdc-outlined-button-container-shape, var(--mat-sys-corner-full));border-width:var(--mdc-outlined-button-outline-width, 1px);padding:0 var(--mat-outlined-button-horizontal-padding, 24px)}.mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}[dir=rtl] .mat-mdc-outlined-button>.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}.mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-offset, -8px);margin-left:var(--mat-outlined-button-icon-spacing, 8px)}[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon{margin-right:var(--mat-outlined-button-icon-spacing, 8px);margin-left:var(--mat-outlined-button-icon-offset, -8px)}.mat-mdc-outlined-button .mat-ripple-element{background-color:var(--mat-outlined-button-ripple-color, color-mix(in srgb, var(--mat-sys-primary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-state-layer-color, var(--mat-sys-primary))}.mat-mdc-outlined-button.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-outlined-button-disabled-state-layer-color, var(--mat-sys-on-surface-variant))}.mat-mdc-outlined-button:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-outlined-button.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-outlined-button:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-outlined-button-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-outlined-button .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:0;right:0;transform:translateY(-50%);display:var(--mat-outlined-button-touch-target-display, block)}.mat-mdc-outlined-button:not(:disabled){color:var(--mdc-outlined-button-label-text-color, var(--mat-sys-primary));border-color:var(--mdc-outlined-button-outline-color, var(--mat-sys-outline))}.mat-mdc-outlined-button[disabled],.mat-mdc-outlined-button.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mdc-outlined-button-disabled-label-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));border-color:var(--mdc-outlined-button-disabled-outline-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-outlined-button.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button{-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-button .mdc-button__label,.mat-mdc-button .mat-icon,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-unelevated-button .mat-icon,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-raised-button .mat-icon,.mat-mdc-outlined-button .mdc-button__label,.mat-mdc-outlined-button .mat-icon{z-index:1;position:relative}.mat-mdc-button .mat-focus-indicator,.mat-mdc-unelevated-button .mat-focus-indicator,.mat-mdc-raised-button .mat-focus-indicator,.mat-mdc-outlined-button .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit}.mat-mdc-button:focus>.mat-focus-indicator::before,.mat-mdc-unelevated-button:focus>.mat-focus-indicator::before,.mat-mdc-raised-button:focus>.mat-focus-indicator::before,.mat-mdc-outlined-button:focus>.mat-focus-indicator::before{content:"";border-radius:inherit}.mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon{display:inline-block;position:relative;vertical-align:top;font-size:1.125rem;height:1.125rem;width:1.125rem}.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple{top:-1px;left:-1px;bottom:-1px;right:-1px}.mat-mdc-unelevated-button .mat-focus-indicator::before,.mat-mdc-raised-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-outlined-button .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 3px)*-1)}\n', "@media(forced-colors: active){.mat-mdc-button:not(.mdc-button--outlined),.mat-mdc-unelevated-button:not(.mdc-button--outlined),.mat-mdc-raised-button:not(.mdc-button--outlined),.mat-mdc-outlined-button:not(.mdc-button--outlined),.mat-mdc-icon-button.mat-mdc-icon-button,.mat-mdc-outlined-button .mdc-button__ripple{outline:solid 1px}}\n"]
+    }]
+  }], null, null);
+})();
+var MAT_FAB_DEFAULT_OPTIONS = new InjectionToken("mat-mdc-fab-default-options", {
+  providedIn: "root",
+  factory: MAT_FAB_DEFAULT_OPTIONS_FACTORY
+});
+function MAT_FAB_DEFAULT_OPTIONS_FACTORY() {
+  return {
+    // The FAB by default has its color set to accent.
+    color: "accent"
+  };
+}
+var defaults2 = MAT_FAB_DEFAULT_OPTIONS_FACTORY();
+var MatFabButton = class _MatFabButton extends MatButtonBase {
+  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
+    optional: true
+  });
+  _isFab = true;
+  extended;
+  constructor() {
+    super();
+    this._options = this._options || defaults2;
+    this.color = this._options.color || defaults2.color;
+  }
+  static \u0275fac = function MatFabButton_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatFabButton)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatFabButton,
+    selectors: [["button", "mat-fab", ""]],
+    hostVars: 18,
+    hostBindings: function MatFabButton_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true)("mdc-fab--extended", ctx.extended)("mat-mdc-extended-fab", ctx.extended);
+      }
+    },
+    inputs: {
+      extended: [2, "extended", "extended", booleanAttribute]
+    },
+    exportAs: ["matButton"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c52,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatFabButton_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n'],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatFabButton, [{
+    type: Component,
+    args: [{
+      selector: `button[mat-fab]`,
+      host: __spreadProps(__spreadValues({}, MAT_BUTTON_HOST), {
+        "[class.mdc-fab--extended]": "extended",
+        "[class.mat-mdc-extended-fab]": "extended"
+      }),
+      exportAs: "matButton",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
+    }]
+  }], () => [], {
+    extended: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }]
+  });
+})();
+var MatMiniFabButton = class _MatMiniFabButton extends MatButtonBase {
+  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
+    optional: true
+  });
+  _isFab = true;
+  constructor() {
+    super();
+    this._options = this._options || defaults2;
+    this.color = this._options.color || defaults2.color;
+  }
+  static \u0275fac = function MatMiniFabButton_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatMiniFabButton)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatMiniFabButton,
+    selectors: [["button", "mat-mini-fab", ""]],
+    hostVars: 14,
+    hostBindings: function MatMiniFabButton_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c62,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatMiniFabButton_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: [_c72],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatMiniFabButton, [{
+    type: Component,
+    args: [{
+      selector: `button[mat-mini-fab]`,
+      host: MAT_BUTTON_HOST,
+      exportAs: "matButton",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
+    }]
+  }], () => [], null);
+})();
+var MatFabAnchor = class _MatFabAnchor extends MatAnchor {
+  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
+    optional: true
+  });
+  _isFab = true;
+  extended;
+  constructor() {
+    super();
+    this._options = this._options || defaults2;
+    this.color = this._options.color || defaults2.color;
+  }
+  static \u0275fac = function MatFabAnchor_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatFabAnchor)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatFabAnchor,
+    selectors: [["a", "mat-fab", ""]],
+    hostVars: 19,
+    hostBindings: function MatFabAnchor_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true)("mdc-fab--extended", ctx.extended)("mat-mdc-extended-fab", ctx.extended);
+      }
+    },
+    inputs: {
+      extended: [2, "extended", "extended", booleanAttribute]
+    },
+    exportAs: ["matButton", "matAnchor"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c52,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatFabAnchor_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: [_c72],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatFabAnchor, [{
+    type: Component,
+    args: [{
+      selector: `a[mat-fab]`,
+      host: __spreadProps(__spreadValues({}, MAT_ANCHOR_HOST), {
+        "[class.mdc-fab--extended]": "extended",
+        "[class.mat-mdc-extended-fab]": "extended"
+      }),
+      exportAs: "matButton, matAnchor",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
+    }]
+  }], () => [], {
+    extended: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }]
+  });
+})();
+var MatMiniFabAnchor = class _MatMiniFabAnchor extends MatAnchor {
+  _options = inject(MAT_FAB_DEFAULT_OPTIONS, {
+    optional: true
+  });
+  _isFab = true;
+  constructor() {
+    super();
+    this._options = this._options || defaults2;
+    this.color = this._options.color || defaults2.color;
+  }
+  static \u0275fac = function MatMiniFabAnchor_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatMiniFabAnchor)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatMiniFabAnchor,
+    selectors: [["a", "mat-mini-fab", ""]],
+    hostVars: 15,
+    hostBindings: function MatMiniFabAnchor_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("disabled", ctx._getDisabledAttribute())("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-disabled", ctx._getAriaDisabled());
+        \u0275\u0275classMap(ctx.color ? "mat-" + ctx.color : "");
+        \u0275\u0275classProp("mat-mdc-button-disabled", ctx.disabled)("mat-mdc-button-disabled-interactive", ctx.disabledInteractive)("_mat-animation-noopable", ctx._animationMode === "NoopAnimations")("mat-unthemed", !ctx.color)("mat-mdc-button-base", true);
+      }
+    },
+    exportAs: ["matButton", "matAnchor"],
+    features: [\u0275\u0275InheritDefinitionFeature],
+    attrs: _c62,
+    ngContentSelectors: _c25,
+    decls: 7,
+    vars: 4,
+    consts: [[1, "mat-mdc-button-persistent-ripple"], [1, "mdc-button__label"], [1, "mat-focus-indicator"], [1, "mat-mdc-button-touch-target"]],
+    template: function MatMiniFabAnchor_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c16);
+        \u0275\u0275element(0, "span", 0);
+        \u0275\u0275projection(1);
+        \u0275\u0275elementStart(2, "span", 1);
+        \u0275\u0275projection(3, 1);
+        \u0275\u0275elementEnd();
+        \u0275\u0275projection(4, 2);
+        \u0275\u0275element(5, "span", 2)(6, "span", 3);
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("mdc-button__ripple", !ctx._isFab)("mdc-fab__ripple", ctx._isFab);
+      }
+    },
+    styles: [_c72],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatMiniFabAnchor, [{
+    type: Component,
+    args: [{
+      selector: `a[mat-mini-fab]`,
+      host: MAT_ANCHOR_HOST,
+      exportAs: "matButton, matAnchor",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `<span
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab"
+    [class.mdc-fab__ripple]="_isFab"></span>
+
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+</ng-content>
+
+<span class="mdc-button__label"><ng-content></ng-content></span>
+
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
+</ng-content>
+
+<!--
+  The indicator can't be directly on the button, because MDC uses ::before for high contrast
+  indication and it can't be on the ripple, because it has a border radius and overflow: hidden.
+-->
+<span class="mat-focus-indicator"></span>
+
+<span class="mat-mdc-button-touch-target"></span>
+`,
+      styles: ['.mat-mdc-fab-base{-webkit-user-select:none;user-select:none;position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:56px;height:56px;padding:0;border:none;fill:currentColor;text-decoration:none;cursor:pointer;-moz-appearance:none;-webkit-appearance:none;overflow:visible;transition:box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),opacity 15ms linear 30ms,transform 270ms 0ms cubic-bezier(0, 0, 0.2, 1);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.mat-mdc-fab-base .mat-mdc-button-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple,.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none;border-radius:inherit}.mat-mdc-fab-base .mat-mdc-button-ripple{overflow:hidden}.mat-mdc-fab-base .mat-mdc-button-persistent-ripple::before{content:"";opacity:0}.mat-mdc-fab-base .mdc-button__label,.mat-mdc-fab-base .mat-icon{z-index:1;position:relative}.mat-mdc-fab-base .mat-focus-indicator{top:0;left:0;right:0;bottom:0;position:absolute}.mat-mdc-fab-base:focus>.mat-focus-indicator::before{content:""}.mat-mdc-fab-base._mat-animation-noopable{transition:none !important;animation:none !important}.mat-mdc-fab-base::before{position:absolute;box-sizing:border-box;width:100%;height:100%;top:0;left:0;border:1px solid rgba(0,0,0,0);border-radius:inherit;content:"";pointer-events:none}.mat-mdc-fab-base[hidden]{display:none}.mat-mdc-fab-base::-moz-focus-inner{padding:0;border:0}.mat-mdc-fab-base:active,.mat-mdc-fab-base:focus{outline:none}.mat-mdc-fab-base:hover{cursor:pointer}.mat-mdc-fab-base>svg{width:100%}.mat-mdc-fab-base .mat-icon,.mat-mdc-fab-base .material-icons{transition:transform 180ms 90ms cubic-bezier(0, 0, 0.2, 1);fill:currentColor;will-change:transform}.mat-mdc-fab-base .mat-focus-indicator::before{margin:calc(calc(var(--mat-focus-indicator-border-width, 3px) + 2px)*-1)}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-fab-base[disabled],.mat-mdc-fab-base[disabled]:focus,.mat-mdc-fab-base.mat-mdc-button-disabled,.mat-mdc-fab-base.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-fab-base.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab{background-color:var(--mdc-fab-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-container-shape, var(--mat-sys-corner-large));color:var(--mat-fab-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:hover{box-shadow:var(--mdc-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-fab:focus{box-shadow:var(--mdc-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab:active,.mat-mdc-fab:focus:active{box-shadow:var(--mdc-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-fab[disabled],.mat-mdc-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-touch-target-display, block)}.mat-mdc-fab .mat-ripple-element{background-color:var(--mat-fab-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-disabled-state-layer-color)}.mat-mdc-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-mini-fab{width:40px;height:40px;background-color:var(--mdc-fab-small-container-color, var(--mat-sys-primary-container));border-radius:var(--mdc-fab-small-container-shape, var(--mat-sys-corner-medium));color:var(--mat-fab-small-foreground-color, var(--mat-sys-on-primary-container, inherit));box-shadow:var(--mdc-fab-small-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:hover{box-shadow:var(--mdc-fab-small-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-mini-fab:focus{box-shadow:var(--mdc-fab-small-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab:active,.mat-mdc-mini-fab:focus:active{box-shadow:var(--mdc-fab-small-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-mini-fab[disabled],.mat-mdc-mini-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none;color:var(--mat-fab-small-disabled-state-foreground-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-fab-small-disabled-state-container-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}.mat-mdc-mini-fab .mat-mdc-button-touch-target{position:absolute;top:50%;height:48px;left:50%;width:48px;transform:translate(-50%, -50%);display:var(--mat-fab-small-touch-target-display)}.mat-mdc-mini-fab .mat-ripple-element{background-color:var(--mat-fab-small-ripple-color, color-mix(in srgb, var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent))}.mat-mdc-mini-fab .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-state-layer-color, var(--mat-sys-on-primary-container))}.mat-mdc-mini-fab.mat-mdc-button-disabled .mat-mdc-button-persistent-ripple::before{background-color:var(--mat-fab-small-disabled-state-layer-color)}.mat-mdc-mini-fab:hover>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-mdc-mini-fab.cdk-program-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.cdk-keyboard-focused>.mat-mdc-button-persistent-ripple::before,.mat-mdc-mini-fab.mat-mdc-button-disabled-interactive:focus>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}.mat-mdc-mini-fab:active>.mat-mdc-button-persistent-ripple::before{opacity:var(--mat-fab-small-pressed-state-layer-opacity, var(--mat-sys-pressed-state-layer-opacity))}.mat-mdc-extended-fab{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;border-radius:24px;padding-left:20px;padding-right:20px;width:auto;max-width:100%;line-height:normal;height:var(--mdc-extended-fab-container-height, 56px);border-radius:var(--mdc-extended-fab-container-shape, var(--mat-sys-corner-large));font-family:var(--mdc-extended-fab-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mdc-extended-fab-label-text-size, var(--mat-sys-label-large-size));font-weight:var(--mdc-extended-fab-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mdc-extended-fab-label-text-tracking, var(--mat-sys-label-large-tracking));box-shadow:var(--mdc-extended-fab-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:hover{box-shadow:var(--mdc-extended-fab-hover-container-elevation-shadow, var(--mat-sys-level4))}.mat-mdc-extended-fab:focus{box-shadow:var(--mdc-extended-fab-focus-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab:active,.mat-mdc-extended-fab:focus:active{box-shadow:var(--mdc-extended-fab-pressed-container-elevation-shadow, var(--mat-sys-level3))}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab.mat-mdc-button-disabled{cursor:default;pointer-events:none}.mat-mdc-extended-fab[disabled],.mat-mdc-extended-fab[disabled]:focus,.mat-mdc-extended-fab.mat-mdc-button-disabled,.mat-mdc-extended-fab.mat-mdc-button-disabled:focus{box-shadow:none}.mat-mdc-extended-fab.mat-mdc-button-disabled-interactive{pointer-events:auto}[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-extended-fab .mdc-button__label+.material-icons,.mat-mdc-extended-fab>.mat-icon,.mat-mdc-extended-fab>.material-icons{margin-left:-8px;margin-right:12px}.mat-mdc-extended-fab .mdc-button__label+.mat-icon,.mat-mdc-extended-fab .mdc-button__label+.material-icons,[dir=rtl] .mat-mdc-extended-fab>.mat-icon,[dir=rtl] .mat-mdc-extended-fab>.material-icons{margin-left:12px;margin-right:-8px}.mat-mdc-extended-fab .mat-mdc-button-touch-target{width:100%}\n']
+    }]
+  }], () => [], null);
+})();
+var MatButtonModule = class _MatButtonModule {
+  static \u0275fac = function MatButtonModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatButtonModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatButtonModule,
+    imports: [MatCommonModule, MatRippleModule, MatAnchor, MatButton, MatIconAnchor, MatMiniFabAnchor, MatMiniFabButton, MatIconButton, MatFabAnchor, MatFabButton],
+    exports: [MatAnchor, MatButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton, MatFabAnchor, MatFabButton, MatCommonModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [MatCommonModule, MatRippleModule, MatCommonModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonModule, [{
+    type: NgModule,
+    args: [{
+      imports: [MatCommonModule, MatRippleModule, MatAnchor, MatButton, MatIconAnchor, MatMiniFabAnchor, MatMiniFabButton, MatIconButton, MatFabAnchor, MatFabButton],
+      exports: [MatAnchor, MatButton, MatIconAnchor, MatIconButton, MatMiniFabAnchor, MatMiniFabButton, MatFabAnchor, MatFabButton, MatCommonModule]
+    }]
+  }], null, null);
+})();
+
+// src/app/shared/components/auth/loading-button.component.ts
+var _c09 = ["*"];
+function LoadingButtonComponent_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 2);
+  }
+}
+var LoadingButtonComponent = class _LoadingButtonComponent {
+  constructor() {
+    this.loading = false;
+    this.disabled = false;
+    this.type = "button";
+    this.fullWidth = true;
+  }
+  static {
+    this.\u0275fac = function LoadingButtonComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _LoadingButtonComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LoadingButtonComponent, selectors: [["app-loading-button"]], inputs: { loading: "loading", disabled: "disabled", type: "type", fullWidth: "fullWidth" }, ngContentSelectors: _c09, decls: 3, vars: 5, consts: [["mat-flat-button", "", 1, "loading-button", 3, "disabled", "type"], ["class", "loading-button__spinner", "aria-hidden", "true", 4, "ngIf"], ["aria-hidden", "true", 1, "loading-button__spinner"]], template: function LoadingButtonComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "button", 0);
+        \u0275\u0275template(1, LoadingButtonComponent_span_1_Template, 1, 0, "span", 1);
+        \u0275\u0275projection(2);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275classProp("loading-button--full-width", ctx.fullWidth);
+        \u0275\u0275property("disabled", ctx.disabled || ctx.loading)("type", ctx.type);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.loading);
+      }
+    }, dependencies: [MatButtonModule, MatButton, NgIf], styles: ["\n\n.loading-button[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 10px;\n  min-height: var(--app-control-height);\n  border-radius: 14px;\n  font-weight: 700;\n  letter-spacing: 0.01em;\n  transition:\n    transform var(--app-transition),\n    box-shadow var(--app-transition),\n    background-color var(--app-transition);\n}\n.loading-button[_ngcontent-%COMP%]:hover:not(:disabled) {\n  transform: translateY(-1px);\n}\n.loading-button[_ngcontent-%COMP%]:disabled {\n  opacity: 0.72;\n}\n.loading-button--full-width[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.loading-button__spinner[_ngcontent-%COMP%] {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  border: 2px solid rgba(255, 255, 255, 0.35);\n  border-top-color: white;\n  animation: _ngcontent-%COMP%_loading-button-spin 0.8s linear infinite;\n}\n@keyframes _ngcontent-%COMP%_loading-button-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n/*# sourceMappingURL=loading-button.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LoadingButtonComponent, [{
+    type: Component,
+    args: [{ selector: "app-loading-button", standalone: true, imports: [MatButtonModule, NgIf], template: '<button\n  mat-flat-button\n  class="loading-button"\n  [class.loading-button--full-width]="fullWidth"\n  [disabled]="disabled || loading"\n  [type]="type"\n>\n  <span *ngIf="loading" class="loading-button__spinner" aria-hidden="true"></span>\n  <ng-content />\n</button>', styles: ["/* src/app/shared/components/auth/loading-button.component.scss */\n.loading-button {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 10px;\n  min-height: var(--app-control-height);\n  border-radius: 14px;\n  font-weight: 700;\n  letter-spacing: 0.01em;\n  transition:\n    transform var(--app-transition),\n    box-shadow var(--app-transition),\n    background-color var(--app-transition);\n}\n.loading-button:hover:not(:disabled) {\n  transform: translateY(-1px);\n}\n.loading-button:disabled {\n  opacity: 0.72;\n}\n.loading-button--full-width {\n  width: 100%;\n}\n.loading-button__spinner {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  border: 2px solid rgba(255, 255, 255, 0.35);\n  border-top-color: white;\n  animation: loading-button-spin 0.8s linear infinite;\n}\n@keyframes loading-button-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n/*# sourceMappingURL=loading-button.component.css.map */\n"] }]
+  }], null, { loading: [{
+    type: Input
+  }], disabled: [{
+    type: Input
+  }], type: [{
+    type: Input
+  }], fullWidth: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoadingButtonComponent, { className: "LoadingButtonComponent", filePath: "src/app/shared/components/auth/loading-button.component.ts", lineNumber: 12 });
+})();
+
+// src/app/shared/components/auth/password-input.component.ts
+function PasswordInputComponent_mat_icon_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-icon", 5);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r0.error);
+    \u0275\u0275textInterpolate(ctx_r0.icon);
+  }
+}
+function PasswordInputComponent_mat_hint_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-hint");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.hint);
+  }
+}
+function PasswordInputComponent_mat_error_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1("", ctx_r0.label, " \xE9 obrigat\xF3rio");
+  }
+}
+function PasswordInputComponent_mat_error_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1("", ctx_r0.label, " demasiado curta");
+  }
+}
+function PasswordInputComponent_mat_error_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "A password n\xE3o cumpre os requisitos m\xEDnimos");
+    \u0275\u0275elementEnd();
+  }
+}
+function PasswordInputComponent_mat_error_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Os valores n\xE3o coincidem");
+    \u0275\u0275elementEnd();
+  }
+}
+var PasswordInputComponent = class _PasswordInputComponent {
+  constructor() {
+    this.control = null;
+    this.label = "Password";
+    this.placeholder = "";
+    this.autocomplete = "current-password";
+    this.hint = "";
+    this.showRequirements = false;
+    this.icon = "";
+    this.visible = false;
+  }
+  toggleVisibility() {
+    this.visible = !this.visible;
+  }
+  hasError(error) {
+    return Boolean(this.control?.invalid && (this.control?.dirty || this.control?.touched) && this.control?.hasError(error));
+  }
+  static {
+    this.\u0275fac = function PasswordInputComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _PasswordInputComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _PasswordInputComponent, selectors: [["app-password-input"]], inputs: { control: "control", label: "label", placeholder: "placeholder", autocomplete: "autocomplete", hint: "hint", showRequirements: "showRequirements", icon: "icon" }, decls: 13, vars: 12, consts: [["appearance", "outline"], ["matPrefix", "", 4, "ngIf"], ["matInput", "", 3, "type", "placeholder", "autocomplete", "formControl"], ["mat-button", "", "matSuffix", "", "type", "button", 3, "click"], [4, "ngIf"], ["matPrefix", ""]], template: function PasswordInputComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "mat-form-field", 0)(1, "mat-label");
+        \u0275\u0275text(2);
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(3, PasswordInputComponent_mat_icon_3_Template, 2, 1, "mat-icon", 1);
+        \u0275\u0275element(4, "input", 2);
+        \u0275\u0275elementStart(5, "button", 3);
+        \u0275\u0275listener("click", function PasswordInputComponent_Template_button_click_5_listener() {
+          return ctx.toggleVisibility();
+        });
+        \u0275\u0275elementStart(6, "mat-icon");
+        \u0275\u0275text(7);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(8, PasswordInputComponent_mat_hint_8_Template, 2, 1, "mat-hint", 4)(9, PasswordInputComponent_mat_error_9_Template, 2, 1, "mat-error", 4)(10, PasswordInputComponent_mat_error_10_Template, 2, 1, "mat-error", 4)(11, PasswordInputComponent_mat_error_11_Template, 2, 0, "mat-error", 4)(12, PasswordInputComponent_mat_error_12_Template, 2, 0, "mat-error", 4);
+        \u0275\u0275elementEnd();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.label);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.icon);
+        \u0275\u0275advance();
+        \u0275\u0275property("type", ctx.visible ? "text" : "password")("placeholder", ctx.placeholder)("autocomplete", ctx.autocomplete)("formControl", ctx.control);
+        \u0275\u0275advance(3);
+        \u0275\u0275textInterpolate(ctx.visible ? "visibility_off" : "visibility");
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.hint);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.hasError("required"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.hasError("minlength"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.hasError("strongPassword"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.hasError("fieldsMismatch"));
+      }
+    }, dependencies: [MatButtonModule, MatButton, MatFormFieldModule, MatFormField, MatLabel, MatHint, MatError, MatPrefix, MatSuffix, MatInputModule, MatInput, MatIconModule, MatIcon, NgIf, ReactiveFormsModule, DefaultValueAccessor, NgControlStatus, FormControlDirective], styles: ["\n\nmat-form-field[_ngcontent-%COMP%] {\n  width: 100%;\n}\nmat-form-field[_ngcontent-%COMP%]   .mat-mdc-input-element[_ngcontent-%COMP%] {\n  caret-color: var(--app-primary);\n}\nmat-form-field[_ngcontent-%COMP%]   .mdc-text-field[_ngcontent-%COMP%] {\n  border-radius: 14px;\n}\nmat-form-field[_ngcontent-%COMP%]   .mdc-text-field--outlined[_ngcontent-%COMP%] {\n  min-height: var(--app-control-height);\n}\nbutton[matSuffix][_ngcontent-%COMP%] {\n  margin-right: -8px;\n  color: var(--app-muted);\n  font-weight: 600;\n  transition: color var(--app-transition);\n}\nbutton[matSuffix][_ngcontent-%COMP%]:hover {\n  color: var(--app-text);\n}\n/*# sourceMappingURL=password-input.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PasswordInputComponent, [{
+    type: Component,
+    args: [{ selector: "app-password-input", standalone: true, imports: [MatButtonModule, MatFormFieldModule, MatInputModule, MatIconModule, NgIf, ReactiveFormsModule], template: `<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <mat-icon *ngIf="icon" matPrefix>{{ icon }}</mat-icon>
+  <input
+    matInput
+    [type]="visible ? 'text' : 'password'"
+    [placeholder]="placeholder"
+    [autocomplete]="autocomplete"
+    [formControl]="$any(control)"
+  />
+  <button mat-button matSuffix type="button" (click)="toggleVisibility()">
+    <mat-icon>{{ visible ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-error *ngIf="hasError('required')">{{ label }} \xE9 obrigat\xF3rio</mat-error>
+  <mat-error *ngIf="hasError('minlength')">{{ label }} demasiado curta</mat-error>
+  <mat-error *ngIf="hasError('strongPassword')">A password n\xE3o cumpre os requisitos m\xEDnimos</mat-error>
+  <mat-error *ngIf="hasError('fieldsMismatch')">Os valores n\xE3o coincidem</mat-error>
+</mat-form-field>`, styles: ["/* src/app/shared/components/auth/password-input.component.scss */\nmat-form-field {\n  width: 100%;\n}\nmat-form-field .mat-mdc-input-element {\n  caret-color: var(--app-primary);\n}\nmat-form-field .mdc-text-field {\n  border-radius: 14px;\n}\nmat-form-field .mdc-text-field--outlined {\n  min-height: var(--app-control-height);\n}\nbutton[matSuffix] {\n  margin-right: -8px;\n  color: var(--app-muted);\n  font-weight: 600;\n  transition: color var(--app-transition);\n}\nbutton[matSuffix]:hover {\n  color: var(--app-text);\n}\n/*# sourceMappingURL=password-input.component.css.map */\n"] }]
+  }], null, { control: [{
+    type: Input
+  }], label: [{
+    type: Input
+  }], placeholder: [{
+    type: Input
+  }], autocomplete: [{
+    type: Input
+  }], hint: [{
+    type: Input
+  }], showRequirements: [{
+    type: Input
+  }], icon: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PasswordInputComponent, { className: "PasswordInputComponent", filePath: "src/app/shared/components/auth/password-input.component.ts", lineNumber: 16 });
+})();
+
+// src/app/pages/auth/login/login.page.ts
+function LoginPage_mat_error_37_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email \xE9 obrigat\xF3rio");
+    \u0275\u0275elementEnd();
+  }
+}
+function LoginPage_mat_error_38_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email inv\xE1lido");
+    \u0275\u0275elementEnd();
+  }
+}
+function LoginPage_span_53_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const point_r1 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(point_r1.title);
   }
 }
 var LoginPage = class _LoginPage {
-  constructor(fb, auth, router) {
+  constructor(fb, auth, router, route) {
     this.fb = fb;
     this.auth = auth;
     this.router = router;
-    this.form = this.fb.group({
+    this.route = route;
+    this.form = this.fb.nonNullable.group({
       email: ["admin@caronaao.local", [Validators.required, Validators.email]],
-      password: ["123456", [Validators.required, Validators.minLength(6)]]
+      password: ["123456", [Validators.required, Validators.minLength(6)]],
+      rememberSession: [true]
     });
     this.loading = false;
     this.error = "";
+    this.successMessage = "";
+    this.points = [
+      { title: "R\xE1pido", description: "Entre e continue a sua viagem sem complica\xE7\xE3o." },
+      { title: "Seguro", description: "A sua conta fica protegida durante a sess\xE3o." },
+      { title: "Simples", description: "Mensagens claras para saber sempre o que fazer." }
+    ];
+  }
+  ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigateByUrl(this.route.snapshot.queryParamMap.get("returnUrl") ?? this.auth.getDashboardUrl());
+      return;
+    }
+    if (this.route.snapshot.queryParamMap.get("registered") === "1") {
+      this.successMessage = "Conta criada. Entre para come\xE7ar a usar o Carona.AO.";
+    }
+    if (this.route.snapshot.queryParamMap.get("reset") === "1") {
+      this.successMessage = "Senha alterada. J\xE1 pode entrar com a nova senha.";
+    }
   }
   submit() {
     if (this.form.invalid || this.loading) {
@@ -57774,241 +59976,4312 @@ var LoginPage = class _LoginPage {
     }
     this.loading = true;
     this.error = "";
-    const { email, password } = this.form.getRawValue();
-    this.auth.login(email ?? "", password ?? "").subscribe({
+    const { email, password, rememberSession } = this.form.getRawValue();
+    this.auth.login(email, password, Boolean(rememberSession)).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigateByUrl("/dashboard");
+        this.router.navigateByUrl(this.route.snapshot.queryParamMap.get("returnUrl") ?? this.auth.getDashboardUrl());
       },
       error: (response) => {
         this.loading = false;
-        this.error = response?.error?.error ?? "Falha ao autenticar";
+        this.error = userFeedback(response, "N\xE3o conseguimos entrar na sua conta agora. Tente novamente.");
       }
     });
   }
   static {
     this.\u0275fac = function LoginPage_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _LoginPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
+      return new (__ngFactoryType__ || _LoginPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute));
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LoginPage, selectors: [["app-login-page"]], decls: 22, vars: 4, consts: [[1, "auth"], [1, "auth__card"], [1, "auth__eyebrow"], [1, "auth__text"], [1, "auth__form", 3, "ngSubmit", "formGroup"], ["matInput", "", "type", "email", "formControlName", "email", "placeholder", "admin@caronaao.local"], ["matInput", "", "type", "password", "formControlName", "password", "placeholder", "123456"], ["class", "auth__error", 4, "ngIf"], ["mat-flat-button", "", "color", "primary", "type", "submit", 3, "disabled"], ["routerLink", "/", 1, "auth__link"], [1, "auth__error"]], template: function LoginPage_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LoginPage, selectors: [["app-login-page"]], decls: 54, vars: 11, consts: [[1, "login-page"], [1, "login-page__backdrop"], [1, "login-page__orb", "login-page__orb--one"], [1, "login-page__orb", "login-page__orb--two"], [1, "login-page__content"], [1, "login-page__brand"], [1, "login-page__brand-mark"], [1, "login-card__top"], [1, "login-card__eyebrow"], [1, "login-card__description"], [1, "login-card__demo"], [1, "login-card__demo-label"], ["type", "success", 3, "message"], ["type", "error", 3, "message"], [1, "login-form", 3, "ngSubmit", "formGroup"], ["appearance", "outline"], ["matPrefix", ""], ["matInput", "", "type", "email", "formControlName", "email", "placeholder", "admin@caronaao.local"], [4, "ngIf"], ["label", "Senha", "placeholder", "Digite a sua senha", "autocomplete", "current-password", 3, "control", "icon"], [1, "login-form__row"], ["formControlName", "rememberSession"], ["routerLink", "/forgot-password"], ["type", "submit", 3, "loading", "disabled"], [1, "login-card__footer"], ["routerLink", "/register"], [1, "login-card__chips"], [4, "ngFor", "ngForOf"]], template: function LoginPage_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "section", 0)(1, "mat-card", 1)(2, "p", 2);
-        \u0275\u0275text(3, "Acesso seguro");
+        \u0275\u0275elementStart(0, "section", 0);
+        \u0275\u0275element(1, "div", 1)(2, "div", 2)(3, "div", 3);
+        \u0275\u0275elementStart(4, "div", 4)(5, "div", 5)(6, "div", 6);
+        \u0275\u0275text(7, "C");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(4, "h2");
-        \u0275\u0275text(5, "Entrar no Carona.AO");
+        \u0275\u0275elementStart(8, "div")(9, "p");
+        \u0275\u0275text(10, "Carona.AO");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(6, "p", 3);
-        \u0275\u0275text(7, "Use as credenciais de demonstra\xE7\xE3o para validar o fluxo do backend.");
+        \u0275\u0275elementStart(11, "span");
+        \u0275\u0275text(12, "Mobilidade inteligente para Angola");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(13, "app-auth-card")(14, "div", 7)(15, "p", 8);
+        \u0275\u0275text(16, "Acesso seguro");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(8, "form", 4);
-        \u0275\u0275listener("ngSubmit", function LoginPage_Template_form_ngSubmit_8_listener() {
+        \u0275\u0275elementStart(17, "h1");
+        \u0275\u0275text(18, "Entre na sua conta");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(19, "p", 9);
+        \u0275\u0275text(20, " Acompanhe viagens, reservas e ganhos num ambiente simples e seguro. ");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(21, "div", 10)(22, "span", 11);
+        \u0275\u0275text(23, "Credenciais de teste");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(24, "strong");
+        \u0275\u0275text(25, "admin@caronaao.local");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(26, "span");
+        \u0275\u0275text(27, "Senha: 123456");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(28, "app-alert-message", 12)(29, "app-alert-message", 13);
+        \u0275\u0275elementStart(30, "form", 14);
+        \u0275\u0275listener("ngSubmit", function LoginPage_Template_form_ngSubmit_30_listener() {
           return ctx.submit();
         });
-        \u0275\u0275elementStart(9, "mat-form-field")(10, "mat-label");
-        \u0275\u0275text(11, "Email");
+        \u0275\u0275elementStart(31, "mat-form-field", 15)(32, "mat-label");
+        \u0275\u0275text(33, "Email");
         \u0275\u0275elementEnd();
-        \u0275\u0275element(12, "input", 5);
+        \u0275\u0275elementStart(34, "mat-icon", 16);
+        \u0275\u0275text(35, "mail_outline");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(13, "mat-form-field")(14, "mat-label");
-        \u0275\u0275text(15, "Password");
+        \u0275\u0275element(36, "input", 17);
+        \u0275\u0275template(37, LoginPage_mat_error_37_Template, 2, 0, "mat-error", 18)(38, LoginPage_mat_error_38_Template, 2, 0, "mat-error", 18);
         \u0275\u0275elementEnd();
-        \u0275\u0275element(16, "input", 6);
+        \u0275\u0275element(39, "app-password-input", 19);
+        \u0275\u0275elementStart(40, "div", 20)(41, "mat-checkbox", 21);
+        \u0275\u0275text(42, "Lembrar sess\xE3o");
         \u0275\u0275elementEnd();
-        \u0275\u0275template(17, LoginPage_p_17_Template, 2, 1, "p", 7);
-        \u0275\u0275elementStart(18, "button", 8);
-        \u0275\u0275text(19);
+        \u0275\u0275elementStart(43, "a", 22);
+        \u0275\u0275text(44, "Esqueceu a senha?");
         \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(20, "a", 9);
-        \u0275\u0275text(21, "Voltar para a home");
-        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(45, "app-loading-button", 23);
+        \u0275\u0275text(46);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(47, "div", 24)(48, "span");
+        \u0275\u0275text(49, "N\xE3o tem conta?");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(50, "a", 25);
+        \u0275\u0275text(51, "Criar conta");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(52, "div", 26);
+        \u0275\u0275template(53, LoginPage_span_53_Template, 2, 1, "span", 27);
+        \u0275\u0275elementEnd()()()();
       }
       if (rf & 2) {
-        \u0275\u0275advance(8);
-        \u0275\u0275property("formGroup", ctx.form);
-        \u0275\u0275advance(9);
-        \u0275\u0275property("ngIf", ctx.error);
+        \u0275\u0275advance(28);
+        \u0275\u0275property("message", ctx.successMessage);
         \u0275\u0275advance();
-        \u0275\u0275property("disabled", ctx.loading);
+        \u0275\u0275property("message", ctx.error);
+        \u0275\u0275advance();
+        \u0275\u0275property("formGroup", ctx.form);
+        \u0275\u0275advance(7);
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("required"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("email"));
+        \u0275\u0275advance();
+        \u0275\u0275property("control", ctx.form.controls.password)("icon", "lock_outline");
+        \u0275\u0275advance(6);
+        \u0275\u0275property("loading", ctx.loading)("disabled", ctx.form.invalid);
         \u0275\u0275advance();
         \u0275\u0275textInterpolate1(" ", ctx.loading ? "A entrar..." : "Entrar", " ");
+        \u0275\u0275advance(7);
+        \u0275\u0275property("ngForOf", ctx.points);
       }
-    }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RouterLink, NgIf, MatButtonModule, MatButton, MatCardModule, MatCard, MatFormFieldModule, MatFormField, MatLabel, MatInputModule, MatInput], styles: ["\n\n.auth[_ngcontent-%COMP%] {\n  min-height: calc(100vh - 48px);\n  display: grid;\n  place-items: center;\n  padding: 24px;\n}\n.auth__card[_ngcontent-%COMP%] {\n  width: min(560px, 100%);\n  padding: 32px;\n  border-radius: var(--app-radius);\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.88);\n  backdrop-filter: blur(18px);\n}\n.auth__eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 34px;\n}\n.auth__text[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n.auth__form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 16px;\n  margin: 24px 0;\n}\n.auth__form[_ngcontent-%COMP%]   mat-form-field[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.auth__error[_ngcontent-%COMP%] {\n  margin: 0;\n  color: #fca5a5;\n}\n.auth__link[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n/*# sourceMappingURL=login.page.css.map */"] });
+    }, dependencies: [
+      ReactiveFormsModule,
+      \u0275NgNoValidate,
+      DefaultValueAccessor,
+      NgControlStatus,
+      NgControlStatusGroup,
+      FormGroupDirective,
+      FormControlName,
+      RouterLink,
+      NgForOf,
+      NgIf,
+      MatCheckboxModule,
+      MatCheckbox,
+      MatFormFieldModule,
+      MatFormField,
+      MatLabel,
+      MatError,
+      MatPrefix,
+      MatIconModule,
+      MatIcon,
+      MatInputModule,
+      MatInput,
+      AuthCardComponent,
+      AlertMessageComponent,
+      PasswordInputComponent,
+      LoadingButtonComponent
+    ], styles: ["\n\n.login-page[_ngcontent-%COMP%] {\n  position: relative;\n  min-height: 100vh;\n  display: grid;\n  place-items: center;\n  padding: 24px;\n  overflow: hidden;\n}\n.login-page__backdrop[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  background:\n    radial-gradient(\n      circle at top left,\n      rgba(37, 99, 235, 0.12),\n      transparent 24%),\n    radial-gradient(\n      circle at bottom right,\n      rgba(16, 185, 129, 0.1),\n      transparent 20%);\n}\n.login-page__orb[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 999px;\n  filter: blur(2px);\n  opacity: 0.7;\n}\n.login-page__orb--one[_ngcontent-%COMP%] {\n  top: 10%;\n  right: 12%;\n  width: 120px;\n  height: 120px;\n  border: 1px solid rgba(92, 204, 255, 0.32);\n  background: rgba(92, 204, 255, 0.04);\n}\n.login-page__orb--two[_ngcontent-%COMP%] {\n  bottom: 8%;\n  left: 8%;\n  width: 160px;\n  height: 160px;\n  background: rgba(37, 99, 235, 0.06);\n}\n.login-page__content[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n  width: min(100%, 480px);\n  display: grid;\n  gap: 18px;\n}\n.login-page__brand[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n  justify-content: center;\n}\n.login-page__brand-mark[_ngcontent-%COMP%] {\n  width: 44px;\n  height: 44px;\n  border-radius: 14px;\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  color: white;\n  font-weight: 800;\n  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);\n}\n.login-page__brand[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.login-page__brand[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 0;\n}\n.login-page__brand[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 14px;\n  font-weight: 800;\n  letter-spacing: 0.04em;\n}\n.login-page__brand[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.login-card__top[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 8px;\n  margin-bottom: 18px;\n  text-align: left;\n}\n.login-card__eyebrow[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  font-size: 11px;\n}\n.login-card__top[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: clamp(28px, 5vw, 36px);\n  line-height: 1.05;\n}\n.login-card__description[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-muted);\n  line-height: 1.65;\n}\n.login-card__demo[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 4px;\n  margin: 18px 0;\n  padding: 14px 16px;\n  border-radius: 16px;\n  background: rgba(37, 99, 235, 0.08);\n  border: 1px solid rgba(37, 99, 235, 0.16);\n}\n.login-card__demo-label[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 11px;\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n}\n.login-card__demo[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 15px;\n}\n.login-card__demo[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:last-child {\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.login-form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 14px;\n}\n.login-form[_ngcontent-%COMP%]   mat-form-field[_ngcontent-%COMP%] {\n  margin-bottom: 0;\n}\n.login-form__row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  flex-wrap: wrap;\n  color: var(--app-muted);\n}\n.login-form__row[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.login-card__footer[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--app-text);\n  font-weight: 600;\n}\n.login-card__footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n  margin-top: 18px;\n  color: var(--app-muted);\n}\n.login-card__chips[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n  margin-top: 16px;\n}\n.login-card__chips[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  padding: 7px 10px;\n  border-radius: 999px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  font-size: 12px;\n}\n@media (max-width: 640px) {\n  .login-page[_ngcontent-%COMP%] {\n    padding: 16px;\n  }\n  .login-page__content[_ngcontent-%COMP%] {\n    width: 100%;\n  }\n  .login-form__row[_ngcontent-%COMP%] {\n    align-items: flex-start;\n    flex-direction: column;\n  }\n}\n/*# sourceMappingURL=login.page.css.map */"] });
   }
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LoginPage, [{
     type: Component,
-    args: [{ selector: "app-login-page", standalone: true, imports: [ReactiveFormsModule, RouterLink, NgIf, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule], template: `<section class="auth">\r
-  <mat-card class="auth__card">\r
-    <p class="auth__eyebrow">Acesso seguro</p>\r
-    <h2>Entrar no Carona.AO</h2>\r
-    <p class="auth__text">Use as credenciais de demonstra\xE7\xE3o para validar o fluxo do backend.</p>\r
-\r
-    <form class="auth__form" [formGroup]="form" (ngSubmit)="submit()">\r
-      <mat-form-field>\r
-        <mat-label>Email</mat-label>\r
-        <input matInput type="email" formControlName="email" placeholder="admin@caronaao.local">\r
-      </mat-form-field>\r
-\r
-      <mat-form-field>\r
-        <mat-label>Password</mat-label>\r
-        <input matInput type="password" formControlName="password" placeholder="123456">\r
-      </mat-form-field>\r
-\r
-      <p class="auth__error" *ngIf="error">{{ error }}</p>\r
-\r
-      <button mat-flat-button color="primary" type="submit" [disabled]="loading">\r
-        {{ loading ? 'A entrar...' : 'Entrar' }}\r
-      </button>\r
-    </form>\r
-\r
-    <a routerLink="/" class="auth__link">Voltar para a home</a>\r
-  </mat-card>\r
-</section>\r
-`, styles: ["/* src/app/pages/login/login.page.scss */\n.auth {\n  min-height: calc(100vh - 48px);\n  display: grid;\n  place-items: center;\n  padding: 24px;\n}\n.auth__card {\n  width: min(560px, 100%);\n  padding: 32px;\n  border-radius: var(--app-radius);\n  border: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.88);\n  backdrop-filter: blur(18px);\n}\n.auth__eyebrow {\n  margin: 0 0 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth h2 {\n  margin: 0;\n  font-size: 34px;\n}\n.auth__text {\n  color: var(--app-muted);\n}\n.auth__form {\n  display: grid;\n  gap: 16px;\n  margin: 24px 0;\n}\n.auth__form mat-form-field {\n  width: 100%;\n}\n.auth__error {\n  margin: 0;\n  color: #fca5a5;\n}\n.auth__link {\n  color: var(--app-muted);\n}\n/*# sourceMappingURL=login.page.css.map */\n"] }]
-  }], () => [{ type: FormBuilder }, { type: AuthService }, { type: Router }], null);
+    args: [{ selector: "app-login-page", standalone: true, imports: [
+      ReactiveFormsModule,
+      RouterLink,
+      NgForOf,
+      NgIf,
+      MatCheckboxModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatInputModule,
+      AuthCardComponent,
+      AlertMessageComponent,
+      PasswordInputComponent,
+      LoadingButtonComponent
+    ], template: `<section class="login-page">
+  <div class="login-page__backdrop"></div>
+  <div class="login-page__orb login-page__orb--one"></div>
+  <div class="login-page__orb login-page__orb--two"></div>
+
+  <div class="login-page__content">
+    <div class="login-page__brand">
+      <div class="login-page__brand-mark">C</div>
+      <div>
+        <p>Carona.AO</p>
+        <span>Mobilidade inteligente para Angola</span>
+      </div>
+    </div>
+
+    <app-auth-card>
+      <div class="login-card__top">
+        <p class="login-card__eyebrow">Acesso seguro</p>
+        <h1>Entre na sua conta</h1>
+        <p class="login-card__description">
+          Acompanhe viagens, reservas e ganhos num ambiente simples e seguro.
+        </p>
+      </div>
+
+      <div class="login-card__demo">
+        <span class="login-card__demo-label">Credenciais de teste</span>
+        <strong>admin&#64;caronaao.local</strong>
+        <span>Senha: 123456</span>
+      </div>
+
+      <app-alert-message type="success" [message]="successMessage"></app-alert-message>
+      <app-alert-message type="error" [message]="error"></app-alert-message>
+
+      <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>mail_outline</mat-icon>
+          <input matInput type="email" formControlName="email" placeholder="admin@caronaao.local" />
+          <mat-error *ngIf="form.controls.email.hasError('required')">Email \xE9 obrigat\xF3rio</mat-error>
+          <mat-error *ngIf="form.controls.email.hasError('email')">Email inv\xE1lido</mat-error>
+        </mat-form-field>
+
+        <app-password-input
+          [control]="form.controls.password"
+          [icon]="'lock_outline'"
+          label="Senha"
+          placeholder="Digite a sua senha"
+          autocomplete="current-password"
+        />
+
+        <div class="login-form__row">
+          <mat-checkbox formControlName="rememberSession">Lembrar sess\xE3o</mat-checkbox>
+          <a routerLink="/forgot-password">Esqueceu a senha?</a>
+        </div>
+
+        <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+          {{ loading ? 'A entrar...' : 'Entrar' }}
+        </app-loading-button>
+      </form>
+
+      <div class="login-card__footer">
+        <span>N\xE3o tem conta?</span>
+        <a routerLink="/register">Criar conta</a>
+      </div>
+
+      <div class="login-card__chips">
+        <span *ngFor="let point of points">{{ point.title }}</span>
+      </div>
+    </app-auth-card>
+  </div>
+</section>
+`, styles: ["/* src/app/pages/auth/login/login.page.scss */\n.login-page {\n  position: relative;\n  min-height: 100vh;\n  display: grid;\n  place-items: center;\n  padding: 24px;\n  overflow: hidden;\n}\n.login-page__backdrop {\n  position: absolute;\n  inset: 0;\n  background:\n    radial-gradient(\n      circle at top left,\n      rgba(37, 99, 235, 0.12),\n      transparent 24%),\n    radial-gradient(\n      circle at bottom right,\n      rgba(16, 185, 129, 0.1),\n      transparent 20%);\n}\n.login-page__orb {\n  position: absolute;\n  border-radius: 999px;\n  filter: blur(2px);\n  opacity: 0.7;\n}\n.login-page__orb--one {\n  top: 10%;\n  right: 12%;\n  width: 120px;\n  height: 120px;\n  border: 1px solid rgba(92, 204, 255, 0.32);\n  background: rgba(92, 204, 255, 0.04);\n}\n.login-page__orb--two {\n  bottom: 8%;\n  left: 8%;\n  width: 160px;\n  height: 160px;\n  background: rgba(37, 99, 235, 0.06);\n}\n.login-page__content {\n  position: relative;\n  z-index: 1;\n  width: min(100%, 480px);\n  display: grid;\n  gap: 18px;\n}\n.login-page__brand {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n  justify-content: center;\n}\n.login-page__brand-mark {\n  width: 44px;\n  height: 44px;\n  border-radius: 14px;\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  color: white;\n  font-weight: 800;\n  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);\n}\n.login-page__brand p,\n.login-page__brand span {\n  margin: 0;\n}\n.login-page__brand p {\n  font-size: 14px;\n  font-weight: 800;\n  letter-spacing: 0.04em;\n}\n.login-page__brand span {\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.login-card__top {\n  display: grid;\n  gap: 8px;\n  margin-bottom: 18px;\n  text-align: left;\n}\n.login-card__eyebrow {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  font-size: 11px;\n}\n.login-card__top h1 {\n  margin: 0;\n  font-size: clamp(28px, 5vw, 36px);\n  line-height: 1.05;\n}\n.login-card__description {\n  margin: 0;\n  color: var(--app-muted);\n  line-height: 1.65;\n}\n.login-card__demo {\n  display: grid;\n  gap: 4px;\n  margin: 18px 0;\n  padding: 14px 16px;\n  border-radius: 16px;\n  background: rgba(37, 99, 235, 0.08);\n  border: 1px solid rgba(37, 99, 235, 0.16);\n}\n.login-card__demo-label {\n  color: var(--app-muted);\n  font-size: 11px;\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n}\n.login-card__demo strong {\n  font-size: 15px;\n}\n.login-card__demo span:last-child {\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.login-form {\n  display: grid;\n  gap: 14px;\n}\n.login-form mat-form-field {\n  margin-bottom: 0;\n}\n.login-form__row {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  flex-wrap: wrap;\n  color: var(--app-muted);\n}\n.login-form__row a,\n.login-card__footer a {\n  color: var(--app-text);\n  font-weight: 600;\n}\n.login-card__footer {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n  margin-top: 18px;\n  color: var(--app-muted);\n}\n.login-card__chips {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n  margin-top: 16px;\n}\n.login-card__chips span {\n  padding: 7px 10px;\n  border-radius: 999px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  font-size: 12px;\n}\n@media (max-width: 640px) {\n  .login-page {\n    padding: 16px;\n  }\n  .login-page__content {\n    width: 100%;\n  }\n  .login-form__row {\n    align-items: flex-start;\n    flex-direction: column;\n  }\n}\n/*# sourceMappingURL=login.page.css.map */\n"] }]
+  }], () => [{ type: FormBuilder }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginPage, { className: "LoginPage", filePath: "src/app/pages/login/login.page.ts", lineNumber: 19 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginPage, { className: "LoginPage", filePath: "src/app/pages/auth/login/login.page.ts", lineNumber: 37 });
 })();
 
-// src/app/shared/components/navbar.component.ts
-var NavbarComponent = class _NavbarComponent {
+// node_modules/@angular/cdk/fesm2022/selection-model-CeeHVIcP.mjs
+var SelectionModel = class {
+  _multiple;
+  _emitChanges;
+  compareWith;
+  /** Currently-selected values. */
+  _selection = /* @__PURE__ */ new Set();
+  /** Keeps track of the deselected options that haven't been emitted by the change event. */
+  _deselectedToEmit = [];
+  /** Keeps track of the selected options that haven't been emitted by the change event. */
+  _selectedToEmit = [];
+  /** Cache for the array value of the selected items. */
+  _selected;
+  /** Selected values. */
+  get selected() {
+    if (!this._selected) {
+      this._selected = Array.from(this._selection.values());
+    }
+    return this._selected;
+  }
+  /** Event emitted when the value has changed. */
+  changed = new Subject();
+  constructor(_multiple = false, initiallySelectedValues, _emitChanges = true, compareWith) {
+    this._multiple = _multiple;
+    this._emitChanges = _emitChanges;
+    this.compareWith = compareWith;
+    if (initiallySelectedValues && initiallySelectedValues.length) {
+      if (_multiple) {
+        initiallySelectedValues.forEach((value) => this._markSelected(value));
+      } else {
+        this._markSelected(initiallySelectedValues[0]);
+      }
+      this._selectedToEmit.length = 0;
+    }
+  }
+  /**
+   * Selects a value or an array of values.
+   * @param values The values to select
+   * @return Whether the selection changed as a result of this call
+   * @breaking-change 16.0.0 make return type boolean
+   */
+  select(...values) {
+    this._verifyValueAssignment(values);
+    values.forEach((value) => this._markSelected(value));
+    const changed = this._hasQueuedChanges();
+    this._emitChangeEvent();
+    return changed;
+  }
+  /**
+   * Deselects a value or an array of values.
+   * @param values The values to deselect
+   * @return Whether the selection changed as a result of this call
+   * @breaking-change 16.0.0 make return type boolean
+   */
+  deselect(...values) {
+    this._verifyValueAssignment(values);
+    values.forEach((value) => this._unmarkSelected(value));
+    const changed = this._hasQueuedChanges();
+    this._emitChangeEvent();
+    return changed;
+  }
+  /**
+   * Sets the selected values
+   * @param values The new selected values
+   * @return Whether the selection changed as a result of this call
+   * @breaking-change 16.0.0 make return type boolean
+   */
+  setSelection(...values) {
+    this._verifyValueAssignment(values);
+    const oldValues = this.selected;
+    const newSelectedSet = new Set(values.map((value) => this._getConcreteValue(value)));
+    values.forEach((value) => this._markSelected(value));
+    oldValues.filter((value) => !newSelectedSet.has(this._getConcreteValue(value, newSelectedSet))).forEach((value) => this._unmarkSelected(value));
+    const changed = this._hasQueuedChanges();
+    this._emitChangeEvent();
+    return changed;
+  }
+  /**
+   * Toggles a value between selected and deselected.
+   * @param value The value to toggle
+   * @return Whether the selection changed as a result of this call
+   * @breaking-change 16.0.0 make return type boolean
+   */
+  toggle(value) {
+    return this.isSelected(value) ? this.deselect(value) : this.select(value);
+  }
+  /**
+   * Clears all of the selected values.
+   * @param flushEvent Whether to flush the changes in an event.
+   *   If false, the changes to the selection will be flushed along with the next event.
+   * @return Whether the selection changed as a result of this call
+   * @breaking-change 16.0.0 make return type boolean
+   */
+  clear(flushEvent = true) {
+    this._unmarkAll();
+    const changed = this._hasQueuedChanges();
+    if (flushEvent) {
+      this._emitChangeEvent();
+    }
+    return changed;
+  }
+  /**
+   * Determines whether a value is selected.
+   */
+  isSelected(value) {
+    return this._selection.has(this._getConcreteValue(value));
+  }
+  /**
+   * Determines whether the model does not have a value.
+   */
+  isEmpty() {
+    return this._selection.size === 0;
+  }
+  /**
+   * Determines whether the model has a value.
+   */
+  hasValue() {
+    return !this.isEmpty();
+  }
+  /**
+   * Sorts the selected values based on a predicate function.
+   */
+  sort(predicate) {
+    if (this._multiple && this.selected) {
+      this._selected.sort(predicate);
+    }
+  }
+  /**
+   * Gets whether multiple values can be selected.
+   */
+  isMultipleSelection() {
+    return this._multiple;
+  }
+  /** Emits a change event and clears the records of selected and deselected values. */
+  _emitChangeEvent() {
+    this._selected = null;
+    if (this._selectedToEmit.length || this._deselectedToEmit.length) {
+      this.changed.next({
+        source: this,
+        added: this._selectedToEmit,
+        removed: this._deselectedToEmit
+      });
+      this._deselectedToEmit = [];
+      this._selectedToEmit = [];
+    }
+  }
+  /** Selects a value. */
+  _markSelected(value) {
+    value = this._getConcreteValue(value);
+    if (!this.isSelected(value)) {
+      if (!this._multiple) {
+        this._unmarkAll();
+      }
+      if (!this.isSelected(value)) {
+        this._selection.add(value);
+      }
+      if (this._emitChanges) {
+        this._selectedToEmit.push(value);
+      }
+    }
+  }
+  /** Deselects a value. */
+  _unmarkSelected(value) {
+    value = this._getConcreteValue(value);
+    if (this.isSelected(value)) {
+      this._selection.delete(value);
+      if (this._emitChanges) {
+        this._deselectedToEmit.push(value);
+      }
+    }
+  }
+  /** Clears out the selected values. */
+  _unmarkAll() {
+    if (!this.isEmpty()) {
+      this._selection.forEach((value) => this._unmarkSelected(value));
+    }
+  }
+  /**
+   * Verifies the value assignment and throws an error if the specified value array is
+   * including multiple values while the selection model is not supporting multiple values.
+   */
+  _verifyValueAssignment(values) {
+    if (values.length > 1 && !this._multiple && (typeof ngDevMode === "undefined" || ngDevMode)) {
+      throw getMultipleValuesInSingleSelectionError();
+    }
+  }
+  /** Whether there are queued up change to be emitted. */
+  _hasQueuedChanges() {
+    return !!(this._deselectedToEmit.length || this._selectedToEmit.length);
+  }
+  /** Returns a value that is comparable to inputValue by applying compareWith function, returns the same inputValue otherwise. */
+  _getConcreteValue(inputValue, selection) {
+    if (!this.compareWith) {
+      return inputValue;
+    } else {
+      selection = selection ?? this._selection;
+      for (let selectedValue of selection) {
+        if (this.compareWith(inputValue, selectedValue)) {
+          return selectedValue;
+        }
+      }
+      return inputValue;
+    }
+  }
+};
+function getMultipleValuesInSingleSelectionError() {
+  return Error("Cannot pass multiple values into SelectionModel with single-value mode.");
+}
+
+// node_modules/@angular/material/fesm2022/pseudo-checkbox-CJ7seqQH.mjs
+var MatPseudoCheckbox = class _MatPseudoCheckbox {
+  _animationMode = inject(ANIMATION_MODULE_TYPE, {
+    optional: true
+  });
+  /** Display state of the checkbox. */
+  state = "unchecked";
+  /** Whether the checkbox is disabled. */
+  disabled = false;
+  /**
+   * Appearance of the pseudo checkbox. Default appearance of 'full' renders a checkmark/mixedmark
+   * indicator inside a square box. 'minimal' appearance only renders the checkmark/mixedmark.
+   */
+  appearance = "full";
+  constructor() {
+  }
+  static \u0275fac = function MatPseudoCheckbox_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatPseudoCheckbox)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatPseudoCheckbox,
+    selectors: [["mat-pseudo-checkbox"]],
+    hostAttrs: [1, "mat-pseudo-checkbox"],
+    hostVars: 12,
+    hostBindings: function MatPseudoCheckbox_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mat-pseudo-checkbox-indeterminate", ctx.state === "indeterminate")("mat-pseudo-checkbox-checked", ctx.state === "checked")("mat-pseudo-checkbox-disabled", ctx.disabled)("mat-pseudo-checkbox-minimal", ctx.appearance === "minimal")("mat-pseudo-checkbox-full", ctx.appearance === "full")("_mat-animation-noopable", ctx._animationMode === "NoopAnimations");
+      }
+    },
+    inputs: {
+      state: "state",
+      disabled: "disabled",
+      appearance: "appearance"
+    },
+    decls: 0,
+    vars: 0,
+    template: function MatPseudoCheckbox_Template(rf, ctx) {
+    },
+    styles: ['.mat-pseudo-checkbox{border-radius:2px;cursor:pointer;display:inline-block;vertical-align:middle;box-sizing:border-box;position:relative;flex-shrink:0;transition:border-color 90ms cubic-bezier(0, 0, 0.2, 0.1),background-color 90ms cubic-bezier(0, 0, 0.2, 0.1)}.mat-pseudo-checkbox::after{position:absolute;opacity:0;content:"";border-bottom:2px solid currentColor;transition:opacity 90ms cubic-bezier(0, 0, 0.2, 0.1)}.mat-pseudo-checkbox._mat-animation-noopable{transition:none !important;animation:none !important}.mat-pseudo-checkbox._mat-animation-noopable::after{transition:none}.mat-pseudo-checkbox-disabled{cursor:default}.mat-pseudo-checkbox-indeterminate::after{left:1px;opacity:1;border-radius:2px}.mat-pseudo-checkbox-checked::after{left:1px;border-left:2px solid currentColor;transform:rotate(-45deg);opacity:1;box-sizing:content-box}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after{color:var(--mat-minimal-pseudo-checkbox-selected-checkmark-color, var(--mat-sys-primary))}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled::after,.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled::after{color:var(--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full{border-color:var(--mat-full-pseudo-checkbox-unselected-icon-color, var(--mat-sys-on-surface-variant));border-width:2px;border-style:solid}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-disabled{border-color:var(--mat-full-pseudo-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate{background-color:var(--mat-full-pseudo-checkbox-selected-icon-color, var(--mat-sys-primary));border-color:rgba(0,0,0,0)}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate::after{color:var(--mat-full-pseudo-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled{background-color:var(--mat-full-pseudo-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled::after,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled::after{color:var(--mat-full-pseudo-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}.mat-pseudo-checkbox{width:18px;height:18px}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{width:14px;height:6px;transform-origin:center;top:-4.2426406871px;left:0;bottom:0;right:0;margin:auto}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after{top:8px;width:16px}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after{width:10px;height:4px;transform-origin:center;top:-2.8284271247px;left:0;bottom:0;right:0;margin:auto}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate::after{top:6px;width:12px}\n'],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatPseudoCheckbox, [{
+    type: Component,
+    args: [{
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      selector: "mat-pseudo-checkbox",
+      template: "",
+      host: {
+        "class": "mat-pseudo-checkbox",
+        "[class.mat-pseudo-checkbox-indeterminate]": 'state === "indeterminate"',
+        "[class.mat-pseudo-checkbox-checked]": 'state === "checked"',
+        "[class.mat-pseudo-checkbox-disabled]": "disabled",
+        "[class.mat-pseudo-checkbox-minimal]": 'appearance === "minimal"',
+        "[class.mat-pseudo-checkbox-full]": 'appearance === "full"',
+        "[class._mat-animation-noopable]": '_animationMode === "NoopAnimations"'
+      },
+      styles: ['.mat-pseudo-checkbox{border-radius:2px;cursor:pointer;display:inline-block;vertical-align:middle;box-sizing:border-box;position:relative;flex-shrink:0;transition:border-color 90ms cubic-bezier(0, 0, 0.2, 0.1),background-color 90ms cubic-bezier(0, 0, 0.2, 0.1)}.mat-pseudo-checkbox::after{position:absolute;opacity:0;content:"";border-bottom:2px solid currentColor;transition:opacity 90ms cubic-bezier(0, 0, 0.2, 0.1)}.mat-pseudo-checkbox._mat-animation-noopable{transition:none !important;animation:none !important}.mat-pseudo-checkbox._mat-animation-noopable::after{transition:none}.mat-pseudo-checkbox-disabled{cursor:default}.mat-pseudo-checkbox-indeterminate::after{left:1px;opacity:1;border-radius:2px}.mat-pseudo-checkbox-checked::after{left:1px;border-left:2px solid currentColor;transform:rotate(-45deg);opacity:1;box-sizing:content-box}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after{color:var(--mat-minimal-pseudo-checkbox-selected-checkmark-color, var(--mat-sys-primary))}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled::after,.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled::after{color:var(--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full{border-color:var(--mat-full-pseudo-checkbox-unselected-icon-color, var(--mat-sys-on-surface-variant));border-width:2px;border-style:solid}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-disabled{border-color:var(--mat-full-pseudo-checkbox-disabled-unselected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate{background-color:var(--mat-full-pseudo-checkbox-selected-icon-color, var(--mat-sys-primary));border-color:rgba(0,0,0,0)}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate::after{color:var(--mat-full-pseudo-checkbox-selected-checkmark-color, var(--mat-sys-on-primary))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled{background-color:var(--mat-full-pseudo-checkbox-disabled-selected-icon-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled::after,.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled::after{color:var(--mat-full-pseudo-checkbox-disabled-selected-checkmark-color, var(--mat-sys-surface))}.mat-pseudo-checkbox{width:18px;height:18px}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{width:14px;height:6px;transform-origin:center;top:-4.2426406871px;left:0;bottom:0;right:0;margin:auto}.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after{top:8px;width:16px}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after{width:10px;height:4px;transform-origin:center;top:-2.8284271247px;left:0;bottom:0;right:0;margin:auto}.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate::after{top:6px;width:12px}\n']
+    }]
+  }], () => [], {
+    state: [{
+      type: Input
+    }],
+    disabled: [{
+      type: Input
+    }],
+    appearance: [{
+      type: Input
+    }]
+  });
+})();
+
+// node_modules/@angular/material/fesm2022/button-toggle.mjs
+var _c010 = ["button"];
+var _c17 = ["*"];
+function MatButtonToggle_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 2);
+    \u0275\u0275element(1, "mat-pseudo-checkbox", 6);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r1.disabled);
+  }
+}
+var MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS = new InjectionToken("MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS", {
+  providedIn: "root",
+  factory: MAT_BUTTON_TOGGLE_GROUP_DEFAULT_OPTIONS_FACTORY
+});
+function MAT_BUTTON_TOGGLE_GROUP_DEFAULT_OPTIONS_FACTORY() {
+  return {
+    hideSingleSelectionIndicator: false,
+    hideMultipleSelectionIndicator: false,
+    disabledInteractive: false
+  };
+}
+var MAT_BUTTON_TOGGLE_GROUP = new InjectionToken("MatButtonToggleGroup");
+var MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => MatButtonToggleGroup),
+  multi: true
+};
+var MatButtonToggleChange = class {
+  source;
+  value;
+  constructor(source, value) {
+    this.source = source;
+    this.value = value;
+  }
+};
+var MatButtonToggleGroup = class _MatButtonToggleGroup {
+  _changeDetector = inject(ChangeDetectorRef);
+  _dir = inject(Directionality, {
+    optional: true
+  });
+  _multiple = false;
+  _disabled = false;
+  _disabledInteractive = false;
+  _selectionModel;
+  /**
+   * Reference to the raw value that the consumer tried to assign. The real
+   * value will exclude any values from this one that don't correspond to a
+   * toggle. Useful for the cases where the value is assigned before the toggles
+   * have been initialized or at the same that they're being swapped out.
+   */
+  _rawValue;
+  /**
+   * The method to be called in order to update ngModel.
+   * Now `ngModel` binding is not supported in multiple selection mode.
+   */
+  _controlValueAccessorChangeFn = () => {
+  };
+  /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
+  _onTouched = () => {
+  };
+  /** Child button toggle buttons. */
+  _buttonToggles;
+  /** The appearance for all the buttons in the group. */
+  appearance;
+  /** `name` attribute for the underlying `input` element. */
+  get name() {
+    return this._name;
+  }
+  set name(value) {
+    this._name = value;
+    this._markButtonsForCheck();
+  }
+  _name = inject(_IdGenerator).getId("mat-button-toggle-group-");
+  /** Whether the toggle group is vertical. */
+  vertical;
+  /** Value of the toggle group. */
+  get value() {
+    const selected = this._selectionModel ? this._selectionModel.selected : [];
+    if (this.multiple) {
+      return selected.map((toggle) => toggle.value);
+    }
+    return selected[0] ? selected[0].value : void 0;
+  }
+  set value(newValue) {
+    this._setSelectionByValue(newValue);
+    this.valueChange.emit(this.value);
+  }
+  /**
+   * Event that emits whenever the value of the group changes.
+   * Used to facilitate two-way data binding.
+   * @docs-private
+   */
+  valueChange = new EventEmitter();
+  /** Selected button toggles in the group. */
+  get selected() {
+    const selected = this._selectionModel ? this._selectionModel.selected : [];
+    return this.multiple ? selected : selected[0] || null;
+  }
+  /** Whether multiple button toggles can be selected. */
+  get multiple() {
+    return this._multiple;
+  }
+  set multiple(value) {
+    this._multiple = value;
+    this._markButtonsForCheck();
+  }
+  /** Whether multiple button toggle group is disabled. */
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(value) {
+    this._disabled = value;
+    this._markButtonsForCheck();
+  }
+  /** Whether buttons in the group should be interactive while they're disabled. */
+  get disabledInteractive() {
+    return this._disabledInteractive;
+  }
+  set disabledInteractive(value) {
+    this._disabledInteractive = value;
+    this._markButtonsForCheck();
+  }
+  /** The layout direction of the toggle button group. */
+  get dir() {
+    return this._dir && this._dir.value === "rtl" ? "rtl" : "ltr";
+  }
+  /** Event emitted when the group's value changes. */
+  change = new EventEmitter();
+  /** Whether checkmark indicator for single-selection button toggle groups is hidden. */
+  get hideSingleSelectionIndicator() {
+    return this._hideSingleSelectionIndicator;
+  }
+  set hideSingleSelectionIndicator(value) {
+    this._hideSingleSelectionIndicator = value;
+    this._markButtonsForCheck();
+  }
+  _hideSingleSelectionIndicator;
+  /** Whether checkmark indicator for multiple-selection button toggle groups is hidden. */
+  get hideMultipleSelectionIndicator() {
+    return this._hideMultipleSelectionIndicator;
+  }
+  set hideMultipleSelectionIndicator(value) {
+    this._hideMultipleSelectionIndicator = value;
+    this._markButtonsForCheck();
+  }
+  _hideMultipleSelectionIndicator;
+  constructor() {
+    const defaultOptions = inject(MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS, {
+      optional: true
+    });
+    this.appearance = defaultOptions && defaultOptions.appearance ? defaultOptions.appearance : "standard";
+    this.hideSingleSelectionIndicator = defaultOptions?.hideSingleSelectionIndicator ?? false;
+    this.hideMultipleSelectionIndicator = defaultOptions?.hideMultipleSelectionIndicator ?? false;
+  }
+  ngOnInit() {
+    this._selectionModel = new SelectionModel(this.multiple, void 0, false);
+  }
+  ngAfterContentInit() {
+    this._selectionModel.select(...this._buttonToggles.filter((toggle) => toggle.checked));
+    if (!this.multiple) {
+      this._initializeTabIndex();
+    }
+  }
+  /**
+   * Sets the model value. Implemented as part of ControlValueAccessor.
+   * @param value Value to be set to the model.
+   */
+  writeValue(value) {
+    this.value = value;
+    this._changeDetector.markForCheck();
+  }
+  // Implemented as part of ControlValueAccessor.
+  registerOnChange(fn) {
+    this._controlValueAccessorChangeFn = fn;
+  }
+  // Implemented as part of ControlValueAccessor.
+  registerOnTouched(fn) {
+    this._onTouched = fn;
+  }
+  // Implemented as part of ControlValueAccessor.
+  setDisabledState(isDisabled) {
+    this.disabled = isDisabled;
+  }
+  /** Handle keydown event calling to single-select button toggle. */
+  _keydown(event) {
+    if (this.multiple || this.disabled) {
+      return;
+    }
+    const target = event.target;
+    const buttonId = target.id;
+    const index = this._buttonToggles.toArray().findIndex((toggle) => {
+      return toggle.buttonId === buttonId;
+    });
+    let nextButton = null;
+    switch (event.keyCode) {
+      case SPACE:
+      case ENTER:
+        nextButton = this._buttonToggles.get(index) || null;
+        break;
+      case UP_ARROW:
+        nextButton = this._getNextButton(index, -1);
+        break;
+      case LEFT_ARROW:
+        nextButton = this._getNextButton(index, this.dir === "ltr" ? -1 : 1);
+        break;
+      case DOWN_ARROW:
+        nextButton = this._getNextButton(index, 1);
+        break;
+      case RIGHT_ARROW:
+        nextButton = this._getNextButton(index, this.dir === "ltr" ? 1 : -1);
+        break;
+      default:
+        return;
+    }
+    if (nextButton) {
+      event.preventDefault();
+      nextButton._onButtonClick();
+      nextButton.focus();
+    }
+  }
+  /** Dispatch change event with current selection and group value. */
+  _emitChangeEvent(toggle) {
+    const event = new MatButtonToggleChange(toggle, this.value);
+    this._rawValue = event.value;
+    this._controlValueAccessorChangeFn(event.value);
+    this.change.emit(event);
+  }
+  /**
+   * Syncs a button toggle's selected state with the model value.
+   * @param toggle Toggle to be synced.
+   * @param select Whether the toggle should be selected.
+   * @param isUserInput Whether the change was a result of a user interaction.
+   * @param deferEvents Whether to defer emitting the change events.
+   */
+  _syncButtonToggle(toggle, select, isUserInput = false, deferEvents = false) {
+    if (!this.multiple && this.selected && !toggle.checked) {
+      this.selected.checked = false;
+    }
+    if (this._selectionModel) {
+      if (select) {
+        this._selectionModel.select(toggle);
+      } else {
+        this._selectionModel.deselect(toggle);
+      }
+    } else {
+      deferEvents = true;
+    }
+    if (deferEvents) {
+      Promise.resolve().then(() => this._updateModelValue(toggle, isUserInput));
+    } else {
+      this._updateModelValue(toggle, isUserInput);
+    }
+  }
+  /** Checks whether a button toggle is selected. */
+  _isSelected(toggle) {
+    return this._selectionModel && this._selectionModel.isSelected(toggle);
+  }
+  /** Determines whether a button toggle should be checked on init. */
+  _isPrechecked(toggle) {
+    if (typeof this._rawValue === "undefined") {
+      return false;
+    }
+    if (this.multiple && Array.isArray(this._rawValue)) {
+      return this._rawValue.some((value) => toggle.value != null && value === toggle.value);
+    }
+    return toggle.value === this._rawValue;
+  }
+  /** Initializes the tabindex attribute using the radio pattern. */
+  _initializeTabIndex() {
+    this._buttonToggles.forEach((toggle) => {
+      toggle.tabIndex = -1;
+    });
+    if (this.selected) {
+      this.selected.tabIndex = 0;
+    } else {
+      for (let i = 0; i < this._buttonToggles.length; i++) {
+        const toggle = this._buttonToggles.get(i);
+        if (!toggle.disabled) {
+          toggle.tabIndex = 0;
+          break;
+        }
+      }
+    }
+    this._markButtonsForCheck();
+  }
+  /** Obtain the subsequent toggle to which the focus shifts. */
+  _getNextButton(startIndex, offset) {
+    const items = this._buttonToggles;
+    for (let i = 1; i <= items.length; i++) {
+      const index = (startIndex + offset * i + items.length) % items.length;
+      const item = items.get(index);
+      if (item && !item.disabled) {
+        return item;
+      }
+    }
+    return null;
+  }
+  /** Updates the selection state of the toggles in the group based on a value. */
+  _setSelectionByValue(value) {
+    this._rawValue = value;
+    if (!this._buttonToggles) {
+      return;
+    }
+    const toggles = this._buttonToggles.toArray();
+    if (this.multiple && value) {
+      if (!Array.isArray(value) && (typeof ngDevMode === "undefined" || ngDevMode)) {
+        throw Error("Value must be an array in multiple-selection mode.");
+      }
+      this._clearSelection();
+      value.forEach((currentValue) => this._selectValue(currentValue, toggles));
+    } else {
+      this._clearSelection();
+      this._selectValue(value, toggles);
+    }
+    if (!this.multiple && toggles.every((toggle) => toggle.tabIndex === -1)) {
+      for (const toggle of toggles) {
+        if (!toggle.disabled) {
+          toggle.tabIndex = 0;
+          break;
+        }
+      }
+    }
+  }
+  /** Clears the selected toggles. */
+  _clearSelection() {
+    this._selectionModel.clear();
+    this._buttonToggles.forEach((toggle) => {
+      toggle.checked = false;
+      if (!this.multiple) {
+        toggle.tabIndex = -1;
+      }
+    });
+  }
+  /** Selects a value if there's a toggle that corresponds to it. */
+  _selectValue(value, toggles) {
+    for (const toggle of toggles) {
+      if (toggle.value === value) {
+        toggle.checked = true;
+        this._selectionModel.select(toggle);
+        if (!this.multiple) {
+          toggle.tabIndex = 0;
+        }
+        break;
+      }
+    }
+  }
+  /** Syncs up the group's value with the model and emits the change event. */
+  _updateModelValue(toggle, isUserInput) {
+    if (isUserInput) {
+      this._emitChangeEvent(toggle);
+    }
+    this.valueChange.emit(this.value);
+  }
+  /** Marks all of the child button toggles to be checked. */
+  _markButtonsForCheck() {
+    this._buttonToggles?.forEach((toggle) => toggle._markForCheck());
+  }
+  static \u0275fac = function MatButtonToggleGroup_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatButtonToggleGroup)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatButtonToggleGroup,
+    selectors: [["mat-button-toggle-group"]],
+    contentQueries: function MatButtonToggleGroup_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, MatButtonToggle, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._buttonToggles = _t);
+      }
+    },
+    hostAttrs: [1, "mat-button-toggle-group"],
+    hostVars: 6,
+    hostBindings: function MatButtonToggleGroup_HostBindings(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275listener("keydown", function MatButtonToggleGroup_keydown_HostBindingHandler($event) {
+          return ctx._keydown($event);
+        });
+      }
+      if (rf & 2) {
+        \u0275\u0275attribute("role", ctx.multiple ? "group" : "radiogroup")("aria-disabled", ctx.disabled);
+        \u0275\u0275classProp("mat-button-toggle-vertical", ctx.vertical)("mat-button-toggle-group-appearance-standard", ctx.appearance === "standard");
+      }
+    },
+    inputs: {
+      appearance: "appearance",
+      name: "name",
+      vertical: [2, "vertical", "vertical", booleanAttribute],
+      value: "value",
+      multiple: [2, "multiple", "multiple", booleanAttribute],
+      disabled: [2, "disabled", "disabled", booleanAttribute],
+      disabledInteractive: [2, "disabledInteractive", "disabledInteractive", booleanAttribute],
+      hideSingleSelectionIndicator: [2, "hideSingleSelectionIndicator", "hideSingleSelectionIndicator", booleanAttribute],
+      hideMultipleSelectionIndicator: [2, "hideMultipleSelectionIndicator", "hideMultipleSelectionIndicator", booleanAttribute]
+    },
+    outputs: {
+      valueChange: "valueChange",
+      change: "change"
+    },
+    exportAs: ["matButtonToggleGroup"],
+    features: [\u0275\u0275ProvidersFeature([MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR, {
+      provide: MAT_BUTTON_TOGGLE_GROUP,
+      useExisting: _MatButtonToggleGroup
+    }])]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonToggleGroup, [{
+    type: Directive,
+    args: [{
+      selector: "mat-button-toggle-group",
+      providers: [MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR, {
+        provide: MAT_BUTTON_TOGGLE_GROUP,
+        useExisting: MatButtonToggleGroup
+      }],
+      host: {
+        "class": "mat-button-toggle-group",
+        "(keydown)": "_keydown($event)",
+        "[attr.role]": "multiple ? 'group' : 'radiogroup'",
+        "[attr.aria-disabled]": "disabled",
+        "[class.mat-button-toggle-vertical]": "vertical",
+        "[class.mat-button-toggle-group-appearance-standard]": 'appearance === "standard"'
+      },
+      exportAs: "matButtonToggleGroup"
+    }]
+  }], () => [], {
+    _buttonToggles: [{
+      type: ContentChildren,
+      args: [forwardRef(() => MatButtonToggle), {
+        // Note that this would technically pick up toggles
+        // from nested groups, but that's not a case that we support.
+        descendants: true
+      }]
+    }],
+    appearance: [{
+      type: Input
+    }],
+    name: [{
+      type: Input
+    }],
+    vertical: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    value: [{
+      type: Input
+    }],
+    valueChange: [{
+      type: Output
+    }],
+    multiple: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    disabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    disabledInteractive: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    change: [{
+      type: Output
+    }],
+    hideSingleSelectionIndicator: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    hideMultipleSelectionIndicator: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }]
+  });
+})();
+var MatButtonToggle = class _MatButtonToggle {
+  _changeDetectorRef = inject(ChangeDetectorRef);
+  _elementRef = inject(ElementRef);
+  _focusMonitor = inject(FocusMonitor);
+  _idGenerator = inject(_IdGenerator);
+  _animationMode = inject(ANIMATION_MODULE_TYPE, {
+    optional: true
+  });
+  _checked = false;
+  /**
+   * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
+   * take precedence so this may be omitted.
+   */
+  ariaLabel;
+  /**
+   * Users can specify the `aria-labelledby` attribute which will be forwarded to the input element
+   */
+  ariaLabelledby = null;
+  /** Underlying native `button` element. */
+  _buttonElement;
+  /** The parent button toggle group (exclusive selection). Optional. */
+  buttonToggleGroup;
+  /** Unique ID for the underlying `button` element. */
+  get buttonId() {
+    return `${this.id}-button`;
+  }
+  /** The unique ID for this button toggle. */
+  id;
+  /** HTML's 'name' attribute used to group radios for unique selection. */
+  name;
+  /** MatButtonToggleGroup reads this to assign its own value. */
+  value;
+  /** Tabindex of the toggle. */
+  get tabIndex() {
+    return this._tabIndex;
+  }
+  set tabIndex(value) {
+    if (value !== this._tabIndex) {
+      this._tabIndex = value;
+      this._markForCheck();
+    }
+  }
+  _tabIndex;
+  /** Whether ripples are disabled on the button toggle. */
+  disableRipple;
+  /** The appearance style of the button. */
+  get appearance() {
+    return this.buttonToggleGroup ? this.buttonToggleGroup.appearance : this._appearance;
+  }
+  set appearance(value) {
+    this._appearance = value;
+  }
+  _appearance;
+  /** Whether the button is checked. */
+  get checked() {
+    return this.buttonToggleGroup ? this.buttonToggleGroup._isSelected(this) : this._checked;
+  }
+  set checked(value) {
+    if (value !== this._checked) {
+      this._checked = value;
+      if (this.buttonToggleGroup) {
+        this.buttonToggleGroup._syncButtonToggle(this, this._checked);
+      }
+      this._changeDetectorRef.markForCheck();
+    }
+  }
+  /** Whether the button is disabled. */
+  get disabled() {
+    return this._disabled || this.buttonToggleGroup && this.buttonToggleGroup.disabled;
+  }
+  set disabled(value) {
+    this._disabled = value;
+  }
+  _disabled = false;
+  /** Whether the button should remain interactive when it is disabled. */
+  get disabledInteractive() {
+    return this._disabledInteractive || this.buttonToggleGroup !== null && this.buttonToggleGroup.disabledInteractive;
+  }
+  set disabledInteractive(value) {
+    this._disabledInteractive = value;
+  }
+  _disabledInteractive;
+  /** Event emitted when the group value changes. */
+  change = new EventEmitter();
+  constructor() {
+    inject(_CdkPrivateStyleLoader).load(_StructuralStylesLoader);
+    const toggleGroup = inject(MAT_BUTTON_TOGGLE_GROUP, {
+      optional: true
+    });
+    const defaultTabIndex = inject(new HostAttributeToken("tabindex"), {
+      optional: true
+    }) || "";
+    const defaultOptions = inject(MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS, {
+      optional: true
+    });
+    this._tabIndex = parseInt(defaultTabIndex) || 0;
+    this.buttonToggleGroup = toggleGroup;
+    this.appearance = defaultOptions && defaultOptions.appearance ? defaultOptions.appearance : "standard";
+    this.disabledInteractive = defaultOptions?.disabledInteractive ?? false;
+  }
+  ngOnInit() {
+    const group = this.buttonToggleGroup;
+    this.id = this.id || this._idGenerator.getId("mat-button-toggle-");
+    if (group) {
+      if (group._isPrechecked(this)) {
+        this.checked = true;
+      } else if (group._isSelected(this) !== this._checked) {
+        group._syncButtonToggle(this, this._checked);
+      }
+    }
+  }
+  ngAfterViewInit() {
+    if (this._animationMode !== "NoopAnimations") {
+      this._elementRef.nativeElement.classList.add("mat-button-toggle-animations-enabled");
+    }
+    this._focusMonitor.monitor(this._elementRef, true);
+  }
+  ngOnDestroy() {
+    const group = this.buttonToggleGroup;
+    this._focusMonitor.stopMonitoring(this._elementRef);
+    if (group && group._isSelected(this)) {
+      group._syncButtonToggle(this, false, false, true);
+    }
+  }
+  /** Focuses the button. */
+  focus(options) {
+    this._buttonElement.nativeElement.focus(options);
+  }
+  /** Checks the button toggle due to an interaction with the underlying native button. */
+  _onButtonClick() {
+    if (this.disabled) {
+      return;
+    }
+    const newChecked = this.isSingleSelector() ? true : !this._checked;
+    if (newChecked !== this._checked) {
+      this._checked = newChecked;
+      if (this.buttonToggleGroup) {
+        this.buttonToggleGroup._syncButtonToggle(this, this._checked, true);
+        this.buttonToggleGroup._onTouched();
+      }
+    }
+    if (this.isSingleSelector()) {
+      const focusable = this.buttonToggleGroup._buttonToggles.find((toggle) => {
+        return toggle.tabIndex === 0;
+      });
+      if (focusable) {
+        focusable.tabIndex = -1;
+      }
+      this.tabIndex = 0;
+    }
+    this.change.emit(new MatButtonToggleChange(this, this.value));
+  }
+  /**
+   * Marks the button toggle as needing checking for change detection.
+   * This method is exposed because the parent button toggle group will directly
+   * update bound properties of the radio button.
+   */
+  _markForCheck() {
+    this._changeDetectorRef.markForCheck();
+  }
+  /** Gets the name that should be assigned to the inner DOM node. */
+  _getButtonName() {
+    if (this.isSingleSelector()) {
+      return this.buttonToggleGroup.name;
+    }
+    return this.name || null;
+  }
+  /** Whether the toggle is in single selection mode. */
+  isSingleSelector() {
+    return this.buttonToggleGroup && !this.buttonToggleGroup.multiple;
+  }
+  static \u0275fac = function MatButtonToggle_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatButtonToggle)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatButtonToggle,
+    selectors: [["mat-button-toggle"]],
+    viewQuery: function MatButtonToggle_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c010, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._buttonElement = _t.first);
+      }
+    },
+    hostAttrs: ["role", "presentation", 1, "mat-button-toggle"],
+    hostVars: 14,
+    hostBindings: function MatButtonToggle_HostBindings(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275listener("focus", function MatButtonToggle_focus_HostBindingHandler() {
+          return ctx.focus();
+        });
+      }
+      if (rf & 2) {
+        \u0275\u0275attribute("aria-label", null)("aria-labelledby", null)("id", ctx.id)("name", null);
+        \u0275\u0275classProp("mat-button-toggle-standalone", !ctx.buttonToggleGroup)("mat-button-toggle-checked", ctx.checked)("mat-button-toggle-disabled", ctx.disabled)("mat-button-toggle-disabled-interactive", ctx.disabledInteractive)("mat-button-toggle-appearance-standard", ctx.appearance === "standard");
+      }
+    },
+    inputs: {
+      ariaLabel: [0, "aria-label", "ariaLabel"],
+      ariaLabelledby: [0, "aria-labelledby", "ariaLabelledby"],
+      id: "id",
+      name: "name",
+      value: "value",
+      tabIndex: "tabIndex",
+      disableRipple: [2, "disableRipple", "disableRipple", booleanAttribute],
+      appearance: "appearance",
+      checked: [2, "checked", "checked", booleanAttribute],
+      disabled: [2, "disabled", "disabled", booleanAttribute],
+      disabledInteractive: [2, "disabledInteractive", "disabledInteractive", booleanAttribute]
+    },
+    outputs: {
+      change: "change"
+    },
+    exportAs: ["matButtonToggle"],
+    ngContentSelectors: _c17,
+    decls: 7,
+    vars: 13,
+    consts: [["button", ""], ["type", "button", 1, "mat-button-toggle-button", "mat-focus-indicator", 3, "click", "id", "disabled"], [1, "mat-button-toggle-checkbox-wrapper"], [1, "mat-button-toggle-label-content"], [1, "mat-button-toggle-focus-overlay"], ["matRipple", "", 1, "mat-button-toggle-ripple", 3, "matRippleTrigger", "matRippleDisabled"], ["state", "checked", "aria-hidden", "true", "appearance", "minimal", 3, "disabled"]],
+    template: function MatButtonToggle_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "button", 1, 0);
+        \u0275\u0275listener("click", function MatButtonToggle_Template_button_click_0_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx._onButtonClick());
+        });
+        \u0275\u0275template(2, MatButtonToggle_Conditional_2_Template, 2, 1, "div", 2);
+        \u0275\u0275elementStart(3, "span", 3);
+        \u0275\u0275projection(4);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(5, "span", 4)(6, "span", 5);
+      }
+      if (rf & 2) {
+        const button_r3 = \u0275\u0275reference(1);
+        \u0275\u0275property("id", ctx.buttonId)("disabled", ctx.disabled && !ctx.disabledInteractive || null);
+        \u0275\u0275attribute("role", ctx.isSingleSelector() ? "radio" : "button")("tabindex", ctx.disabled && !ctx.disabledInteractive ? -1 : ctx.tabIndex)("aria-pressed", !ctx.isSingleSelector() ? ctx.checked : null)("aria-checked", ctx.isSingleSelector() ? ctx.checked : null)("name", ctx._getButtonName())("aria-label", ctx.ariaLabel)("aria-labelledby", ctx.ariaLabelledby)("aria-disabled", ctx.disabled && ctx.disabledInteractive ? "true" : null);
+        \u0275\u0275advance(2);
+        \u0275\u0275conditional(ctx.buttonToggleGroup && (!ctx.buttonToggleGroup.multiple && !ctx.buttonToggleGroup.hideSingleSelectionIndicator || ctx.buttonToggleGroup.multiple && !ctx.buttonToggleGroup.hideMultipleSelectionIndicator) ? 2 : -1);
+        \u0275\u0275advance(4);
+        \u0275\u0275property("matRippleTrigger", button_r3)("matRippleDisabled", ctx.disableRipple || ctx.disabled);
+      }
+    },
+    dependencies: [MatRipple, MatPseudoCheckbox],
+    styles: [".mat-button-toggle-standalone,.mat-button-toggle-group{position:relative;display:inline-flex;flex-direction:row;white-space:nowrap;overflow:hidden;-webkit-tap-highlight-color:rgba(0,0,0,0);transform:translateZ(0);border-radius:var(--mat-legacy-button-toggle-shape)}.mat-button-toggle-standalone:not([class*=mat-elevation-z]),.mat-button-toggle-group:not([class*=mat-elevation-z]){box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)}@media(forced-colors: active){.mat-button-toggle-standalone,.mat-button-toggle-group{outline:solid 1px}}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,.mat-button-toggle-group-appearance-standard{border-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard .mat-pseudo-checkbox,.mat-button-toggle-group-appearance-standard .mat-pseudo-checkbox{--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--mat-standard-button-toggle-selected-state-text-color, var(--mat-sys-on-secondary-container))}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard:not([class*=mat-elevation-z]),.mat-button-toggle-group-appearance-standard:not([class*=mat-elevation-z]){box-shadow:none}@media(forced-colors: active){.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,.mat-button-toggle-group-appearance-standard{outline:0}}.mat-button-toggle-vertical{flex-direction:column}.mat-button-toggle-vertical .mat-button-toggle-label-content{display:block}.mat-button-toggle{white-space:nowrap;position:relative;color:var(--mat-legacy-button-toggle-text-color);font-family:var(--mat-legacy-button-toggle-label-text-font);font-size:var(--mat-legacy-button-toggle-label-text-size);line-height:var(--mat-legacy-button-toggle-label-text-line-height);font-weight:var(--mat-legacy-button-toggle-label-text-weight);letter-spacing:var(--mat-legacy-button-toggle-label-text-tracking);--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--mat-legacy-button-toggle-selected-state-text-color)}.mat-button-toggle.cdk-keyboard-focused .mat-button-toggle-focus-overlay{opacity:var(--mat-legacy-button-toggle-focus-state-layer-opacity)}.mat-button-toggle .mat-icon svg{vertical-align:top}.mat-button-toggle-checkbox-wrapper{display:inline-block;justify-content:flex-start;align-items:center;width:0;height:18px;line-height:18px;overflow:hidden;box-sizing:border-box;position:absolute;top:50%;left:16px;transform:translate3d(0, -50%, 0)}[dir=rtl] .mat-button-toggle-checkbox-wrapper{left:auto;right:16px}.mat-button-toggle-appearance-standard .mat-button-toggle-checkbox-wrapper{left:12px}[dir=rtl] .mat-button-toggle-appearance-standard .mat-button-toggle-checkbox-wrapper{left:auto;right:12px}.mat-button-toggle-checked .mat-button-toggle-checkbox-wrapper{width:18px}.mat-button-toggle-animations-enabled .mat-button-toggle-checkbox-wrapper{transition:width 150ms 45ms cubic-bezier(0.4, 0, 0.2, 1)}.mat-button-toggle-vertical .mat-button-toggle-checkbox-wrapper{transition:none}.mat-button-toggle-checked{color:var(--mat-legacy-button-toggle-selected-state-text-color);background-color:var(--mat-legacy-button-toggle-selected-state-background-color)}.mat-button-toggle-disabled{pointer-events:none;color:var(--mat-legacy-button-toggle-disabled-state-text-color);background-color:var(--mat-legacy-button-toggle-disabled-state-background-color);--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color: var(--mat-legacy-button-toggle-disabled-state-text-color)}.mat-button-toggle-disabled.mat-button-toggle-checked{background-color:var(--mat-legacy-button-toggle-disabled-selected-state-background-color)}.mat-button-toggle-disabled-interactive{pointer-events:auto}.mat-button-toggle-appearance-standard{color:var(--mat-standard-button-toggle-text-color, var(--mat-sys-on-surface));background-color:var(--mat-standard-button-toggle-background-color, transparent);font-family:var(--mat-standard-button-toggle-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mat-standard-button-toggle-label-text-size, var(--mat-sys-label-large-size));line-height:var(--mat-standard-button-toggle-label-text-line-height, var(--mat-sys-label-large-line-height));font-weight:var(--mat-standard-button-toggle-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mat-standard-button-toggle-label-text-tracking, var(--mat-sys-label-large-tracking))}.mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}[dir=rtl] .mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:none;border-right:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:none;border-right:none;border-top:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-appearance-standard.mat-button-toggle-checked{color:var(--mat-standard-button-toggle-selected-state-text-color, var(--mat-sys-on-secondary-container));background-color:var(--mat-standard-button-toggle-selected-state-background-color, var(--mat-sys-secondary-container))}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled{color:var(--mat-standard-button-toggle-disabled-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-standard-button-toggle-disabled-state-background-color, transparent)}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled .mat-pseudo-checkbox{--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color: var(--mat-standard-button-toggle-disabled-selected-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled.mat-button-toggle-checked{color:var(--mat-standard-button-toggle-disabled-selected-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-standard-button-toggle-disabled-selected-state-background-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay{background-color:var(--mat-standard-button-toggle-state-layer-color, var(--mat-sys-on-surface))}.mat-button-toggle-appearance-standard:hover .mat-button-toggle-focus-overlay{opacity:var(--mat-standard-button-toggle-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-button-toggle-appearance-standard.cdk-keyboard-focused .mat-button-toggle-focus-overlay{opacity:var(--mat-standard-button-toggle-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}@media(hover: none){.mat-button-toggle-appearance-standard:hover .mat-button-toggle-focus-overlay{display:none}}.mat-button-toggle-label-content{-webkit-user-select:none;user-select:none;display:inline-block;padding:0 16px;line-height:var(--mat-legacy-button-toggle-height);position:relative}.mat-button-toggle-appearance-standard .mat-button-toggle-label-content{padding:0 12px;line-height:var(--mat-standard-button-toggle-height, 40px)}.mat-button-toggle-label-content>*{vertical-align:middle}.mat-button-toggle-focus-overlay{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit;pointer-events:none;opacity:0;background-color:var(--mat-legacy-button-toggle-state-layer-color)}@media(forced-colors: active){.mat-button-toggle-checked .mat-button-toggle-focus-overlay{border-bottom:solid 500px;opacity:.5;height:0}.mat-button-toggle-checked:hover .mat-button-toggle-focus-overlay{opacity:.6}.mat-button-toggle-checked.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay{border-bottom:solid 500px}}.mat-button-toggle .mat-button-toggle-ripple{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none}.mat-button-toggle-button{border:0;background:none;color:inherit;padding:0;margin:0;font:inherit;outline:none;width:100%;cursor:pointer}.mat-button-toggle-animations-enabled .mat-button-toggle-button{transition:padding 150ms 45ms cubic-bezier(0.4, 0, 0.2, 1)}.mat-button-toggle-vertical .mat-button-toggle-button{transition:none}.mat-button-toggle-disabled .mat-button-toggle-button{cursor:default}.mat-button-toggle-button::-moz-focus-inner{border:0}.mat-button-toggle-checked .mat-button-toggle-button:has(.mat-button-toggle-checkbox-wrapper){padding-left:30px}[dir=rtl] .mat-button-toggle-checked .mat-button-toggle-button:has(.mat-button-toggle-checkbox-wrapper){padding-left:0;padding-right:30px}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard{--mat-focus-indicator-border-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard:not(.mat-button-toggle-vertical) .mat-button-toggle:last-of-type .mat-button-toggle-button::before{border-top-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard:not(.mat-button-toggle-vertical) .mat-button-toggle:first-of-type .mat-button-toggle-button::before{border-top-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle:last-of-type .mat-button-toggle-button::before{border-bottom-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle:first-of-type .mat-button-toggle-button::before{border-top-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-top-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}\n"],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonToggle, [{
+    type: Component,
+    args: [{
+      selector: "mat-button-toggle",
+      encapsulation: ViewEncapsulation.None,
+      exportAs: "matButtonToggle",
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "[class.mat-button-toggle-standalone]": "!buttonToggleGroup",
+        "[class.mat-button-toggle-checked]": "checked",
+        "[class.mat-button-toggle-disabled]": "disabled",
+        "[class.mat-button-toggle-disabled-interactive]": "disabledInteractive",
+        "[class.mat-button-toggle-appearance-standard]": 'appearance === "standard"',
+        "class": "mat-button-toggle",
+        "[attr.aria-label]": "null",
+        "[attr.aria-labelledby]": "null",
+        "[attr.id]": "id",
+        "[attr.name]": "null",
+        "(focus)": "focus()",
+        "role": "presentation"
+      },
+      imports: [MatRipple, MatPseudoCheckbox],
+      template: `<button #button class="mat-button-toggle-button mat-focus-indicator"
+        type="button"
+        [id]="buttonId"
+        [attr.role]="isSingleSelector() ? 'radio' : 'button'"
+        [attr.tabindex]="disabled && !disabledInteractive ? -1 : tabIndex"
+        [attr.aria-pressed]="!isSingleSelector() ? checked : null"
+        [attr.aria-checked]="isSingleSelector() ? checked : null"
+        [disabled]="(disabled && !disabledInteractive) || null"
+        [attr.name]="_getButtonName()"
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-labelledby]="ariaLabelledby"
+        [attr.aria-disabled]="disabled && disabledInteractive ? 'true' : null"
+        (click)="_onButtonClick()">
+  @if (buttonToggleGroup && (
+    !buttonToggleGroup.multiple && !buttonToggleGroup.hideSingleSelectionIndicator ||
+    buttonToggleGroup.multiple && !buttonToggleGroup.hideMultipleSelectionIndicator)
+  ) {
+    <div class="mat-button-toggle-checkbox-wrapper">
+      <mat-pseudo-checkbox
+        [disabled]="disabled"
+        state="checked"
+        aria-hidden="true"
+        appearance="minimal"/>
+    </div>
+  }
+
+  <span class="mat-button-toggle-label-content">
+    <ng-content></ng-content>
+  </span>
+</button>
+
+<span class="mat-button-toggle-focus-overlay"></span>
+<span class="mat-button-toggle-ripple" matRipple
+     [matRippleTrigger]="button"
+     [matRippleDisabled]="this.disableRipple || this.disabled">
+</span>
+`,
+      styles: [".mat-button-toggle-standalone,.mat-button-toggle-group{position:relative;display:inline-flex;flex-direction:row;white-space:nowrap;overflow:hidden;-webkit-tap-highlight-color:rgba(0,0,0,0);transform:translateZ(0);border-radius:var(--mat-legacy-button-toggle-shape)}.mat-button-toggle-standalone:not([class*=mat-elevation-z]),.mat-button-toggle-group:not([class*=mat-elevation-z]){box-shadow:0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)}@media(forced-colors: active){.mat-button-toggle-standalone,.mat-button-toggle-group{outline:solid 1px}}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,.mat-button-toggle-group-appearance-standard{border-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard .mat-pseudo-checkbox,.mat-button-toggle-group-appearance-standard .mat-pseudo-checkbox{--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--mat-standard-button-toggle-selected-state-text-color, var(--mat-sys-on-secondary-container))}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard:not([class*=mat-elevation-z]),.mat-button-toggle-group-appearance-standard:not([class*=mat-elevation-z]){box-shadow:none}@media(forced-colors: active){.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,.mat-button-toggle-group-appearance-standard{outline:0}}.mat-button-toggle-vertical{flex-direction:column}.mat-button-toggle-vertical .mat-button-toggle-label-content{display:block}.mat-button-toggle{white-space:nowrap;position:relative;color:var(--mat-legacy-button-toggle-text-color);font-family:var(--mat-legacy-button-toggle-label-text-font);font-size:var(--mat-legacy-button-toggle-label-text-size);line-height:var(--mat-legacy-button-toggle-label-text-line-height);font-weight:var(--mat-legacy-button-toggle-label-text-weight);letter-spacing:var(--mat-legacy-button-toggle-label-text-tracking);--mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--mat-legacy-button-toggle-selected-state-text-color)}.mat-button-toggle.cdk-keyboard-focused .mat-button-toggle-focus-overlay{opacity:var(--mat-legacy-button-toggle-focus-state-layer-opacity)}.mat-button-toggle .mat-icon svg{vertical-align:top}.mat-button-toggle-checkbox-wrapper{display:inline-block;justify-content:flex-start;align-items:center;width:0;height:18px;line-height:18px;overflow:hidden;box-sizing:border-box;position:absolute;top:50%;left:16px;transform:translate3d(0, -50%, 0)}[dir=rtl] .mat-button-toggle-checkbox-wrapper{left:auto;right:16px}.mat-button-toggle-appearance-standard .mat-button-toggle-checkbox-wrapper{left:12px}[dir=rtl] .mat-button-toggle-appearance-standard .mat-button-toggle-checkbox-wrapper{left:auto;right:12px}.mat-button-toggle-checked .mat-button-toggle-checkbox-wrapper{width:18px}.mat-button-toggle-animations-enabled .mat-button-toggle-checkbox-wrapper{transition:width 150ms 45ms cubic-bezier(0.4, 0, 0.2, 1)}.mat-button-toggle-vertical .mat-button-toggle-checkbox-wrapper{transition:none}.mat-button-toggle-checked{color:var(--mat-legacy-button-toggle-selected-state-text-color);background-color:var(--mat-legacy-button-toggle-selected-state-background-color)}.mat-button-toggle-disabled{pointer-events:none;color:var(--mat-legacy-button-toggle-disabled-state-text-color);background-color:var(--mat-legacy-button-toggle-disabled-state-background-color);--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color: var(--mat-legacy-button-toggle-disabled-state-text-color)}.mat-button-toggle-disabled.mat-button-toggle-checked{background-color:var(--mat-legacy-button-toggle-disabled-selected-state-background-color)}.mat-button-toggle-disabled-interactive{pointer-events:auto}.mat-button-toggle-appearance-standard{color:var(--mat-standard-button-toggle-text-color, var(--mat-sys-on-surface));background-color:var(--mat-standard-button-toggle-background-color, transparent);font-family:var(--mat-standard-button-toggle-label-text-font, var(--mat-sys-label-large-font));font-size:var(--mat-standard-button-toggle-label-text-size, var(--mat-sys-label-large-size));line-height:var(--mat-standard-button-toggle-label-text-line-height, var(--mat-sys-label-large-line-height));font-weight:var(--mat-standard-button-toggle-label-text-weight, var(--mat-sys-label-large-weight));letter-spacing:var(--mat-standard-button-toggle-label-text-tracking, var(--mat-sys-label-large-tracking))}.mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}[dir=rtl] .mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:none;border-right:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle-appearance-standard+.mat-button-toggle-appearance-standard{border-left:none;border-right:none;border-top:solid 1px var(--mat-standard-button-toggle-divider-color, var(--mat-sys-outline))}.mat-button-toggle-appearance-standard.mat-button-toggle-checked{color:var(--mat-standard-button-toggle-selected-state-text-color, var(--mat-sys-on-secondary-container));background-color:var(--mat-standard-button-toggle-selected-state-background-color, var(--mat-sys-secondary-container))}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled{color:var(--mat-standard-button-toggle-disabled-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-standard-button-toggle-disabled-state-background-color, transparent)}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled .mat-pseudo-checkbox{--mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color: var(--mat-standard-button-toggle-disabled-selected-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent))}.mat-button-toggle-appearance-standard.mat-button-toggle-disabled.mat-button-toggle-checked{color:var(--mat-standard-button-toggle-disabled-selected-state-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));background-color:var(--mat-standard-button-toggle-disabled-selected-state-background-color, color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent))}.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay{background-color:var(--mat-standard-button-toggle-state-layer-color, var(--mat-sys-on-surface))}.mat-button-toggle-appearance-standard:hover .mat-button-toggle-focus-overlay{opacity:var(--mat-standard-button-toggle-hover-state-layer-opacity, var(--mat-sys-hover-state-layer-opacity))}.mat-button-toggle-appearance-standard.cdk-keyboard-focused .mat-button-toggle-focus-overlay{opacity:var(--mat-standard-button-toggle-focus-state-layer-opacity, var(--mat-sys-focus-state-layer-opacity))}@media(hover: none){.mat-button-toggle-appearance-standard:hover .mat-button-toggle-focus-overlay{display:none}}.mat-button-toggle-label-content{-webkit-user-select:none;user-select:none;display:inline-block;padding:0 16px;line-height:var(--mat-legacy-button-toggle-height);position:relative}.mat-button-toggle-appearance-standard .mat-button-toggle-label-content{padding:0 12px;line-height:var(--mat-standard-button-toggle-height, 40px)}.mat-button-toggle-label-content>*{vertical-align:middle}.mat-button-toggle-focus-overlay{top:0;left:0;right:0;bottom:0;position:absolute;border-radius:inherit;pointer-events:none;opacity:0;background-color:var(--mat-legacy-button-toggle-state-layer-color)}@media(forced-colors: active){.mat-button-toggle-checked .mat-button-toggle-focus-overlay{border-bottom:solid 500px;opacity:.5;height:0}.mat-button-toggle-checked:hover .mat-button-toggle-focus-overlay{opacity:.6}.mat-button-toggle-checked.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay{border-bottom:solid 500px}}.mat-button-toggle .mat-button-toggle-ripple{top:0;left:0;right:0;bottom:0;position:absolute;pointer-events:none}.mat-button-toggle-button{border:0;background:none;color:inherit;padding:0;margin:0;font:inherit;outline:none;width:100%;cursor:pointer}.mat-button-toggle-animations-enabled .mat-button-toggle-button{transition:padding 150ms 45ms cubic-bezier(0.4, 0, 0.2, 1)}.mat-button-toggle-vertical .mat-button-toggle-button{transition:none}.mat-button-toggle-disabled .mat-button-toggle-button{cursor:default}.mat-button-toggle-button::-moz-focus-inner{border:0}.mat-button-toggle-checked .mat-button-toggle-button:has(.mat-button-toggle-checkbox-wrapper){padding-left:30px}[dir=rtl] .mat-button-toggle-checked .mat-button-toggle-button:has(.mat-button-toggle-checkbox-wrapper){padding-left:0;padding-right:30px}.mat-button-toggle-standalone.mat-button-toggle-appearance-standard{--mat-focus-indicator-border-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard:not(.mat-button-toggle-vertical) .mat-button-toggle:last-of-type .mat-button-toggle-button::before{border-top-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard:not(.mat-button-toggle-vertical) .mat-button-toggle:first-of-type .mat-button-toggle-button::before{border-top-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle:last-of-type .mat-button-toggle-button::before{border-bottom-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-bottom-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}.mat-button-toggle-group-appearance-standard.mat-button-toggle-vertical .mat-button-toggle:first-of-type .mat-button-toggle-button::before{border-top-right-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large));border-top-left-radius:var(--mat-standard-button-toggle-shape, var(--mat-sys-corner-extra-large))}\n"]
+    }]
+  }], () => [], {
+    ariaLabel: [{
+      type: Input,
+      args: ["aria-label"]
+    }],
+    ariaLabelledby: [{
+      type: Input,
+      args: ["aria-labelledby"]
+    }],
+    _buttonElement: [{
+      type: ViewChild,
+      args: ["button"]
+    }],
+    id: [{
+      type: Input
+    }],
+    name: [{
+      type: Input
+    }],
+    value: [{
+      type: Input
+    }],
+    tabIndex: [{
+      type: Input
+    }],
+    disableRipple: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    appearance: [{
+      type: Input
+    }],
+    checked: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    disabled: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    disabledInteractive: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    change: [{
+      type: Output
+    }]
+  });
+})();
+var MatButtonToggleModule = class _MatButtonToggleModule {
+  static \u0275fac = function MatButtonToggleModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatButtonToggleModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatButtonToggleModule,
+    imports: [MatCommonModule, MatRippleModule, MatButtonToggleGroup, MatButtonToggle],
+    exports: [MatCommonModule, MatButtonToggleGroup, MatButtonToggle]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [MatCommonModule, MatRippleModule, MatButtonToggle, MatCommonModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatButtonToggleModule, [{
+    type: NgModule,
+    args: [{
+      imports: [MatCommonModule, MatRippleModule, MatButtonToggleGroup, MatButtonToggle],
+      exports: [MatCommonModule, MatButtonToggleGroup, MatButtonToggle]
+    }]
+  }], null, null);
+})();
+
+// src/app/core/utils/form.validators.ts
+function strongPasswordValidator(control) {
+  const value = control.value ?? "";
+  if (value.length === 0) {
+    return null;
+  }
+  const checks = {
+    length: value.length >= 8,
+    upper: /[A-Z]/.test(value),
+    lower: /[a-z]/.test(value),
+    number: /\d/.test(value),
+    symbol: /[^A-Za-z0-9]/.test(value)
+  };
+  return Object.values(checks).every(Boolean) ? null : { strongPassword: checks };
+}
+function matchFieldsValidator(firstKey, secondKey) {
+  return (control) => {
+    const first2 = control.get(firstKey)?.value;
+    const second = control.get(secondKey)?.value;
+    if (!first2 || !second || first2 === second) {
+      return null;
+    }
+    return { fieldsMismatch: true };
+  };
+}
+
+// src/app/shared/components/auth/auth-layout.component.ts
+var _c011 = ["*"];
+function AuthLayoutComponent_div_11_article_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "article", 11);
+    \u0275\u0275element(1, "span", 12);
+    \u0275\u0275elementStart(2, "div")(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "p");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const point_r1 = ctx.$implicit;
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate(point_r1.title);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(point_r1.description);
+  }
+}
+function AuthLayoutComponent_div_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275template(1, AuthLayoutComponent_div_11_article_1_Template, 7, 2, "article", 10);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngForOf", ctx_r1.points);
+  }
+}
+var AuthLayoutComponent = class _AuthLayoutComponent {
+  constructor() {
+    this.eyebrow = "Acesso seguro";
+    this.title = "Carona.AO";
+    this.description = "Autentica\xE7\xE3o moderna, responsiva e pronta para crescer.";
+    this.points = [];
+  }
   static {
-    this.\u0275fac = function NavbarComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NavbarComponent)();
+    this.\u0275fac = function AuthLayoutComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _AuthLayoutComponent)();
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NavbarComponent, selectors: [["app-navbar"]], decls: 8, vars: 0, consts: [[1, "navbar"], [1, "navbar__eyebrow"], ["routerLink", "/login", 1, "navbar__action"]], template: function NavbarComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AuthLayoutComponent, selectors: [["app-auth-layout"]], inputs: { eyebrow: "eyebrow", title: "title", description: "description", points: "points" }, ngContentSelectors: _c011, decls: 14, vars: 4, consts: [[1, "auth-layout"], [1, "auth-layout__glow", "auth-layout__glow--primary"], [1, "auth-layout__glow", "auth-layout__glow--secondary"], [1, "auth-layout__shell"], [1, "auth-layout__aside"], [1, "auth-layout__eyebrow"], [1, "auth-layout__description"], ["class", "auth-layout__highlights", 4, "ngIf"], [1, "auth-layout__content"], [1, "auth-layout__highlights"], ["class", "auth-layout__highlight", 4, "ngFor", "ngForOf"], [1, "auth-layout__highlight"], [1, "auth-layout__dot"]], template: function AuthLayoutComponent_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "header", 0)(1, "div")(2, "p", 1);
-        \u0275\u0275text(3, "Carona.AO");
+        \u0275\u0275projectionDef();
+        \u0275\u0275elementStart(0, "section", 0);
+        \u0275\u0275element(1, "div", 1)(2, "div", 2);
+        \u0275\u0275elementStart(3, "div", 3)(4, "aside", 4)(5, "p", 5);
+        \u0275\u0275text(6);
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(4, "h1");
-        \u0275\u0275text(5, "Plataforma de caronas inteligentes");
+        \u0275\u0275elementStart(7, "h1");
+        \u0275\u0275text(8);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(9, "p", 6);
+        \u0275\u0275text(10);
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(11, AuthLayoutComponent_div_11_Template, 2, 1, "div", 7);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(12, "div", 8);
+        \u0275\u0275projection(13);
+        \u0275\u0275elementEnd()()();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance(6);
+        \u0275\u0275textInterpolate(ctx.eyebrow);
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.title);
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.description);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.points.length);
+      }
+    }, dependencies: [NgForOf, NgIf], styles: ['\n\n.auth-layout[_ngcontent-%COMP%] {\n  position: relative;\n  min-height: 100vh;\n  padding: 24px;\n  overflow: hidden;\n  animation: _ngcontent-%COMP%_auth-layout-fade-in 0.5s ease both;\n}\n.auth-layout__shell[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);\n  gap: 20px;\n  align-items: center;\n  min-height: calc(100vh - 48px);\n}\n.auth-layout__aside[_ngcontent-%COMP%], \n.auth-layout__content[_ngcontent-%COMP%] {\n  position: relative;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: rgba(9, 18, 33, 0.7);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--app-shadow);\n}\n.auth-layout__aside[_ngcontent-%COMP%] {\n  padding: 36px;\n  overflow: hidden;\n}\n.auth-layout__aside[_ngcontent-%COMP%]::after {\n  content: "";\n  position: absolute;\n  inset: auto 40px 24px 40px;\n  height: 1px;\n  background:\n    linear-gradient(\n      90deg,\n      transparent,\n      rgba(37, 99, 235, 0.55),\n      rgba(16, 185, 129, 0.45),\n      transparent);\n}\n.auth-layout__content[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 24px;\n}\n.auth-layout__content[_ngcontent-%COMP%]    > *[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.auth-layout__eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 12px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  font-size: 12px;\n}\n.auth-layout[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  margin: 0;\n  max-width: 14ch;\n  font-size: clamp(36px, 4vw, 54px);\n  line-height: 1;\n}\n.auth-layout__description[_ngcontent-%COMP%] {\n  margin: 18px 0 0;\n  max-width: 54ch;\n  color: var(--app-muted);\n  font-size: 16px;\n  line-height: 1.6;\n}\n.auth-layout__highlights[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 14px;\n  margin-top: 24px;\n}\n.auth-layout__highlight[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  gap: 14px;\n  padding: 16px;\n  border-radius: 16px;\n  background: rgba(255, 255, 255, 0.025);\n  border: 1px solid var(--app-border);\n}\n.auth-layout__highlight[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  display: block;\n  margin-bottom: 4px;\n}\n.auth-layout__highlight[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-muted);\n  font-size: 14px;\n  line-height: 1.45;\n}\n.auth-layout__dot[_ngcontent-%COMP%] {\n  width: 12px;\n  height: 12px;\n  margin-top: 6px;\n  border-radius: 999px;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);\n}\n.auth-layout__glow[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 999px;\n  filter: blur(8px);\n  opacity: 0.5;\n}\n.auth-layout__glow--primary[_ngcontent-%COMP%] {\n  top: -140px;\n  right: -100px;\n  width: 300px;\n  height: 300px;\n  background: rgba(37, 99, 235, 0.16);\n}\n.auth-layout__glow--secondary[_ngcontent-%COMP%] {\n  bottom: -120px;\n  left: -100px;\n  width: 240px;\n  height: 240px;\n  background: rgba(16, 185, 129, 0.12);\n}\n@keyframes _ngcontent-%COMP%_auth-layout-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(12px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n@media (max-width: 1100px) {\n  .auth-layout__shell[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n@media (max-width: 768px) {\n  .auth-layout[_ngcontent-%COMP%] {\n    padding: 16px;\n  }\n  .auth-layout__aside[_ngcontent-%COMP%], \n   .auth-layout__content[_ngcontent-%COMP%] {\n    border-radius: 24px;\n  }\n  .auth-layout__aside[_ngcontent-%COMP%] {\n    padding: 24px;\n  }\n}\n/*# sourceMappingURL=auth-layout.component.css.map */'] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AuthLayoutComponent, [{
+    type: Component,
+    args: [{ selector: "app-auth-layout", standalone: true, imports: [NgForOf, NgIf], template: '<section class="auth-layout">\n  <div class="auth-layout__glow auth-layout__glow--primary"></div>\n  <div class="auth-layout__glow auth-layout__glow--secondary"></div>\n\n  <div class="auth-layout__shell">\n    <aside class="auth-layout__aside">\n      <p class="auth-layout__eyebrow">{{ eyebrow }}</p>\n      <h1>{{ title }}</h1>\n      <p class="auth-layout__description">{{ description }}</p>\n\n      <div class="auth-layout__highlights" *ngIf="points.length">\n        <article class="auth-layout__highlight" *ngFor="let point of points">\n          <span class="auth-layout__dot"></span>\n          <div>\n            <strong>{{ point.title }}</strong>\n            <p>{{ point.description }}</p>\n          </div>\n        </article>\n      </div>\n    </aside>\n\n    <div class="auth-layout__content">\n      <ng-content />\n    </div>\n  </div>\n</section>', styles: ['/* src/app/shared/components/auth/auth-layout.component.scss */\n.auth-layout {\n  position: relative;\n  min-height: 100vh;\n  padding: 24px;\n  overflow: hidden;\n  animation: auth-layout-fade-in 0.5s ease both;\n}\n.auth-layout__shell {\n  position: relative;\n  z-index: 1;\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);\n  gap: 20px;\n  align-items: center;\n  min-height: calc(100vh - 48px);\n}\n.auth-layout__aside,\n.auth-layout__content {\n  position: relative;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: rgba(9, 18, 33, 0.7);\n  backdrop-filter: blur(16px);\n  box-shadow: var(--app-shadow);\n}\n.auth-layout__aside {\n  padding: 36px;\n  overflow: hidden;\n}\n.auth-layout__aside::after {\n  content: "";\n  position: absolute;\n  inset: auto 40px 24px 40px;\n  height: 1px;\n  background:\n    linear-gradient(\n      90deg,\n      transparent,\n      rgba(37, 99, 235, 0.55),\n      rgba(16, 185, 129, 0.45),\n      transparent);\n}\n.auth-layout__content {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 24px;\n}\n.auth-layout__content > * {\n  width: 100%;\n}\n.auth-layout__eyebrow {\n  margin: 0 0 12px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.18em;\n  font-size: 12px;\n}\n.auth-layout h1 {\n  margin: 0;\n  max-width: 14ch;\n  font-size: clamp(36px, 4vw, 54px);\n  line-height: 1;\n}\n.auth-layout__description {\n  margin: 18px 0 0;\n  max-width: 54ch;\n  color: var(--app-muted);\n  font-size: 16px;\n  line-height: 1.6;\n}\n.auth-layout__highlights {\n  display: grid;\n  gap: 14px;\n  margin-top: 24px;\n}\n.auth-layout__highlight {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  gap: 14px;\n  padding: 16px;\n  border-radius: 16px;\n  background: rgba(255, 255, 255, 0.025);\n  border: 1px solid var(--app-border);\n}\n.auth-layout__highlight strong {\n  display: block;\n  margin-bottom: 4px;\n}\n.auth-layout__highlight p {\n  margin: 0;\n  color: var(--app-muted);\n  font-size: 14px;\n  line-height: 1.45;\n}\n.auth-layout__dot {\n  width: 12px;\n  height: 12px;\n  margin-top: 6px;\n  border-radius: 999px;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);\n}\n.auth-layout__glow {\n  position: absolute;\n  border-radius: 999px;\n  filter: blur(8px);\n  opacity: 0.5;\n}\n.auth-layout__glow--primary {\n  top: -140px;\n  right: -100px;\n  width: 300px;\n  height: 300px;\n  background: rgba(37, 99, 235, 0.16);\n}\n.auth-layout__glow--secondary {\n  bottom: -120px;\n  left: -100px;\n  width: 240px;\n  height: 240px;\n  background: rgba(16, 185, 129, 0.12);\n}\n@keyframes auth-layout-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(12px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n@media (max-width: 1100px) {\n  .auth-layout__shell {\n    grid-template-columns: 1fr;\n  }\n}\n@media (max-width: 768px) {\n  .auth-layout {\n    padding: 16px;\n  }\n  .auth-layout__aside,\n  .auth-layout__content {\n    border-radius: 24px;\n  }\n  .auth-layout__aside {\n    padding: 24px;\n  }\n}\n/*# sourceMappingURL=auth-layout.component.css.map */\n'] }]
+  }], null, { eyebrow: [{
+    type: Input
+  }], title: [{
+    type: Input
+  }], description: [{
+    type: Input
+  }], points: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AuthLayoutComponent, { className: "AuthLayoutComponent", filePath: "src/app/shared/components/auth/auth-layout.component.ts", lineNumber: 16 });
+})();
+
+// src/app/pages/auth/register/register.page.ts
+function RegisterPage_mat_error_18_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Nome \xE9 obrigat\xF3rio");
+    \u0275\u0275elementEnd();
+  }
+}
+function RegisterPage_mat_error_19_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Nome demasiado curto");
+    \u0275\u0275elementEnd();
+  }
+}
+function RegisterPage_mat_error_24_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email \xE9 obrigat\xF3rio");
+    \u0275\u0275elementEnd();
+  }
+}
+function RegisterPage_mat_error_25_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email inv\xE1lido");
+    \u0275\u0275elementEnd();
+  }
+}
+function RegisterPage_div_61_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 29);
+    \u0275\u0275element(1, "img", 30);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("src", ctx_r0.photoPreview, \u0275\u0275sanitizeUrl);
+  }
+}
+var RegisterPage = class _RegisterPage {
+  constructor(fb, auth, router, route) {
+    this.fb = fb;
+    this.auth = auth;
+    this.router = router;
+    this.route = route;
+    this.form = this.fb.nonNullable.group({
+      name: ["", [Validators.required, Validators.minLength(3)]],
+      email: ["", [Validators.required, Validators.email]],
+      phone: [""],
+      role: ["passenger"],
+      password: ["", [Validators.required, Validators.minLength(8), strongPasswordValidator]],
+      confirmPassword: ["", [Validators.required]],
+      photo: [""]
+    }, { validators: [matchFieldsValidator("password", "confirmPassword")] });
+    this.loading = false;
+    this.error = "";
+    this.successMessage = "";
+    this.photoPreview = "";
+    this.points = [
+      {
+        title: "Perfil pronto",
+        description: "Escolha o tipo de utilizador e mantenha a conta alinhada ao papel na plataforma."
+      },
+      {
+        title: "Password forte",
+        description: "Valida\xE7\xE3o em tempo real com regras claras e confirma\xE7\xE3o obrigat\xF3ria."
+      },
+      {
+        title: "Base escal\xE1vel",
+        description: "O fluxo j\xE1 encaixa em JWT, rotas guardadas e perfis reutiliz\xE1veis."
+      }
+    ];
+  }
+  ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigateByUrl("/dashboard");
+      return;
+    }
+    const email = this.route.snapshot.queryParamMap.get("email");
+    if (email) {
+      this.form.controls.email.setValue(email);
+    }
+  }
+  onPhotoInput(event) {
+    const input2 = event.target;
+    const file = input2.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.photoPreview = String(reader.result ?? "");
+    };
+    reader.readAsDataURL(file);
+  }
+  hasPasswordRequirement(rule) {
+    const value = this.form.controls.password.value ?? "";
+    switch (rule) {
+      case "length":
+        return value.length >= 8;
+      case "upper":
+        return /[A-Z]/.test(value);
+      case "lower":
+        return /[a-z]/.test(value);
+      case "number":
+        return /\d/.test(value);
+      case "symbol":
+        return /[^A-Za-z0-9]/.test(value);
+      default:
+        return false;
+    }
+  }
+  submit() {
+    if (this.form.invalid || this.loading) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.loading = true;
+    this.error = "";
+    const _a = this.form.getRawValue(), { confirmPassword } = _a, payload = __objRest(_a, ["confirmPassword"]);
+    this.auth.register(payload).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(["/login"], {
+          queryParams: {
+            registered: 1,
+            email: payload.email
+          }
+        });
+      },
+      error: (response) => {
+        this.loading = false;
+        this.error = userFeedback(response, "N\xE3o conseguimos criar a conta agora. Tente novamente.");
+      }
+    });
+  }
+  static {
+    this.\u0275fac = function RegisterPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _RegisterPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _RegisterPage, selectors: [["app-register-page"]], decls: 72, vars: 24, consts: [["eyebrow", "Criar conta", "title", "Junte-se ao Carona.AO", "description", "Crie uma conta para viajar ou conduzir com uma experi\xEAncia simples.", 3, "points"], [1, "auth-panel__hero"], [1, "auth-panel__hero-top"], [1, "auth-panel__eyebrow"], [1, "auth-panel__pill"], [1, "auth-panel__description"], ["type", "error", 3, "message"], [1, "auth-form", 3, "ngSubmit", "formGroup"], ["appearance", "outline"], ["matInput", "", "formControlName", "name", "placeholder", "Seu nome"], [4, "ngIf"], ["matInput", "", "type", "email", "formControlName", "email", "placeholder", "voce@exemplo.com"], ["matInput", "", "formControlName", "phone", "placeholder", "+244..."], ["formControlName", "role", "aria-label", "Tipo de utilizador", 1, "role-toggle"], ["value", "passenger"], ["value", "driver"], [1, "role-note"], ["label", "Senha", "placeholder", "Crie uma senha segura", "autocomplete", "new-password", "hint", "Use pelo menos 8 caracteres, mai\xFAscula, min\xFAscula, n\xFAmero e s\xEDmbolo", 3, "control"], ["label", "Confirmar senha", "placeholder", "Repita a senha", "autocomplete", "new-password", 3, "control"], [1, "password-rules"], ["matInput", "", "formControlName", "photo", "placeholder", "https://..."], [1, "photo-upload"], ["type", "file", "accept", "image/*", 3, "change"], ["class", "photo-preview", 4, "ngIf"], [1, "upload-note"], ["type", "info", 3, "message"], ["type", "submit", 3, "loading", "disabled"], [1, "auth-panel__footer"], ["routerLink", "/login"], [1, "photo-preview"], ["alt", "Pr\xE9-visualiza\xE7\xE3o da foto de perfil", 3, "src"]], template: function RegisterPage_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "app-auth-layout", 0)(1, "app-auth-card")(2, "div", 1)(3, "div", 2)(4, "p", 3);
+        \u0275\u0275text(5, "Nova conta");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(6, "span", 4);
+        \u0275\u0275text(7, "Passageiro ou motorista");
         \u0275\u0275elementEnd()();
-        \u0275\u0275elementStart(6, "a", 2);
-        \u0275\u0275text(7, "Entrar");
+        \u0275\u0275elementStart(8, "h2");
+        \u0275\u0275text(9, "Abra a sua conta");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(10, "p", 5);
+        \u0275\u0275text(11, "Escolha como quer usar a plataforma e preencha os seus dados.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(12, "app-alert-message", 6);
+        \u0275\u0275elementStart(13, "form", 7);
+        \u0275\u0275listener("ngSubmit", function RegisterPage_Template_form_ngSubmit_13_listener() {
+          return ctx.submit();
+        });
+        \u0275\u0275elementStart(14, "mat-form-field", 8)(15, "mat-label");
+        \u0275\u0275text(16, "Nome completo");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(17, "input", 9);
+        \u0275\u0275template(18, RegisterPage_mat_error_18_Template, 2, 0, "mat-error", 10)(19, RegisterPage_mat_error_19_Template, 2, 0, "mat-error", 10);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(20, "mat-form-field", 8)(21, "mat-label");
+        \u0275\u0275text(22, "Email");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(23, "input", 11);
+        \u0275\u0275template(24, RegisterPage_mat_error_24_Template, 2, 0, "mat-error", 10)(25, RegisterPage_mat_error_25_Template, 2, 0, "mat-error", 10);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(26, "mat-form-field", 8)(27, "mat-label");
+        \u0275\u0275text(28, "Telefone");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(29, "input", 12);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(30, "mat-button-toggle-group", 13)(31, "mat-button-toggle", 14);
+        \u0275\u0275text(32, "Passageiro");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(33, "mat-button-toggle", 15);
+        \u0275\u0275text(34, "Motorista");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(35, "div", 16)(36, "strong");
+        \u0275\u0275text(37, "Passageiro");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(38, "span");
+        \u0275\u0275text(39, "Reserva e acompanha viagens.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(40, "app-password-input", 17)(41, "app-password-input", 18);
+        \u0275\u0275elementStart(42, "div", 19)(43, "span");
+        \u0275\u0275text(44, "8+ caracteres");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(45, "span");
+        \u0275\u0275text(46, "Mai\xFAscula");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(47, "span");
+        \u0275\u0275text(48, "Min\xFAscula");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(49, "span");
+        \u0275\u0275text(50, "N\xFAmero");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(51, "span");
+        \u0275\u0275text(52, "S\xEDmbolo");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(53, "mat-form-field", 8)(54, "mat-label");
+        \u0275\u0275text(55, "Foto de perfil (URL ou data preview)");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(56, "input", 20);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(57, "label", 21)(58, "span");
+        \u0275\u0275text(59, "Escolher imagem para pr\xE9-visualiza\xE7\xE3o");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(60, "input", 22);
+        \u0275\u0275listener("change", function RegisterPage_Template_input_change_60_listener($event) {
+          return ctx.onPhotoInput($event);
+        });
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(61, RegisterPage_div_61_Template, 2, 1, "div", 23);
+        \u0275\u0275elementStart(62, "div", 24);
+        \u0275\u0275text(63, " A imagem \xE9 usada apenas para pr\xE9-visualiza\xE7\xE3o local. Pode seguir sem foto. ");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(64, "app-alert-message", 25);
+        \u0275\u0275elementStart(65, "app-loading-button", 26);
+        \u0275\u0275text(66);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(67, "div", 27)(68, "span");
+        \u0275\u0275text(69, "J\xE1 tem conta?");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(70, "a", 28);
+        \u0275\u0275text(71, "Entrar");
+        \u0275\u0275elementEnd()()()();
+      }
+      if (rf & 2) {
+        \u0275\u0275property("points", ctx.points);
+        \u0275\u0275advance(12);
+        \u0275\u0275property("message", ctx.error);
+        \u0275\u0275advance();
+        \u0275\u0275property("formGroup", ctx.form);
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.form.controls.name.hasError("required"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.form.controls.name.hasError("minlength"));
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("required"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("email"));
+        \u0275\u0275advance(15);
+        \u0275\u0275property("control", ctx.form.controls.password);
+        \u0275\u0275advance();
+        \u0275\u0275property("control", ctx.form.controls.confirmPassword);
+        \u0275\u0275advance(2);
+        \u0275\u0275classProp("is-valid", ctx.hasPasswordRequirement("length"));
+        \u0275\u0275advance(2);
+        \u0275\u0275classProp("is-valid", ctx.hasPasswordRequirement("upper"));
+        \u0275\u0275advance(2);
+        \u0275\u0275classProp("is-valid", ctx.hasPasswordRequirement("lower"));
+        \u0275\u0275advance(2);
+        \u0275\u0275classProp("is-valid", ctx.hasPasswordRequirement("number"));
+        \u0275\u0275advance(2);
+        \u0275\u0275classProp("is-valid", ctx.hasPasswordRequirement("symbol"));
+        \u0275\u0275advance(10);
+        \u0275\u0275property("ngIf", ctx.photoPreview);
+        \u0275\u0275advance(3);
+        \u0275\u0275property("message", (ctx.form.errors == null ? null : ctx.form.errors["fieldsMismatch"]) ? "As senhas n\xE3o coincidem. Confirme antes de continuar." : "");
+        \u0275\u0275advance();
+        \u0275\u0275property("loading", ctx.loading)("disabled", ctx.form.invalid);
+        \u0275\u0275advance();
+        \u0275\u0275textInterpolate1(" ", ctx.loading ? "A criar conta..." : "Criar conta", " ");
+      }
+    }, dependencies: [
+      ReactiveFormsModule,
+      \u0275NgNoValidate,
+      DefaultValueAccessor,
+      NgControlStatus,
+      NgControlStatusGroup,
+      FormGroupDirective,
+      FormControlName,
+      RouterLink,
+      NgIf,
+      MatButtonToggleModule,
+      MatButtonToggleGroup,
+      MatButtonToggle,
+      MatFormFieldModule,
+      MatFormField,
+      MatLabel,
+      MatError,
+      MatInputModule,
+      MatInput,
+      AuthLayoutComponent,
+      AuthCardComponent,
+      AlertMessageComponent,
+      PasswordInputComponent,
+      LoadingButtonComponent
+    ], styles: ["\n\n.auth-panel__hero[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.auth-panel__hero-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.auth-panel__pill[_ngcontent-%COMP%] {\n  padding: 8px 12px;\n  border-radius: 999px;\n  border: 1px solid rgba(16, 185, 129, 0.22);\n  background: rgba(16, 185, 129, 0.08);\n  color: #a7f3d0;\n  font-size: 12px;\n  font-weight: 700;\n}\n.auth-panel__eyebrow[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-muted);\n}\n.auth-form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 16px;\n}\n.role-toggle[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.role-toggle[_ngcontent-%COMP%]   .mat-button-toggle-checked[_ngcontent-%COMP%] {\n  background: rgba(37, 99, 235, 0.18);\n}\n.role-note[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  gap: 12px;\n  padding: 12px 14px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n}\n.role-note[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  color: var(--app-text);\n}\n.password-rules[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n.password-rules[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  padding: 8px 10px;\n  border-radius: 999px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.password-rules[_ngcontent-%COMP%]   span.is-valid[_ngcontent-%COMP%] {\n  color: var(--app-text);\n  border-color: rgba(16, 185, 129, 0.35);\n  background: rgba(16, 185, 129, 0.08);\n}\n.photo-upload[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 8px;\n  padding: 14px;\n  border-radius: 16px;\n  border: 1px dashed var(--app-border);\n  color: var(--app-muted);\n}\n.photo-upload[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.photo-preview[_ngcontent-%COMP%] {\n  width: 96px;\n  height: 96px;\n  border-radius: 24px;\n  overflow: hidden;\n  border: 1px solid var(--app-border);\n}\n.photo-preview[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.upload-note[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.auth-panel__footer[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n  align-items: center;\n  justify-content: center;\n  margin-top: 20px;\n  color: var(--app-muted);\n}\n.auth-panel__footer[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--app-text);\n  font-weight: 600;\n}\n@media (max-width: 768px) {\n  .auth-panel__hero-top[_ngcontent-%COMP%], \n   .role-note[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: flex-start;\n  }\n}\n/*# sourceMappingURL=register.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RegisterPage, [{
+    type: Component,
+    args: [{ selector: "app-register-page", standalone: true, imports: [
+      ReactiveFormsModule,
+      RouterLink,
+      NgIf,
+      MatButtonToggleModule,
+      MatFormFieldModule,
+      MatInputModule,
+      AuthLayoutComponent,
+      AuthCardComponent,
+      AlertMessageComponent,
+      PasswordInputComponent,
+      LoadingButtonComponent
+    ], template: `<app-auth-layout
+  eyebrow="Criar conta"
+  title="Junte-se ao Carona.AO"
+  description="Crie uma conta para viajar ou conduzir com uma experi\xEAncia simples."
+  [points]="points"
+>
+  <app-auth-card>
+    <div class="auth-panel__hero">
+      <div class="auth-panel__hero-top">
+        <p class="auth-panel__eyebrow">Nova conta</p>
+        <span class="auth-panel__pill">Passageiro ou motorista</span>
+      </div>
+      <h2>Abra a sua conta</h2>
+      <p class="auth-panel__description">Escolha como quer usar a plataforma e preencha os seus dados.</p>
+    </div>
+
+    <app-alert-message type="error" [message]="error"></app-alert-message>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="name" placeholder="Seu nome" />
+        <mat-error *ngIf="form.controls.name.hasError('required')">Nome \xE9 obrigat\xF3rio</mat-error>
+        <mat-error *ngIf="form.controls.name.hasError('minlength')">Nome demasiado curto</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="voce@exemplo.com" />
+        <mat-error *ngIf="form.controls.email.hasError('required')">Email \xE9 obrigat\xF3rio</mat-error>
+        <mat-error *ngIf="form.controls.email.hasError('email')">Email inv\xE1lido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" placeholder="+244..." />
+      </mat-form-field>
+
+      <mat-button-toggle-group formControlName="role" class="role-toggle" aria-label="Tipo de utilizador">
+        <mat-button-toggle value="passenger">Passageiro</mat-button-toggle>
+        <mat-button-toggle value="driver">Motorista</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div class="role-note">
+        <strong>Passageiro</strong>
+        <span>Reserva e acompanha viagens.</span>
+      </div>
+
+      <app-password-input
+        [control]="form.controls.password"
+        label="Senha"
+        placeholder="Crie uma senha segura"
+        autocomplete="new-password"
+        hint="Use pelo menos 8 caracteres, mai\xFAscula, min\xFAscula, n\xFAmero e s\xEDmbolo"
+      />
+
+      <app-password-input
+        [control]="form.controls.confirmPassword"
+        label="Confirmar senha"
+        placeholder="Repita a senha"
+        autocomplete="new-password"
+      />
+
+      <div class="password-rules">
+        <span [class.is-valid]="hasPasswordRequirement('length')">8+ caracteres</span>
+        <span [class.is-valid]="hasPasswordRequirement('upper')">Mai\xFAscula</span>
+        <span [class.is-valid]="hasPasswordRequirement('lower')">Min\xFAscula</span>
+        <span [class.is-valid]="hasPasswordRequirement('number')">N\xFAmero</span>
+        <span [class.is-valid]="hasPasswordRequirement('symbol')">S\xEDmbolo</span>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Foto de perfil (URL ou data preview)</mat-label>
+        <input matInput formControlName="photo" placeholder="https://..." />
+      </mat-form-field>
+
+      <label class="photo-upload">
+        <span>Escolher imagem para pr\xE9-visualiza\xE7\xE3o</span>
+        <input type="file" accept="image/*" (change)="onPhotoInput($event)" />
+      </label>
+
+      <div class="photo-preview" *ngIf="photoPreview">
+        <img [src]="photoPreview" alt="Pr\xE9-visualiza\xE7\xE3o da foto de perfil" />
+      </div>
+
+      <div class="upload-note">
+        A imagem \xE9 usada apenas para pr\xE9-visualiza\xE7\xE3o local. Pode seguir sem foto.
+      </div>
+
+      <app-alert-message
+        type="info"
+        [message]="form.errors?.['fieldsMismatch'] ? 'As senhas n\xE3o coincidem. Confirme antes de continuar.' : ''"
+      />
+
+      <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+        {{ loading ? 'A criar conta...' : 'Criar conta' }}
+      </app-loading-button>
+    </form>
+
+    <div class="auth-panel__footer">
+      <span>J\xE1 tem conta?</span>
+      <a routerLink="/login">Entrar</a>
+    </div>
+  </app-auth-card>
+</app-auth-layout>
+`, styles: ["/* src/app/pages/auth/register/register.page.scss */\n.auth-panel__hero {\n  display: grid;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.auth-panel__hero-top {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.auth-panel__pill {\n  padding: 8px 12px;\n  border-radius: 999px;\n  border: 1px solid rgba(16, 185, 129, 0.22);\n  background: rgba(16, 185, 129, 0.08);\n  color: #a7f3d0;\n  font-size: 12px;\n  font-weight: 700;\n}\n.auth-panel__eyebrow {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description {\n  margin: 0;\n  color: var(--app-muted);\n}\n.auth-form {\n  display: grid;\n  gap: 16px;\n}\n.role-toggle {\n  width: 100%;\n}\n.role-toggle .mat-button-toggle-checked {\n  background: rgba(37, 99, 235, 0.18);\n}\n.role-note {\n  display: flex;\n  justify-content: space-between;\n  gap: 12px;\n  padding: 12px 14px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n}\n.role-note strong {\n  color: var(--app-text);\n}\n.password-rules {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n.password-rules span {\n  padding: 8px 10px;\n  border-radius: 999px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.password-rules span.is-valid {\n  color: var(--app-text);\n  border-color: rgba(16, 185, 129, 0.35);\n  background: rgba(16, 185, 129, 0.08);\n}\n.photo-upload {\n  display: grid;\n  gap: 8px;\n  padding: 14px;\n  border-radius: 16px;\n  border: 1px dashed var(--app-border);\n  color: var(--app-muted);\n}\n.photo-upload input {\n  width: 100%;\n}\n.photo-preview {\n  width: 96px;\n  height: 96px;\n  border-radius: 24px;\n  overflow: hidden;\n  border: 1px solid var(--app-border);\n}\n.photo-preview img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.upload-note {\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.auth-panel__footer {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n  align-items: center;\n  justify-content: center;\n  margin-top: 20px;\n  color: var(--app-muted);\n}\n.auth-panel__footer a {\n  color: var(--app-text);\n  font-weight: 600;\n}\n@media (max-width: 768px) {\n  .auth-panel__hero-top,\n  .role-note {\n    flex-direction: column;\n    align-items: flex-start;\n  }\n}\n/*# sourceMappingURL=register.page.css.map */\n"] }]
+  }], () => [{ type: FormBuilder }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RegisterPage, { className: "RegisterPage", filePath: "src/app/pages/auth/register/register.page.ts", lineNumber: 37 });
+})();
+
+// src/app/pages/auth/forgot-password/forgot-password.page.ts
+function ForgotPasswordPage_mat_error_16_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email \xE9 obrigat\xF3rio");
+    \u0275\u0275elementEnd();
+  }
+}
+function ForgotPasswordPage_mat_error_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Email inv\xE1lido");
+    \u0275\u0275elementEnd();
+  }
+}
+function ForgotPasswordPage_div_22_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 13)(1, "a", 15);
+    \u0275\u0275text(2, "Abrir link de recupera\xE7\xE3o");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("href", ctx_r0.resetLink, \u0275\u0275sanitizeUrl);
+  }
+}
+var ForgotPasswordPage = class _ForgotPasswordPage {
+  constructor(fb, auth, router, route) {
+    this.fb = fb;
+    this.auth = auth;
+    this.router = router;
+    this.route = route;
+    this.form = this.fb.nonNullable.group({
+      email: ["", [Validators.required, Validators.email]]
+    });
+    this.loading = false;
+    this.error = "";
+    this.successMessage = "";
+    this.resetLink = "";
+    this.points = [
+      { title: "Sem stress", description: "Informe o email e siga as instru\xE7\xF5es para voltar \xE0 conta." },
+      { title: "Protegido", description: "O link de recupera\xE7\xE3o vale apenas por tempo limitado." },
+      { title: "Guiado", description: "A p\xE1gina mostra claramente o pr\xF3ximo passo." }
+    ];
+  }
+  ngOnInit() {
+    const email = this.route.snapshot.queryParamMap.get("email") ?? this.auth.getResetEmail();
+    if (email) {
+      this.form.controls.email.setValue(email);
+    }
+  }
+  submit() {
+    if (this.form.invalid || this.loading) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.loading = true;
+    this.error = "";
+    this.auth.forgotPassword({ email: this.form.controls.email.value }).subscribe({
+      next: (response) => {
+        this.loading = false;
+        this.successMessage = "Se este email estiver cadastrado, envi\xE1mos as instru\xE7\xF5es de recupera\xE7\xE3o.";
+        this.auth.storeResetEmail(response.email);
+        if (response.resetUrl) {
+          this.resetLink = response.resetUrl;
+        }
+        if (response.resetToken) {
+          this.resetLink = response.resetUrl ?? this.router.serializeUrl(this.router.createUrlTree(["/reset-password"], {
+            queryParams: {
+              email: response.email,
+              token: response.resetToken
+            }
+          }));
+        }
+      },
+      error: (response) => {
+        this.loading = false;
+        this.error = userFeedback(response, "N\xE3o conseguimos iniciar a recupera\xE7\xE3o agora. Tente novamente.");
+      }
+    });
+  }
+  static {
+    this.\u0275fac = function ForgotPasswordPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ForgotPasswordPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ForgotPasswordPage, selectors: [["app-forgot-password-page"]], decls: 26, vars: 10, consts: [["eyebrow", "Recupera\xE7\xE3o de senha", "title", "Recupere o acesso", "description", "Receba um link para criar uma nova senha e voltar \xE0 sua conta.", 3, "points"], [1, "auth-panel__hero"], [1, "auth-panel__eyebrow"], [1, "auth-panel__description"], ["type", "success", 3, "message"], ["type", "error", 3, "message"], [1, "auth-form", 3, "ngSubmit", "formGroup"], ["appearance", "outline"], ["matInput", "", "type", "email", "formControlName", "email", "placeholder", "voce@exemplo.com"], [4, "ngIf"], ["type", "submit", 3, "loading", "disabled"], [1, "recovery-note"], ["class", "auth-panel__footer", 4, "ngIf"], [1, "auth-panel__footer"], ["routerLink", "/login"], [3, "href"]], template: function ForgotPasswordPage_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "app-auth-layout", 0)(1, "app-auth-card")(2, "div", 1)(3, "p", 2);
+        \u0275\u0275text(4, "Esqueceu a senha?");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "h2");
+        \u0275\u0275text(6, "Vamos ajudar");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p", 3);
+        \u0275\u0275text(8, "Digite o email da sua conta para receber as instru\xE7\xF5es.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(9, "app-alert-message", 4)(10, "app-alert-message", 5);
+        \u0275\u0275elementStart(11, "form", 6);
+        \u0275\u0275listener("ngSubmit", function ForgotPasswordPage_Template_form_ngSubmit_11_listener() {
+          return ctx.submit();
+        });
+        \u0275\u0275elementStart(12, "mat-form-field", 7)(13, "mat-label");
+        \u0275\u0275text(14, "Email");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(15, "input", 8);
+        \u0275\u0275template(16, ForgotPasswordPage_mat_error_16_Template, 2, 0, "mat-error", 9)(17, ForgotPasswordPage_mat_error_17_Template, 2, 0, "mat-error", 9);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(18, "app-loading-button", 10);
+        \u0275\u0275text(19);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(20, "div", 11);
+        \u0275\u0275text(21, " Por seguran\xE7a, mostramos sempre a mesma resposta. Assim ningu\xE9m consegue descobrir se um email est\xE1 cadastrado. ");
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(22, ForgotPasswordPage_div_22_Template, 3, 1, "div", 12);
+        \u0275\u0275elementStart(23, "div", 13)(24, "a", 14);
+        \u0275\u0275text(25, "Voltar ao login");
+        \u0275\u0275elementEnd()()()();
+      }
+      if (rf & 2) {
+        \u0275\u0275property("points", ctx.points);
+        \u0275\u0275advance(9);
+        \u0275\u0275property("message", ctx.successMessage);
+        \u0275\u0275advance();
+        \u0275\u0275property("message", ctx.error);
+        \u0275\u0275advance();
+        \u0275\u0275property("formGroup", ctx.form);
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("required"));
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.form.controls.email.hasError("email"));
+        \u0275\u0275advance();
+        \u0275\u0275property("loading", ctx.loading)("disabled", ctx.form.invalid);
+        \u0275\u0275advance();
+        \u0275\u0275textInterpolate1(" ", ctx.loading ? "A enviar..." : "Enviar instru\xE7\xF5es", " ");
+        \u0275\u0275advance(3);
+        \u0275\u0275property("ngIf", ctx.resetLink);
+      }
+    }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RouterLink, NgIf, MatFormFieldModule, MatFormField, MatLabel, MatError, MatInputModule, MatInput, AuthLayoutComponent, AuthCardComponent, AlertMessageComponent, LoadingButtonComponent], styles: ["\n\n.auth-panel__hero[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 12px;\n}\n.auth-panel__eyebrow[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description[_ngcontent-%COMP%] {\n  margin: 0 0 12px;\n  color: var(--app-muted);\n}\n.auth-form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 16px;\n}\n.auth-panel__footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  margin-top: 18px;\n}\n.recovery-note[_ngcontent-%COMP%] {\n  margin-top: 16px;\n  padding: 14px 16px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n  line-height: 1.5;\n  font-size: 13px;\n}\n.auth-panel__footer[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--app-text);\n  font-weight: 600;\n}\n/*# sourceMappingURL=forgot-password.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ForgotPasswordPage, [{
+    type: Component,
+    args: [{ selector: "app-forgot-password-page", standalone: true, imports: [ReactiveFormsModule, RouterLink, NgIf, MatFormFieldModule, MatInputModule, AuthLayoutComponent, AuthCardComponent, AlertMessageComponent, LoadingButtonComponent], template: `<app-auth-layout
+  eyebrow="Recupera\xE7\xE3o de senha"
+  title="Recupere o acesso"
+  description="Receba um link para criar uma nova senha e voltar \xE0 sua conta."
+  [points]="points"
+>
+  <app-auth-card>
+    <div class="auth-panel__hero">
+      <p class="auth-panel__eyebrow">Esqueceu a senha?</p>
+      <h2>Vamos ajudar</h2>
+      <p class="auth-panel__description">Digite o email da sua conta para receber as instru\xE7\xF5es.</p>
+    </div>
+
+    <app-alert-message type="success" [message]="successMessage"></app-alert-message>
+    <app-alert-message type="error" [message]="error"></app-alert-message>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="voce@exemplo.com" />
+        <mat-error *ngIf="form.controls.email.hasError('required')">Email \xE9 obrigat\xF3rio</mat-error>
+        <mat-error *ngIf="form.controls.email.hasError('email')">Email inv\xE1lido</mat-error>
+      </mat-form-field>
+
+      <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+        {{ loading ? 'A enviar...' : 'Enviar instru\xE7\xF5es' }}
+      </app-loading-button>
+    </form>
+
+    <div class="recovery-note">
+      Por seguran\xE7a, mostramos sempre a mesma resposta. Assim ningu\xE9m consegue descobrir se um email est\xE1 cadastrado.
+    </div>
+
+    <div class="auth-panel__footer" *ngIf="resetLink">
+      <a [href]="resetLink">Abrir link de recupera\xE7\xE3o</a>
+    </div>
+
+    <div class="auth-panel__footer">
+      <a routerLink="/login">Voltar ao login</a>
+    </div>
+  </app-auth-card>
+</app-auth-layout>
+`, styles: ["/* src/app/pages/auth/forgot-password/forgot-password.page.scss */\n.auth-panel__hero {\n  display: grid;\n  gap: 12px;\n}\n.auth-panel__eyebrow {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description {\n  margin: 0 0 12px;\n  color: var(--app-muted);\n}\n.auth-form {\n  display: grid;\n  gap: 16px;\n}\n.auth-panel__footer {\n  display: flex;\n  justify-content: center;\n  margin-top: 18px;\n}\n.recovery-note {\n  margin-top: 16px;\n  padding: 14px 16px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n  line-height: 1.5;\n  font-size: 13px;\n}\n.auth-panel__footer a {\n  color: var(--app-text);\n  font-weight: 600;\n}\n/*# sourceMappingURL=forgot-password.page.css.map */\n"] }]
+  }], () => [{ type: FormBuilder }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ForgotPasswordPage, { className: "ForgotPasswordPage", filePath: "src/app/pages/auth/forgot-password/forgot-password.page.ts", lineNumber: 22 });
+})();
+
+// src/app/pages/auth/reset-password/reset-password.page.ts
+var ResetPasswordPage = class _ResetPasswordPage {
+  constructor(fb, auth, router, route) {
+    this.fb = fb;
+    this.auth = auth;
+    this.router = router;
+    this.route = route;
+    this.form = this.fb.nonNullable.group({
+      email: ["", [Validators.required, Validators.email]],
+      token: ["", [Validators.required]],
+      password: ["", [Validators.required, Validators.minLength(8), strongPasswordValidator]],
+      passwordConfirmation: ["", [Validators.required]]
+    }, { validators: [matchFieldsValidator("password", "passwordConfirmation")] });
+    this.loading = false;
+    this.error = "";
+    this.successMessage = "";
+    this.points = [
+      { title: "Link protegido", description: "A recupera\xE7\xE3o expira para manter a sua conta segura." },
+      { title: "Senha nova", description: "Depois de alterar, entre usando a nova senha." },
+      { title: "Poucos passos", description: "Preencha, confirme e volte ao Carona.AO." }
+    ];
+  }
+  ngOnInit() {
+    const email = this.route.snapshot.queryParamMap.get("email") ?? this.auth.getResetEmail();
+    const token = this.route.snapshot.queryParamMap.get("token");
+    if (email) {
+      this.form.controls.email.setValue(email);
+    }
+    if (token) {
+      this.form.controls.token.setValue(token);
+    }
+  }
+  submit() {
+    if (this.form.invalid || this.loading) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.loading = true;
+    this.error = "";
+    this.auth.resetPassword(this.form.getRawValue()).subscribe({
+      next: () => {
+        this.loading = false;
+        this.auth.clearResetEmail();
+        this.router.navigate(["/login"], { queryParams: { reset: 1 } });
+      },
+      error: (response) => {
+        this.loading = false;
+        this.error = userFeedback(response, "N\xE3o conseguimos alterar a senha agora. Tente novamente.");
+      }
+    });
+  }
+  static {
+    this.\u0275fac = function ResetPasswordPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ResetPasswordPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ResetPasswordPage, selectors: [["app-reset-password-page"]], decls: 28, vars: 8, consts: [["eyebrow", "Nova senha", "title", "Redefina o acesso", "description", "Crie uma nova senha para voltar a entrar na sua conta.", 3, "points"], [1, "auth-panel__hero"], [1, "auth-panel__eyebrow"], [1, "auth-panel__description"], ["type", "error", 3, "message"], [1, "auth-form", 3, "ngSubmit", "formGroup"], ["appearance", "outline"], ["matInput", "", "type", "email", "formControlName", "email", "placeholder", "voce@exemplo.com"], ["matInput", "", "formControlName", "token", "placeholder", "Cole o c\xF3digo recebido"], ["label", "Nova senha", "placeholder", "Crie a nova senha", "autocomplete", "new-password", 3, "control"], ["label", "Confirmar nova senha", "placeholder", "Repita a nova senha", "autocomplete", "new-password", 3, "control"], ["type", "submit", 3, "loading", "disabled"], [1, "reset-note"], [1, "auth-panel__footer"], ["routerLink", "/login"]], template: function ResetPasswordPage_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "app-auth-layout", 0)(1, "app-auth-card")(2, "div", 1)(3, "p", 2);
+        \u0275\u0275text(4, "Nova senha");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "h2");
+        \u0275\u0275text(6, "Escolha a sua nova senha");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p", 3);
+        \u0275\u0275text(8, "Use o link recebido no email ou cole o c\xF3digo de recupera\xE7\xE3o.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275element(9, "app-alert-message", 4);
+        \u0275\u0275elementStart(10, "form", 5);
+        \u0275\u0275listener("ngSubmit", function ResetPasswordPage_Template_form_ngSubmit_10_listener() {
+          return ctx.submit();
+        });
+        \u0275\u0275elementStart(11, "mat-form-field", 6)(12, "mat-label");
+        \u0275\u0275text(13, "Email");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(14, "input", 7);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(15, "mat-form-field", 6)(16, "mat-label");
+        \u0275\u0275text(17, "C\xF3digo de recupera\xE7\xE3o");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(18, "input", 8);
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(19, "app-password-input", 9)(20, "app-password-input", 10);
+        \u0275\u0275elementStart(21, "app-loading-button", 11);
+        \u0275\u0275text(22);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(23, "div", 12);
+        \u0275\u0275text(24, " Depois de guardar, entre novamente com a nova senha. ");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(25, "div", 13)(26, "a", 14);
+        \u0275\u0275text(27, "Voltar ao login");
+        \u0275\u0275elementEnd()()()();
+      }
+      if (rf & 2) {
+        \u0275\u0275property("points", ctx.points);
+        \u0275\u0275advance(9);
+        \u0275\u0275property("message", ctx.error);
+        \u0275\u0275advance();
+        \u0275\u0275property("formGroup", ctx.form);
+        \u0275\u0275advance(9);
+        \u0275\u0275property("control", ctx.form.controls.password);
+        \u0275\u0275advance();
+        \u0275\u0275property("control", ctx.form.controls.passwordConfirmation);
+        \u0275\u0275advance();
+        \u0275\u0275property("loading", ctx.loading)("disabled", ctx.form.invalid);
+        \u0275\u0275advance();
+        \u0275\u0275textInterpolate1(" ", ctx.loading ? "A guardar..." : "Guardar nova senha", " ");
+      }
+    }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RouterLink, MatFormFieldModule, MatFormField, MatLabel, MatInputModule, MatInput, AuthLayoutComponent, AuthCardComponent, AlertMessageComponent, PasswordInputComponent, LoadingButtonComponent], styles: ["\n\n.auth-panel__hero[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 12px;\n}\n.auth-panel__eyebrow[_ngcontent-%COMP%] {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description[_ngcontent-%COMP%] {\n  margin: 0 0 12px;\n  color: var(--app-muted);\n}\n.auth-form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 16px;\n}\n.auth-panel__footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  margin-top: 18px;\n}\n.auth-panel__footer[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: var(--app-text);\n  font-weight: 600;\n}\n.reset-note[_ngcontent-%COMP%] {\n  margin-top: 16px;\n  padding: 14px 16px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n  line-height: 1.5;\n  font-size: 13px;\n}\n/*# sourceMappingURL=reset-password.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ResetPasswordPage, [{
+    type: Component,
+    args: [{ selector: "app-reset-password-page", standalone: true, imports: [ReactiveFormsModule, RouterLink, MatFormFieldModule, MatInputModule, AuthLayoutComponent, AuthCardComponent, AlertMessageComponent, PasswordInputComponent, LoadingButtonComponent], template: `<app-auth-layout
+  eyebrow="Nova senha"
+  title="Redefina o acesso"
+  description="Crie uma nova senha para voltar a entrar na sua conta."
+  [points]="points"
+>
+  <app-auth-card>
+    <div class="auth-panel__hero">
+      <p class="auth-panel__eyebrow">Nova senha</p>
+      <h2>Escolha a sua nova senha</h2>
+      <p class="auth-panel__description">Use o link recebido no email ou cole o c\xF3digo de recupera\xE7\xE3o.</p>
+    </div>
+
+    <app-alert-message type="error" [message]="error"></app-alert-message>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="voce@exemplo.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>C\xF3digo de recupera\xE7\xE3o</mat-label>
+        <input matInput formControlName="token" placeholder="Cole o c\xF3digo recebido" />
+      </mat-form-field>
+
+      <app-password-input
+        [control]="form.controls.password"
+        label="Nova senha"
+        placeholder="Crie a nova senha"
+        autocomplete="new-password"
+      />
+
+      <app-password-input
+        [control]="form.controls.passwordConfirmation"
+        label="Confirmar nova senha"
+        placeholder="Repita a nova senha"
+        autocomplete="new-password"
+      />
+
+      <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+        {{ loading ? 'A guardar...' : 'Guardar nova senha' }}
+      </app-loading-button>
+    </form>
+
+    <div class="reset-note">
+      Depois de guardar, entre novamente com a nova senha.
+    </div>
+
+    <div class="auth-panel__footer">
+      <a routerLink="/login">Voltar ao login</a>
+    </div>
+  </app-auth-card>
+</app-auth-layout>
+`, styles: ["/* src/app/pages/auth/reset-password/reset-password.page.scss */\n.auth-panel__hero {\n  display: grid;\n  gap: 12px;\n}\n.auth-panel__eyebrow {\n  margin: 0;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.16em;\n  font-size: 12px;\n}\n.auth-panel__description {\n  margin: 0 0 12px;\n  color: var(--app-muted);\n}\n.auth-form {\n  display: grid;\n  gap: 16px;\n}\n.auth-panel__footer {\n  display: flex;\n  justify-content: center;\n  margin-top: 18px;\n}\n.auth-panel__footer a {\n  color: var(--app-text);\n  font-weight: 600;\n}\n.reset-note {\n  margin-top: 16px;\n  padding: 14px 16px;\n  border-radius: 16px;\n  border: 1px solid var(--app-border);\n  color: var(--app-muted);\n  background: rgba(255, 255, 255, 0.02);\n  line-height: 1.5;\n  font-size: 13px;\n}\n/*# sourceMappingURL=reset-password.page.css.map */\n"] }]
+  }], () => [{ type: FormBuilder }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ResetPasswordPage, { className: "ResetPasswordPage", filePath: "src/app/pages/auth/reset-password/reset-password.page.ts", lineNumber: 23 });
+})();
+
+// src/app/shared/components/navbar.component.ts
+function NavbarComponent_ng_container_16_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "a", 8)(2, "span", 9);
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "button", 10);
+    \u0275\u0275listener("click", function NavbarComponent_ng_container_16_Template_button_click_6_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.logout());
+    });
+    \u0275\u0275elementStart(7, "mat-icon");
+    \u0275\u0275text(8, "logout");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(9, " Sair ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    let tmp_3_0;
+    let tmp_4_0;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("routerLink", ctx_r2.auth.getDashboardUrl());
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r2.initials((tmp_3_0 = ctx_r2.auth.user()) == null ? null : tmp_3_0.name));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate((tmp_4_0 = ctx_r2.auth.user()) == null ? null : tmp_4_0.name);
+  }
+}
+function NavbarComponent_ng_template_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "a", 11);
+    \u0275\u0275text(1, "Criar conta");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "a", 12);
+    \u0275\u0275text(3, "Entrar");
+    \u0275\u0275elementEnd();
+  }
+}
+var NavbarComponent = class _NavbarComponent {
+  constructor(router) {
+    this.router = router;
+    this.lightMode = false;
+    this.menuClick = new EventEmitter();
+    this.themeClick = new EventEmitter();
+    this.auth = inject(AuthService);
+  }
+  initials(name = "") {
+    return name.split(" ").filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
+  }
+  logout() {
+    this.auth.logout();
+    this.router.navigateByUrl("/");
+  }
+  static {
+    this.\u0275fac = function NavbarComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _NavbarComponent)(\u0275\u0275directiveInject(Router));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NavbarComponent, selectors: [["app-navbar"]], inputs: { lightMode: "lightMode" }, outputs: { menuClick: "menuClick", themeClick: "themeClick" }, decls: 19, vars: 3, consts: [["guestActions", ""], [1, "navbar"], ["type", "button", "aria-label", "Abrir menu", 1, "icon-button", "navbar__menu", 3, "click"], [1, "navbar__search"], [1, "navbar__actions"], ["type", "button", "aria-label", "Alternar tema", 1, "icon-button", 3, "click"], ["type", "button", "aria-label", "Notifica\xE7\xF5es", 1, "icon-button"], [4, "ngIf", "ngIfElse"], [1, "navbar__profile", 3, "routerLink"], [1, "avatar"], ["type", "button", 1, "btn", 3, "click"], ["routerLink", "/register", 1, "btn"], ["routerLink", "/login", 1, "btn", "btn--primary"]], template: function NavbarComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "header", 1)(1, "button", 2);
+        \u0275\u0275listener("click", function NavbarComponent_Template_button_click_1_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.menuClick.emit());
+        });
+        \u0275\u0275elementStart(2, "mat-icon");
+        \u0275\u0275text(3, "menu");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(4, "div", 3)(5, "mat-icon");
+        \u0275\u0275text(6, "search");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "span");
+        \u0275\u0275text(8, "Pesquisar utilizadores, viagens ou reservas");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(9, "div", 4)(10, "button", 5);
+        \u0275\u0275listener("click", function NavbarComponent_Template_button_click_10_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.themeClick.emit());
+        });
+        \u0275\u0275elementStart(11, "mat-icon");
+        \u0275\u0275text(12);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(13, "button", 6)(14, "mat-icon");
+        \u0275\u0275text(15, "notifications_none");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(16, NavbarComponent_ng_container_16_Template, 10, 3, "ng-container", 7)(17, NavbarComponent_ng_template_17_Template, 4, 0, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd()();
       }
-    }, dependencies: [RouterLink], styles: ["\n\n.navbar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  padding: 24px 24px 12px;\n  border-bottom: 1px solid var(--app-border);\n  backdrop-filter: blur(16px);\n  background: rgba(15, 23, 42, 0.78);\n}\n.navbar__eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 6px;\n  color: var(--app-accent);\n  font-size: 12px;\n  letter-spacing: 0.18em;\n  text-transform: uppercase;\n}\n.navbar[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 22px;\n}\n.navbar__action[_ngcontent-%COMP%] {\n  padding: 10px 16px;\n  border-radius: 999px;\n  background: var(--app-primary);\n  color: white;\n}\n/*# sourceMappingURL=navbar.component.css.map */"] });
+      if (rf & 2) {
+        const guestActions_r4 = \u0275\u0275reference(18);
+        \u0275\u0275advance(12);
+        \u0275\u0275textInterpolate(ctx.lightMode ? "dark_mode" : "light_mode");
+        \u0275\u0275advance(4);
+        \u0275\u0275property("ngIf", ctx.auth.user())("ngIfElse", guestActions_r4);
+      }
+    }, dependencies: [RouterLink, NgIf, MatIconModule, MatIcon], styles: ["\n\n.navbar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 10;\n  min-width: 0;\n  display: grid;\n  grid-template-columns: auto minmax(220px, 560px) auto;\n  align-items: center;\n  gap: 12px;\n  padding: 14px 20px;\n  border-bottom: 1px solid var(--app-border);\n  background: color-mix(in srgb, var(--app-bg) 86%, transparent);\n  backdrop-filter: blur(18px);\n}\n.navbar__menu[_ngcontent-%COMP%] {\n  display: none;\n}\n.navbar__search[_ngcontent-%COMP%] {\n  min-height: 42px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 0 14px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n}\n.navbar__search[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  width: 19px;\n  height: 19px;\n  font-size: 19px;\n}\n.navbar__actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.navbar__profile[_ngcontent-%COMP%] {\n  min-height: 42px;\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  padding: 0 10px 0 4px;\n  border: 1px solid var(--app-border);\n  border-radius: 999px;\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.navbar__actions[_ngcontent-%COMP%]   .btn[_ngcontent-%COMP%] {\n  min-height: 42px;\n}\n@media (max-width: 960px) {\n  .navbar[_ngcontent-%COMP%] {\n    grid-template-columns: auto 1fr auto;\n    padding: 12px 14px;\n  }\n  .navbar__menu[_ngcontent-%COMP%] {\n    display: grid;\n  }\n  .navbar__search[_ngcontent-%COMP%]   span[_ngcontent-%COMP%], \n   .navbar__profile[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:not(.avatar), \n   .navbar__actions[_ngcontent-%COMP%]   .btn[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%], \n   .navbar__actions[_ngcontent-%COMP%]   .btn[_ngcontent-%COMP%]:not(.btn--primary) {\n    display: none;\n  }\n  .navbar__search[_ngcontent-%COMP%] {\n    min-width: 0;\n  }\n}\n/*# sourceMappingURL=navbar.component.css.map */"] });
   }
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NavbarComponent, [{
     type: Component,
-    args: [{ selector: "app-navbar", standalone: true, imports: [RouterLink], template: `
+    args: [{ selector: "app-navbar", standalone: true, imports: [RouterLink, NgIf, MatIconModule], template: `
     <header class="navbar">
-      <div>
-        <p class="navbar__eyebrow">Carona.AO</p>
-        <h1>Plataforma de caronas inteligentes</h1>
+      <button class="icon-button navbar__menu" type="button" (click)="menuClick.emit()" aria-label="Abrir menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="navbar__search">
+        <mat-icon>search</mat-icon>
+        <span>Pesquisar utilizadores, viagens ou reservas</span>
       </div>
 
-      <a routerLink="/login" class="navbar__action">Entrar</a>
+      <div class="navbar__actions">
+        <button class="icon-button" type="button" (click)="themeClick.emit()" aria-label="Alternar tema">
+          <mat-icon>{{ lightMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+        </button>
+
+        <button class="icon-button" type="button" aria-label="Notifica\xE7\xF5es">
+          <mat-icon>notifications_none</mat-icon>
+        </button>
+
+        <ng-container *ngIf="auth.user(); else guestActions">
+          <a [routerLink]="auth.getDashboardUrl()" class="navbar__profile">
+            <span class="avatar">{{ initials(auth.user()?.name) }}</span>
+            <span>{{ auth.user()?.name }}</span>
+          </a>
+          <button type="button" class="btn" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Sair
+          </button>
+        </ng-container>
+
+        <ng-template #guestActions>
+          <a routerLink="/register" class="btn">Criar conta</a>
+          <a routerLink="/login" class="btn btn--primary">Entrar</a>
+        </ng-template>
+      </div>
     </header>
-  `, styles: ["/* src/app/shared/components/navbar.component.scss */\n.navbar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  padding: 24px 24px 12px;\n  border-bottom: 1px solid var(--app-border);\n  backdrop-filter: blur(16px);\n  background: rgba(15, 23, 42, 0.78);\n}\n.navbar__eyebrow {\n  margin: 0 0 6px;\n  color: var(--app-accent);\n  font-size: 12px;\n  letter-spacing: 0.18em;\n  text-transform: uppercase;\n}\n.navbar h1 {\n  margin: 0;\n  font-size: 22px;\n}\n.navbar__action {\n  padding: 10px 16px;\n  border-radius: 999px;\n  background: var(--app-primary);\n  color: white;\n}\n/*# sourceMappingURL=navbar.component.css.map */\n"] }]
-  }], null, null);
+  `, styles: ["/* src/app/shared/components/navbar.component.scss */\n.navbar {\n  position: sticky;\n  top: 0;\n  z-index: 10;\n  min-width: 0;\n  display: grid;\n  grid-template-columns: auto minmax(220px, 560px) auto;\n  align-items: center;\n  gap: 12px;\n  padding: 14px 20px;\n  border-bottom: 1px solid var(--app-border);\n  background: color-mix(in srgb, var(--app-bg) 86%, transparent);\n  backdrop-filter: blur(18px);\n}\n.navbar__menu {\n  display: none;\n}\n.navbar__search {\n  min-height: 42px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 0 14px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n}\n.navbar__search mat-icon {\n  width: 19px;\n  height: 19px;\n  font-size: 19px;\n}\n.navbar__actions {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 9px;\n  flex-wrap: wrap;\n}\n.navbar__profile {\n  min-height: 42px;\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  padding: 0 10px 0 4px;\n  border: 1px solid var(--app-border);\n  border-radius: 999px;\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.navbar__actions .btn {\n  min-height: 42px;\n}\n@media (max-width: 960px) {\n  .navbar {\n    grid-template-columns: auto 1fr auto;\n    padding: 12px 14px;\n  }\n  .navbar__menu {\n    display: grid;\n  }\n  .navbar__search span,\n  .navbar__profile span:not(.avatar),\n  .navbar__actions .btn mat-icon,\n  .navbar__actions .btn:not(.btn--primary) {\n    display: none;\n  }\n  .navbar__search {\n    min-width: 0;\n  }\n}\n/*# sourceMappingURL=navbar.component.css.map */\n"] }]
+  }], () => [{ type: Router }], { lightMode: [{
+    type: Input
+  }], menuClick: [{
+    type: Output
+  }], themeClick: [{
+    type: Output
+  }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NavbarComponent, { className: "NavbarComponent", filePath: "src/app/shared/components/navbar.component.ts", lineNumber: 20 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NavbarComponent, { className: "NavbarComponent", filePath: "src/app/shared/components/navbar.component.ts", lineNumber: 52 });
 })();
 
 // src/app/shared/components/sidebar.component.ts
-var _c05 = () => ({ exact: true });
+var _c012 = (a0) => ({ exact: a0 });
+function SidebarComponent_div_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 9)(1, "span");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const user_r1 = ctx.ngIf;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r1.roleLabel(user_r1.role));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(user_r1.name);
+  }
+}
+function SidebarComponent_a_11_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "a", 10);
+    \u0275\u0275listener("click", function SidebarComponent_a_11_Template_a_click_0_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.navigate.emit());
+    });
+    \u0275\u0275elementStart(1, "mat-icon");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const item_r4 = ctx.$implicit;
+    \u0275\u0275property("routerLink", item_r4.route)("fragment", item_r4.fragment)("routerLinkActiveOptions", \u0275\u0275pureFunction1(5, _c012, item_r4.route === "/"));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r4.icon);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r4.label);
+  }
+}
 var SidebarComponent = class _SidebarComponent {
+  constructor() {
+    this.navigate = new EventEmitter();
+    this.auth = inject(AuthService);
+    this.baseLinks = [
+      { label: "Home", icon: "home", route: "/" },
+      { label: "Admin", icon: "space_dashboard", route: "/admin", roles: ["admin"] },
+      { label: "Passageiro", icon: "near_me", route: "/passageiro", roles: ["passenger", "admin"] },
+      { label: "Nova carona", icon: "add_road", route: "/motorista", fragment: "nova-carona", roles: ["driver", "admin"] },
+      { label: "Motorista", icon: "local_taxi", route: "/motorista", roles: ["driver", "admin"] }
+    ];
+    this.links = computed(() => {
+      const role = this.auth.user()?.role;
+      if (!role) {
+        return this.baseLinks.filter((item) => !item.roles);
+      }
+      return this.baseLinks.filter((item) => !item.roles || item.roles.includes(role));
+    });
+  }
+  roleLabel(role) {
+    const labels = {
+      admin: "Administra\xE7\xE3o",
+      passenger: "Passageiro",
+      driver: "Motorista"
+    };
+    return labels[role] ?? role;
+  }
   static {
     this.\u0275fac = function SidebarComponent_Factory(__ngFactoryType__) {
       return new (__ngFactoryType__ || _SidebarComponent)();
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SidebarComponent, selectors: [["app-sidebar"]], decls: 16, vars: 2, consts: [[1, "sidebar"], [1, "sidebar__brand"], [1, "sidebar__logo"], [1, "sidebar__nav"], ["routerLink", "/", "routerLinkActive", "is-active", 3, "routerLinkActiveOptions"], ["routerLink", "/dashboard", "routerLinkActive", "is-active"], ["routerLink", "/login", "routerLinkActive", "is-active"]], template: function SidebarComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SidebarComponent, selectors: [["app-sidebar"]], outputs: { navigate: "navigate" }, decls: 21, vars: 2, consts: [[1, "sidebar"], ["routerLink", "/", 1, "sidebar__brand", 3, "click"], [1, "sidebar__logo"], ["class", "sidebar__workspace", 4, "ngIf"], ["aria-label", "Navega\xE7\xE3o principal", 1, "sidebar__nav"], ["routerLinkActive", "is-active", 3, "routerLink", "fragment", "routerLinkActiveOptions", "click", 4, "ngFor", "ngForOf"], [1, "sidebar__ops"], [1, "dot"], [1, "dot", "dot--blue"], [1, "sidebar__workspace"], ["routerLinkActive", "is-active", 3, "click", "routerLink", "fragment", "routerLinkActiveOptions"]], template: function SidebarComponent_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "aside", 0)(1, "div", 1)(2, "div", 2);
+        \u0275\u0275elementStart(0, "aside", 0)(1, "a", 1);
+        \u0275\u0275listener("click", function SidebarComponent_Template_a_click_1_listener() {
+          return ctx.navigate.emit();
+        });
+        \u0275\u0275elementStart(2, "div", 2);
         \u0275\u0275text(3, "C");
         \u0275\u0275elementEnd();
         \u0275\u0275elementStart(4, "div")(5, "strong");
         \u0275\u0275text(6, "Carona.AO");
         \u0275\u0275elementEnd();
         \u0275\u0275elementStart(7, "p");
-        \u0275\u0275text(8, "Base operacional");
+        \u0275\u0275text(8, "Mobility OS");
         \u0275\u0275elementEnd()()();
-        \u0275\u0275elementStart(9, "nav", 3)(10, "a", 4);
-        \u0275\u0275text(11, "Home");
+        \u0275\u0275template(9, SidebarComponent_div_9_Template, 5, 2, "div", 3);
+        \u0275\u0275elementStart(10, "nav", 4);
+        \u0275\u0275template(11, SidebarComponent_a_11_Template, 5, 7, "a", 5);
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(12, "a", 5);
-        \u0275\u0275text(13, "Dashboard");
+        \u0275\u0275elementStart(12, "div", 6)(13, "p");
+        \u0275\u0275text(14, "Opera\xE7\xE3o");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(14, "a", 6);
-        \u0275\u0275text(15, "Login");
+        \u0275\u0275elementStart(15, "div");
+        \u0275\u0275element(16, "span", 7);
+        \u0275\u0275text(17, " API online");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(18, "div");
+        \u0275\u0275element(19, "span", 8);
+        \u0275\u0275text(20, " Tracking preparado");
         \u0275\u0275elementEnd()()();
       }
       if (rf & 2) {
-        \u0275\u0275advance(10);
-        \u0275\u0275property("routerLinkActiveOptions", \u0275\u0275pureFunction0(1, _c05));
+        \u0275\u0275advance(9);
+        \u0275\u0275property("ngIf", ctx.auth.user());
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngForOf", ctx.links());
       }
-    }, dependencies: [RouterLink, RouterLinkActive], styles: ["\n\n.sidebar[_ngcontent-%COMP%] {\n  padding: 24px;\n  border-right: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.72);\n  backdrop-filter: blur(18px);\n}\n.sidebar__brand[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n  margin-bottom: 32px;\n}\n.sidebar__logo[_ngcontent-%COMP%] {\n  width: 48px;\n  height: 48px;\n  border-radius: 14px;\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  font-weight: 800;\n}\n.sidebar__brand[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 4px 0 0;\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.sidebar__nav[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 8px;\n}\n.sidebar__nav[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  padding: 12px 14px;\n  border-radius: 14px;\n  color: var(--app-text);\n  border: 1px solid transparent;\n}\n.sidebar__nav[_ngcontent-%COMP%]   a.is-active[_ngcontent-%COMP%], \n.sidebar__nav[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  background: rgba(37, 99, 235, 0.12);\n  border-color: rgba(37, 99, 235, 0.24);\n}\n/*# sourceMappingURL=sidebar.component.css.map */"] });
+    }, dependencies: [RouterLink, RouterLinkActive, NgForOf, NgIf, MatIconModule, MatIcon], styles: ["\n\n.sidebar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  height: 100vh;\n  padding: 18px;\n  border-right: 1px solid var(--app-border);\n  background: color-mix(in srgb, var(--app-bg-soft) 92%, transparent);\n  backdrop-filter: blur(18px);\n  overflow-y: auto;\n}\n.sidebar__brand[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  min-height: 56px;\n  margin-bottom: 16px;\n}\n.sidebar__logo[_ngcontent-%COMP%] {\n  width: 42px;\n  height: 42px;\n  border-radius: var(--app-radius-lg);\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  color: #fff;\n  font-weight: 900;\n}\n.sidebar__brand[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%], \n.sidebar__workspace[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  display: block;\n}\n.sidebar__brand[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.sidebar__workspace[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 3px 0 0;\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.sidebar__workspace[_ngcontent-%COMP%] {\n  margin-bottom: 18px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n}\n.sidebar__nav[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 6px;\n}\n.sidebar__nav[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  min-height: 44px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 0 12px;\n  border-radius: var(--app-radius-lg);\n  color: var(--app-muted);\n  border: 1px solid transparent;\n  font-weight: 800;\n  transition:\n    background-color var(--app-transition),\n    border-color var(--app-transition),\n    color var(--app-transition);\n}\n.sidebar__nav[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  font-size: 20px;\n}\n.sidebar__nav[_ngcontent-%COMP%]   a.is-active[_ngcontent-%COMP%], \n.sidebar__nav[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  color: var(--app-text);\n  background: rgba(37, 99, 235, 0.12);\n  border-color: rgba(37, 99, 235, 0.22);\n}\n.sidebar__ops[_ngcontent-%COMP%] {\n  margin-top: 24px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.sidebar__ops[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0 0 10px;\n  color: var(--app-text);\n  font-weight: 900;\n}\n.sidebar__ops[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-top: 8px;\n}\n.dot[_ngcontent-%COMP%] {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--app-accent);\n  box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.12);\n}\n.dot--blue[_ngcontent-%COMP%] {\n  background: var(--app-primary);\n  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);\n}\n@media (max-width: 960px) {\n  .sidebar[_ngcontent-%COMP%] {\n    position: fixed;\n    z-index: 30;\n    inset: 0 auto 0 0;\n    width: min(86vw, 320px);\n    transform: translateX(-100%);\n    transition: transform var(--app-transition);\n  }\n  .shell--open[_nghost-%COMP%]   .sidebar[_ngcontent-%COMP%], .shell--open   [_nghost-%COMP%]   .sidebar[_ngcontent-%COMP%] {\n    transform: translateX(0);\n  }\n}\n/*# sourceMappingURL=sidebar.component.css.map */"] });
   }
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SidebarComponent, [{
     type: Component,
-    args: [{ selector: "app-sidebar", standalone: true, imports: [RouterLink, RouterLinkActive], template: `
+    args: [{ selector: "app-sidebar", standalone: true, imports: [RouterLink, RouterLinkActive, NgForOf, NgIf, MatIconModule], template: `
     <aside class="sidebar">
-      <div class="sidebar__brand">
+      <a class="sidebar__brand" routerLink="/" (click)="navigate.emit()">
         <div class="sidebar__logo">C</div>
         <div>
           <strong>Carona.AO</strong>
-          <p>Base operacional</p>
+          <p>Mobility OS</p>
         </div>
+      </a>
+
+      <div class="sidebar__workspace" *ngIf="auth.user() as user">
+        <span>{{ roleLabel(user.role) }}</span>
+        <strong>{{ user.name }}</strong>
       </div>
 
-      <nav class="sidebar__nav">
-        <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-        <a routerLink="/dashboard" routerLinkActive="is-active">Dashboard</a>
-        <a routerLink="/login" routerLinkActive="is-active">Login</a>
+      <nav class="sidebar__nav" aria-label="Navega\xE7\xE3o principal">
+        <a
+          *ngFor="let item of links()"
+          [routerLink]="item.route"
+          [fragment]="item.fragment"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+          (click)="navigate.emit()"
+        >
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
       </nav>
+
+      <div class="sidebar__ops">
+        <p>Opera\xE7\xE3o</p>
+        <div><span class="dot"></span> API online</div>
+        <div><span class="dot dot--blue"></span> Tracking preparado</div>
+      </div>
     </aside>
-  `, styles: ["/* src/app/shared/components/sidebar.component.scss */\n.sidebar {\n  padding: 24px;\n  border-right: 1px solid var(--app-border);\n  background: rgba(15, 23, 42, 0.72);\n  backdrop-filter: blur(18px);\n}\n.sidebar__brand {\n  display: flex;\n  align-items: center;\n  gap: 14px;\n  margin-bottom: 32px;\n}\n.sidebar__logo {\n  width: 48px;\n  height: 48px;\n  border-radius: 14px;\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  font-weight: 800;\n}\n.sidebar__brand p {\n  margin: 4px 0 0;\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.sidebar__nav {\n  display: grid;\n  gap: 8px;\n}\n.sidebar__nav a {\n  padding: 12px 14px;\n  border-radius: 14px;\n  color: var(--app-text);\n  border: 1px solid transparent;\n}\n.sidebar__nav a.is-active,\n.sidebar__nav a:hover {\n  background: rgba(37, 99, 235, 0.12);\n  border-color: rgba(37, 99, 235, 0.24);\n}\n/*# sourceMappingURL=sidebar.component.css.map */\n"] }]
-  }], null, null);
+  `, styles: ["/* src/app/shared/components/sidebar.component.scss */\n.sidebar {\n  position: sticky;\n  top: 0;\n  height: 100vh;\n  padding: 18px;\n  border-right: 1px solid var(--app-border);\n  background: color-mix(in srgb, var(--app-bg-soft) 92%, transparent);\n  backdrop-filter: blur(18px);\n  overflow-y: auto;\n}\n.sidebar__brand {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  min-height: 56px;\n  margin-bottom: 16px;\n}\n.sidebar__logo {\n  width: 42px;\n  height: 42px;\n  border-radius: var(--app-radius-lg);\n  display: grid;\n  place-items: center;\n  background:\n    linear-gradient(\n      135deg,\n      var(--app-primary),\n      var(--app-accent));\n  color: #fff;\n  font-weight: 900;\n}\n.sidebar__brand strong,\n.sidebar__workspace strong {\n  display: block;\n}\n.sidebar__brand p,\n.sidebar__workspace span {\n  margin: 3px 0 0;\n  color: var(--app-muted);\n  font-size: 12px;\n}\n.sidebar__workspace {\n  margin-bottom: 18px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n}\n.sidebar__nav {\n  display: grid;\n  gap: 6px;\n}\n.sidebar__nav a {\n  min-height: 44px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 0 12px;\n  border-radius: var(--app-radius-lg);\n  color: var(--app-muted);\n  border: 1px solid transparent;\n  font-weight: 800;\n  transition:\n    background-color var(--app-transition),\n    border-color var(--app-transition),\n    color var(--app-transition);\n}\n.sidebar__nav mat-icon {\n  width: 20px;\n  height: 20px;\n  font-size: 20px;\n}\n.sidebar__nav a.is-active,\n.sidebar__nav a:hover {\n  color: var(--app-text);\n  background: rgba(37, 99, 235, 0.12);\n  border-color: rgba(37, 99, 235, 0.22);\n}\n.sidebar__ops {\n  margin-top: 24px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n  font-size: 13px;\n}\n.sidebar__ops p {\n  margin: 0 0 10px;\n  color: var(--app-text);\n  font-weight: 900;\n}\n.sidebar__ops div {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-top: 8px;\n}\n.dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--app-accent);\n  box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.12);\n}\n.dot--blue {\n  background: var(--app-primary);\n  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);\n}\n@media (max-width: 960px) {\n  .sidebar {\n    position: fixed;\n    z-index: 30;\n    inset: 0 auto 0 0;\n    width: min(86vw, 320px);\n    transform: translateX(-100%);\n    transition: transform var(--app-transition);\n  }\n  :host-context(.shell--open) .sidebar {\n    transform: translateX(0);\n  }\n}\n/*# sourceMappingURL=sidebar.component.css.map */\n"] }]
+  }], null, { navigate: [{
+    type: Output
+  }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/shared/components/sidebar.component.ts", lineNumber: 27 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/shared/components/sidebar.component.ts", lineNumber: 58 });
 })();
 
 // src/app/layouts/shell.layout.ts
 var ShellLayout = class _ShellLayout {
+  constructor() {
+    this.sidebarOpen = signal(false);
+    this.lightMode = signal(false);
+  }
+  toggleSidebar() {
+    this.sidebarOpen.update((value) => !value);
+  }
+  closeSidebar() {
+    this.sidebarOpen.set(false);
+  }
+  toggleTheme() {
+    this.lightMode.update((value) => !value);
+  }
   static {
     this.\u0275fac = function ShellLayout_Factory(__ngFactoryType__) {
       return new (__ngFactoryType__ || _ShellLayout)();
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ShellLayout, selectors: [["app-shell-layout"]], decls: 6, vars: 0, consts: [[1, "shell"], [1, "shell__content"], [1, "shell__main"]], template: function ShellLayout_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ShellLayout, selectors: [["app-shell-layout"]], decls: 7, vars: 4, consts: [[1, "shell"], ["type", "button", "aria-label", "Fechar menu", 1, "shell__scrim", 3, "click"], [3, "navigate"], [1, "shell__content"], [3, "menuClick", "themeClick", "lightMode"], [1, "shell__main"]], template: function ShellLayout_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "div", 0);
-        \u0275\u0275element(1, "app-sidebar");
-        \u0275\u0275elementStart(2, "div", 1);
-        \u0275\u0275element(3, "app-navbar");
-        \u0275\u0275elementStart(4, "main", 2);
-        \u0275\u0275element(5, "router-outlet");
+        \u0275\u0275elementStart(0, "div", 0)(1, "button", 1);
+        \u0275\u0275listener("click", function ShellLayout_Template_button_click_1_listener() {
+          return ctx.closeSidebar();
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(2, "app-sidebar", 2);
+        \u0275\u0275listener("navigate", function ShellLayout_Template_app_sidebar_navigate_2_listener() {
+          return ctx.closeSidebar();
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(3, "div", 3)(4, "app-navbar", 4);
+        \u0275\u0275listener("menuClick", function ShellLayout_Template_app_navbar_menuClick_4_listener() {
+          return ctx.toggleSidebar();
+        })("themeClick", function ShellLayout_Template_app_navbar_themeClick_4_listener() {
+          return ctx.toggleTheme();
+        });
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "main", 5);
+        \u0275\u0275element(6, "router-outlet");
         \u0275\u0275elementEnd()()();
       }
-    }, dependencies: [RouterOutlet, NavbarComponent, SidebarComponent], styles: ["\n\n.shell[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  display: grid;\n  grid-template-columns: 280px 1fr;\n}\n.shell__content[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-rows: auto 1fr;\n  min-width: 0;\n}\n.shell__main[_ngcontent-%COMP%] {\n  padding: 24px;\n}\n@media (max-width: 960px) {\n  .shell[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=shell.layout.css.map */"] });
+      if (rf & 2) {
+        \u0275\u0275classProp("shell--open", ctx.sidebarOpen());
+        \u0275\u0275attribute("data-theme", ctx.lightMode() ? "light" : "dark");
+        \u0275\u0275advance(4);
+        \u0275\u0275property("lightMode", ctx.lightMode());
+      }
+    }, dependencies: [RouterOutlet, NavbarComponent, SidebarComponent], styles: ["\n\n.shell[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  display: grid;\n  grid-template-columns: 284px minmax(0, 1fr);\n  background: var(--app-bg);\n}\n.shell__content[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-rows: auto 1fr;\n  min-width: 0;\n}\n.shell__main[_ngcontent-%COMP%] {\n  min-width: 0;\n  padding: 20px;\n}\n.shell__scrim[_ngcontent-%COMP%] {\n  display: none;\n}\n@media (max-width: 960px) {\n  .shell[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .shell__scrim[_ngcontent-%COMP%] {\n    position: fixed;\n    inset: 0;\n    z-index: 20;\n    border: 0;\n    background: rgba(2, 8, 20, 0.58);\n    opacity: 0;\n    pointer-events: none;\n    transition: opacity var(--app-transition);\n  }\n  .shell--open[_ngcontent-%COMP%]   .shell__scrim[_ngcontent-%COMP%] {\n    display: block;\n    opacity: 1;\n    pointer-events: auto;\n  }\n  .shell__main[_ngcontent-%COMP%] {\n    padding: 14px;\n  }\n}\n/*# sourceMappingURL=shell.layout.css.map */"] });
   }
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ShellLayout, [{
     type: Component,
-    args: [{ selector: "app-shell-layout", standalone: true, imports: [RouterOutlet, NavbarComponent, SidebarComponent], template: '<div class="shell">\r\n  <app-sidebar />\r\n\r\n  <div class="shell__content">\r\n    <app-navbar />\r\n    <main class="shell__main">\r\n      <router-outlet />\r\n    </main>\r\n  </div>\r\n</div>\r\n', styles: ["/* src/app/layouts/shell.layout.scss */\n.shell {\n  min-height: 100vh;\n  display: grid;\n  grid-template-columns: 280px 1fr;\n}\n.shell__content {\n  display: grid;\n  grid-template-rows: auto 1fr;\n  min-width: 0;\n}\n.shell__main {\n  padding: 24px;\n}\n@media (max-width: 960px) {\n  .shell {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=shell.layout.css.map */\n"] }]
+    args: [{ selector: "app-shell-layout", standalone: true, imports: [RouterOutlet, NavbarComponent, SidebarComponent], template: `<div class="shell" [class.shell--open]="sidebarOpen()" [attr.data-theme]="lightMode() ? 'light' : 'dark'">
+  <button class="shell__scrim" type="button" (click)="closeSidebar()" aria-label="Fechar menu"></button>
+  <app-sidebar (navigate)="closeSidebar()" />
+
+  <div class="shell__content">
+    <app-navbar (menuClick)="toggleSidebar()" (themeClick)="toggleTheme()" [lightMode]="lightMode()" />
+    <main class="shell__main">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+`, styles: ["/* src/app/layouts/shell.layout.scss */\n.shell {\n  min-height: 100vh;\n  display: grid;\n  grid-template-columns: 284px minmax(0, 1fr);\n  background: var(--app-bg);\n}\n.shell__content {\n  display: grid;\n  grid-template-rows: auto 1fr;\n  min-width: 0;\n}\n.shell__main {\n  min-width: 0;\n  padding: 20px;\n}\n.shell__scrim {\n  display: none;\n}\n@media (max-width: 960px) {\n  .shell {\n    grid-template-columns: 1fr;\n  }\n  .shell__scrim {\n    position: fixed;\n    inset: 0;\n    z-index: 20;\n    border: 0;\n    background: rgba(2, 8, 20, 0.58);\n    opacity: 0;\n    pointer-events: none;\n    transition: opacity var(--app-transition);\n  }\n  .shell--open .shell__scrim {\n    display: block;\n    opacity: 1;\n    pointer-events: auto;\n  }\n  .shell__main {\n    padding: 14px;\n  }\n}\n/*# sourceMappingURL=shell.layout.css.map */\n"] }]
   }], null, null);
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ShellLayout, { className: "ShellLayout", filePath: "src/app/layouts/shell.layout.ts", lineNumber: 14 });
+})();
+
+// src/app/core/services/mobility.service.ts
+var MobilityService = class _MobilityService {
+  constructor(api) {
+    this.api = api;
+  }
+  listRides(params = {}) {
+    return this.api.get(`/rides${this.query(params)}`).pipe(map((response) => ({
+      items: response.data,
+      meta: response.meta
+    })));
+  }
+  createRide(payload) {
+    return this.api.post("/rides", payload).pipe(map((response) => response.data));
+  }
+  reserveRide(rideId, seats = 1) {
+    return this.api.post("/reservations", { ride_id: rideId, seats }).pipe(map((response) => response.data));
+  }
+  myReservations() {
+    return this.api.get("/reservations/me").pipe(map((response) => ({
+      items: response.data,
+      meta: response.meta
+    })));
+  }
+  driverReservations() {
+    return this.api.get("/reservations/driver").pipe(map((response) => ({
+      items: response.data,
+      meta: response.meta
+    })));
+  }
+  updateMyLocation(payload) {
+    return this.api.post("/locations/me", payload).pipe(map((response) => response.data));
+  }
+  nearbyDrivers() {
+    return this.api.get("/locations/nearby").pipe(map((response) => response.data));
+  }
+  rideLocations(rideId) {
+    return this.api.get(`/locations/ride/${rideId}`).pipe(map((response) => response.data));
+  }
+  query(params) {
+    const search = new URLSearchParams();
+    Object.entries(params).forEach(([key, value2]) => {
+      if (value2 !== null && value2 !== void 0 && value2 !== "") {
+        search.set(key, String(value2));
+      }
+    });
+    const value = search.toString();
+    return value ? `?${value}` : "";
+  }
+  static {
+    this.\u0275fac = function MobilityService_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _MobilityService)(\u0275\u0275inject(ApiService));
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _MobilityService, factory: _MobilityService.\u0275fac, providedIn: "root" });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MobilityService, [{
+    type: Injectable,
+    args: [{ providedIn: "root" }]
+  }], () => [{ type: ApiService }], null);
+})();
+
+// src/app/pages/admin/admin-dashboard.page.ts
+function AdminDashboardPage_article_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "article", 10)(1, "mat-icon");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "strong");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const stat_r1 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(stat_r1.icon);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(stat_r1.label);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(stat_r1.value);
+  }
+}
+function AdminDashboardPage_tr_36_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "td");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "td")(6, "span", 11);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(8, "td");
+    \u0275\u0275text(9);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(10, "td");
+    \u0275\u0275text(11);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ride_r2 = ctx.$implicit;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ride_r2.driver_name || "Motorista");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", ride_r2.origin_address, " -> ", ride_r2.destination_address, "");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(ride_r2.status);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r2.formatKwanza(ride_r2.total_price));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r2.formatKwanza(ride_r2.price));
+  }
+}
+var AdminDashboardPage = class _AdminDashboardPage {
+  constructor(mobility) {
+    this.mobility = mobility;
+    this.rides = [];
+    this.totalRides = 0;
+    this.stats = [
+      { label: "Receita mensal", value: "4.8M Kz", icon: "payments" },
+      { label: "Caronas na API", value: "0", icon: "route" },
+      { label: "Motoristas ativos", value: "1.248", icon: "local_taxi" },
+      { label: "Den\xFAncias abertas", value: "23", icon: "report" }
+    ];
+  }
+  ngOnInit() {
+    this.loadRides();
+  }
+  loadRides() {
+    this.mobility.listRides({ limit: 10 }).subscribe({
+      next: (response) => {
+        this.rides = response.items;
+        this.totalRides = response.meta.total;
+        this.stats[1].value = String(response.meta.total);
+      }
+    });
+  }
+  formatKwanza(value) {
+    return new Intl.NumberFormat("pt-AO", {
+      style: "currency",
+      currency: "AOA",
+      maximumFractionDigits: 2
+    }).format(Number(value ?? 0));
+  }
+  static {
+    this.\u0275fac = function AdminDashboardPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _AdminDashboardPage)(\u0275\u0275directiveInject(MobilityService));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AdminDashboardPage, selectors: [["app-admin-dashboard-page"]], decls: 37, vars: 2, consts: [[1, "admin-page"], [1, "page-head"], [1, "eyebrow"], ["type", "button", 1, "btn", "btn--primary", 3, "click"], [1, "stat-grid"], ["class", "card", 4, "ngFor", "ngForOf"], [1, "panel"], [1, "panel__head"], [1, "table-wrap"], [4, "ngFor", "ngForOf"], [1, "card"], [1, "pill"]], template: function AdminDashboardPage_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "section", 0)(1, "div", 1)(2, "div")(3, "p", 2);
+        \u0275\u0275text(4, "Administra\xE7\xE3o");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "h1");
+        \u0275\u0275text(6, "Opera\xE7\xE3o Carona.AO");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p");
+        \u0275\u0275text(8, "Gest\xE3o de utilizadores, motoristas, caronas, receitas e den\xFAncias.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(9, "button", 3);
+        \u0275\u0275listener("click", function AdminDashboardPage_Template_button_click_9_listener() {
+          return ctx.loadRides();
+        });
+        \u0275\u0275elementStart(10, "mat-icon");
+        \u0275\u0275text(11, "refresh");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(12, " Atualizar");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(13, "div", 4);
+        \u0275\u0275template(14, AdminDashboardPage_article_14_Template, 7, 3, "article", 5);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(15, "article", 6)(16, "div", 7)(17, "h2");
+        \u0275\u0275text(18, "Viagens recentes");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(19, "span");
+        \u0275\u0275text(20, "Atualiza\xE7\xE3o em tempo real preparada");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(21, "div", 8)(22, "table")(23, "thead")(24, "tr")(25, "th");
+        \u0275\u0275text(26, "Motorista");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(27, "th");
+        \u0275\u0275text(28, "Rota");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(29, "th");
+        \u0275\u0275text(30, "Estado");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(31, "th");
+        \u0275\u0275text(32, "Pre\xE7o total");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(33, "th");
+        \u0275\u0275text(34, "Por passageiro");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(35, "tbody");
+        \u0275\u0275template(36, AdminDashboardPage_tr_36_Template, 12, 6, "tr", 9);
+        \u0275\u0275elementEnd()()()()();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance(14);
+        \u0275\u0275property("ngForOf", ctx.stats);
+        \u0275\u0275advance(22);
+        \u0275\u0275property("ngForOf", ctx.rides);
+      }
+    }, dependencies: [NgForOf, MatIconModule, MatIcon], styles: ["\n\n.admin-page[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 18px;\n}\n.page-head[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-between;\n  gap: 16px;\n}\n.eyebrow[_ngcontent-%COMP%] {\n  margin: 0 0 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%], \n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0;\n}\n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n.stat-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 14px;\n}\n.card[_ngcontent-%COMP%], \n.panel[_ngcontent-%COMP%] {\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.card[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 10px;\n}\n.card[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  color: var(--app-accent);\n}\n.card[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n.card[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 28px;\n}\n.panel__head[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  gap: 12px;\n  margin-bottom: 14px;\n}\ntable[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n}\nth[_ngcontent-%COMP%], \ntd[_ngcontent-%COMP%] {\n  padding: 14px;\n  border-bottom: 1px solid var(--app-border);\n  text-align: left;\n  white-space: nowrap;\n}\nth[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n}\n.pill[_ngcontent-%COMP%] {\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\n.btn[_ngcontent-%COMP%] {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 0;\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.btn--primary[_ngcontent-%COMP%] {\n  background: var(--app-primary);\n  color: #fff;\n}\n@media (max-width: 1100px) {\n  .stat-grid[_ngcontent-%COMP%] {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n@media (max-width: 720px) {\n  .page-head[_ngcontent-%COMP%] {\n    align-items: stretch;\n    flex-direction: column;\n  }\n  .stat-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .table-wrap[_ngcontent-%COMP%] {\n    overflow-x: auto;\n  }\n}\n/*# sourceMappingURL=admin-dashboard.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AdminDashboardPage, [{
+    type: Component,
+    args: [{ selector: "app-admin-dashboard-page", standalone: true, imports: [NgForOf, MatIconModule], template: `<section class="admin-page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administra\xE7\xE3o</p>
+      <h1>Opera\xE7\xE3o Carona.AO</h1>
+      <p>Gest\xE3o de utilizadores, motoristas, caronas, receitas e den\xFAncias.</p>
+    </div>
+    <button class="btn btn--primary" type="button" (click)="loadRides()"><mat-icon>refresh</mat-icon> Atualizar</button>
+  </div>
+
+  <div class="stat-grid">
+    <article class="card" *ngFor="let stat of stats">
+      <mat-icon>{{ stat.icon }}</mat-icon>
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+    </article>
+  </div>
+
+  <article class="panel">
+    <div class="panel__head">
+      <h2>Viagens recentes</h2>
+      <span>Atualiza\xE7\xE3o em tempo real preparada</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Motorista</th>
+            <th>Rota</th>
+            <th>Estado</th>
+            <th>Pre\xE7o total</th>
+            <th>Por passageiro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ride of rides">
+            <td>{{ ride.driver_name || 'Motorista' }}</td>
+            <td>{{ ride.origin_address }} -> {{ ride.destination_address }}</td>
+            <td><span class="pill">{{ ride.status }}</span></td>
+            <td>{{ formatKwanza(ride.total_price) }}</td>
+            <td>{{ formatKwanza(ride.price) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+`, styles: ["/* src/app/pages/admin/admin-dashboard.page.scss */\n.admin-page {\n  display: grid;\n  gap: 18px;\n}\n.page-head {\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-between;\n  gap: 16px;\n}\n.eyebrow {\n  margin: 0 0 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head h1,\n.page-head p,\n.panel__head h2 {\n  margin: 0;\n}\n.page-head p,\n.panel__head span {\n  color: var(--app-muted);\n}\n.stat-grid {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 14px;\n}\n.card,\n.panel {\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.card {\n  display: grid;\n  gap: 10px;\n}\n.card mat-icon {\n  color: var(--app-accent);\n}\n.card span {\n  color: var(--app-muted);\n}\n.card strong {\n  font-size: 28px;\n}\n.panel__head {\n  display: flex;\n  justify-content: space-between;\n  gap: 12px;\n  margin-bottom: 14px;\n}\ntable {\n  width: 100%;\n  border-collapse: collapse;\n}\nth,\ntd {\n  padding: 14px;\n  border-bottom: 1px solid var(--app-border);\n  text-align: left;\n  white-space: nowrap;\n}\nth {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n}\n.pill {\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\n.btn {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 0;\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.btn--primary {\n  background: var(--app-primary);\n  color: #fff;\n}\n@media (max-width: 1100px) {\n  .stat-grid {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n@media (max-width: 720px) {\n  .page-head {\n    align-items: stretch;\n    flex-direction: column;\n  }\n  .stat-grid {\n    grid-template-columns: 1fr;\n  }\n  .table-wrap {\n    overflow-x: auto;\n  }\n}\n/*# sourceMappingURL=admin-dashboard.page.css.map */\n"] }]
+  }], () => [{ type: MobilityService }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AdminDashboardPage, { className: "AdminDashboardPage", filePath: "src/app/pages/admin/admin-dashboard.page.ts", lineNumber: 15 });
+})();
+
+// src/app/shared/components/leaflet-map.component.ts
+var _c013 = ["host"];
+var LeafletMapComponent = class _LeafletMapComponent {
+  constructor() {
+    this.markers = [];
+    this.center = [-8.839, 13.289];
+    this.zoom = 12;
+  }
+  ngAfterViewInit() {
+    return __async(this, null, function* () {
+      this.leaflet = yield import("./chunk-EXZRJHHE.js");
+      this.map = this.leaflet.map(this.host.nativeElement, {
+        center: this.center,
+        zoom: this.zoom,
+        zoomControl: false
+      });
+      this.leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap"
+      }).addTo(this.map);
+      this.leaflet.control.zoom({ position: "bottomright" }).addTo(this.map);
+      this.layer = this.leaflet.layerGroup().addTo(this.map);
+      this.renderMarkers();
+      setTimeout(() => this.map?.invalidateSize(), 0);
+    });
+  }
+  ngOnChanges(changes) {
+    if (changes["markers"] && this.map) {
+      this.renderMarkers();
+    }
+  }
+  ngOnDestroy() {
+    this.map?.remove();
+  }
+  renderMarkers() {
+    if (!this.leaflet || !this.map || !this.layer) {
+      return;
+    }
+    this.layer.clearLayers();
+    const points = this.markers.length > 0 ? this.markers : [{ lat: this.center[0], lng: this.center[1], label: "Luanda" }];
+    points.forEach((marker) => {
+      const color = marker.kind === "driver" ? "#10b981" : marker.kind === "destination" ? "#2563eb" : "#f59e0b";
+      this.leaflet.circleMarker([marker.lat, marker.lng], {
+        radius: 9,
+        color: "#071018",
+        weight: 3,
+        fillColor: color,
+        fillOpacity: 1
+      }).bindPopup(marker.label).addTo(this.layer);
+    });
+    const bounds = this.leaflet.latLngBounds(points.map((marker) => [marker.lat, marker.lng]));
+    this.map.fitBounds(bounds.pad(0.25), { maxZoom: 14 });
+  }
+  static {
+    this.\u0275fac = function LeafletMapComponent_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _LeafletMapComponent)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LeafletMapComponent, selectors: [["app-leaflet-map"]], viewQuery: function LeafletMapComponent_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c013, 7);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.host = _t.first);
+      }
+    }, inputs: { markers: "markers", center: "center", zoom: "zoom" }, features: [\u0275\u0275NgOnChangesFeature], decls: 2, vars: 0, consts: [["host", ""], [1, "leaflet-host"]], template: function LeafletMapComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275element(0, "div", 1, 0);
+      }
+    }, styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n  min-height: 360px;\n  height: 100%;\n}\n.leaflet-host[_ngcontent-%COMP%] {\n  width: 100%;\n  min-height: inherit;\n  height: 100%;\n  border-radius: var(--app-radius-lg);\n  overflow: hidden;\n  background: var(--app-bg-soft);\n}\n/*# sourceMappingURL=leaflet-map.component.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LeafletMapComponent, [{
+    type: Component,
+    args: [{ selector: "app-leaflet-map", standalone: true, template: `<div class="leaflet-host" #host></div>`, styles: ["/* angular:styles/component:css;492b0df3bc16f97af326c5835142dac0a0fb77a2065f80b3f5fc81001cf54d80;/home/lv/Documents/Engenharia_Software/Carona.AO/frontend/src/app/shared/components/leaflet-map.component.ts */\n:host {\n  display: block;\n  min-height: 360px;\n  height: 100%;\n}\n.leaflet-host {\n  width: 100%;\n  min-height: inherit;\n  height: 100%;\n  border-radius: var(--app-radius-lg);\n  overflow: hidden;\n  background: var(--app-bg-soft);\n}\n/*# sourceMappingURL=leaflet-map.component.css.map */\n"] }]
+  }], null, { markers: [{
+    type: Input
+  }], center: [{
+    type: Input
+  }], zoom: [{
+    type: Input
+  }], host: [{
+    type: ViewChild,
+    args: ["host", { static: true }]
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LeafletMapComponent, { className: "LeafletMapComponent", filePath: "src/app/shared/components/leaflet-map.component.ts", lineNumber: 31 });
+})();
+
+// src/app/pages/passenger/passenger-dashboard.page.ts
+var _c014 = (a0) => [a0, 13.289];
+function PassengerDashboardPage_div_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 20);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.feedback);
+  }
+}
+function PassengerDashboardPage_div_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 21);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.error);
+  }
+}
+function PassengerDashboardPage_div_22_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 22)(1, "div")(2, "span");
+    \u0275\u0275text(3, "Rota");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "strong");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "div")(7, "span");
+    \u0275\u0275text(8, "Lugares reservados");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "strong");
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(11, "div")(12, "span");
+    \u0275\u0275text(13, "Estado da reserva");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(14, "strong");
+    \u0275\u0275text(15);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(16, "div")(17, "span");
+    \u0275\u0275text(18, "Motorista");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(19, "strong");
+    \u0275\u0275text(20);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r1.registeredRideTitle);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r1.currentReservation.seats);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r1.currentReservation.status);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r1.currentReservation.driver_name || "Motorista");
+  }
+}
+function PassengerDashboardPage_ng_template_23_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 23);
+    \u0275\u0275text(1, "Ainda n\xE3o tem nenhuma reserva activa.");
+    \u0275\u0275elementEnd();
+  }
+}
+function PassengerDashboardPage_p_30_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275text(1, "Ainda n\xE3o h\xE1 motoristas com localiza\xE7\xE3o ativa.");
+    \u0275\u0275elementEnd();
+  }
+}
+function PassengerDashboardPage_div_31_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 24)(1, "div")(2, "strong");
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5, "Dispon\xEDvel agora");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "span", 25);
+    \u0275\u0275text(7, "Online");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const driver_r3 = ctx.$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(driver_r3.name || "Motorista dispon\xEDvel");
+  }
+}
+function PassengerDashboardPage_div_43_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 23);
+    \u0275\u0275text(1, " N\xE3o h\xE1 caronas dispon\xEDveis neste momento. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function PassengerDashboardPage_div_45_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 26)(1, "div")(2, "strong");
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "div")(7, "strong");
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "span");
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(11, "button", 27);
+    \u0275\u0275listener("click", function PassengerDashboardPage_div_45_Template_button_click_11_listener() {
+      const ride_r5 = \u0275\u0275restoreView(_r4).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.reserve(ride_r5));
+    });
+    \u0275\u0275text(12);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ride_r5 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate2("", ride_r5.origin_address, " -> ", ride_r5.destination_address, "");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", ride_r5.driver_name || "Motorista", " \xB7 ", ride_r5.departure_time, "");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(ctx_r1.formatKwanza(ride_r5.price));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("", ride_r5.available_seats, " lugares dispon\xEDveis");
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r1.reservingRideId === ride_r5.id);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r1.reservingRideId === ride_r5.id ? "A reservar..." : "Reservar lugar", " ");
+  }
+}
+var PassengerDashboardPage = class _PassengerDashboardPage {
+  constructor(mobility) {
+    this.mobility = mobility;
+    this.rides = [];
+    this.drivers = [];
+    this.reservations = [];
+    this.currentReservation = null;
+    this.markers = [];
+    this.loading = true;
+    this.reservingRideId = null;
+    this.feedback = "";
+    this.error = "";
+  }
+  ngOnInit() {
+    this.loadPassengerData();
+  }
+  loadPassengerData() {
+    this.loading = true;
+    this.error = "";
+    this.mobility.listRides({ status: "scheduled", available_only: 1 }).subscribe({
+      next: (response) => {
+        this.rides = response.items;
+        this.loading = false;
+        this.updateMarkers();
+      },
+      error: (response) => {
+        this.loading = false;
+        this.error = userFeedback(response, "N\xE3o conseguimos carregar as caronas agora.");
+      }
+    });
+    this.mobility.nearbyDrivers().subscribe({
+      next: (drivers) => {
+        this.drivers = drivers;
+        this.updateMarkers();
+      }
+    });
+    this.mobility.myReservations().subscribe({
+      next: (response) => {
+        this.reservations = response.items;
+        this.currentReservation = this.reservations[0] ?? null;
+      }
+    });
+  }
+  useMyLocation() {
+    if (!navigator.geolocation) {
+      this.error = "O seu navegador n\xE3o permite usar localiza\xE7\xE3o.";
+      return;
+    }
+    this.feedback = "";
+    this.error = "";
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.mobility.updateMyLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy
+      }).subscribe({
+        next: () => {
+          this.feedback = "Localiza\xE7\xE3o atualizada. Agora fica mais f\xE1cil encontrar caronas pr\xF3ximas.";
+          this.markers = [
+            ...this.markers,
+            {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              label: "Voc\xEA est\xE1 aqui",
+              kind: "passenger"
+            }
+          ];
+        },
+        error: (response) => {
+          this.error = userFeedback(response, "N\xE3o conseguimos guardar a sua localiza\xE7\xE3o.");
+        }
+      });
+    }, (geoError) => {
+      if (geoError?.code === 1) {
+        this.error = "Ative a permiss\xE3o de localiza\xE7\xE3o no navegador para ficar vis\xEDvel aos passageiros.";
+        return;
+      }
+      this.error = "N\xE3o foi poss\xEDvel obter a sua localiza\xE7\xE3o agora. Tente novamente.";
+    }, { enableHighAccuracy: true, timeout: 1e4 });
+  }
+  reserve(ride) {
+    this.reservingRideId = Number(ride.id);
+    this.feedback = "";
+    this.error = "";
+    this.mobility.reserveRide(Number(ride.id), 1).subscribe({
+      next: () => {
+        this.reservingRideId = null;
+        this.feedback = `Lugar reservado para ${ride.origin_address} -> ${ride.destination_address}.`;
+        this.loadPassengerData();
+      },
+      error: (response) => {
+        this.reservingRideId = null;
+        this.error = userFeedback(response, "N\xE3o foi poss\xEDvel reservar esta carona.");
+      }
+    });
+  }
+  formatKwanza(value) {
+    return new Intl.NumberFormat("pt-AO", {
+      style: "currency",
+      currency: "AOA",
+      maximumFractionDigits: 2
+    }).format(Number(value ?? 0));
+  }
+  updateMarkers() {
+    const driverMarkers = this.drivers.filter((driver) => Number(driver.latitude) && Number(driver.longitude)).map((driver) => ({
+      lat: Number(driver.latitude),
+      lng: Number(driver.longitude),
+      label: driver.name ? `${driver.name} dispon\xEDvel` : "Motorista dispon\xEDvel",
+      kind: "driver"
+    }));
+    const rideMarkers = this.rides.flatMap((ride) => {
+      const points = [];
+      if (ride.origin_lat && ride.origin_lng) {
+        points.push({
+          lat: Number(ride.origin_lat),
+          lng: Number(ride.origin_lng),
+          label: `Partida: ${ride.origin_address}`,
+          kind: "origin"
+        });
+      }
+      if (ride.destination_lat && ride.destination_lng) {
+        points.push({
+          lat: Number(ride.destination_lat),
+          lng: Number(ride.destination_lng),
+          label: `Destino: ${ride.destination_address}`,
+          kind: "destination"
+        });
+      }
+      return points;
+    });
+    this.markers = [...driverMarkers, ...rideMarkers];
+  }
+  get registeredRideTitle() {
+    if (!this.currentReservation) {
+      return "Sem carona activa";
+    }
+    return `${this.currentReservation.origin_address ?? "Origem"} -> ${this.currentReservation.destination_address ?? "Destino"}`;
+  }
+  static {
+    this.\u0275fac = function PassengerDashboardPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _PassengerDashboardPage)(\u0275\u0275directiveInject(MobilityService));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _PassengerDashboardPage, selectors: [["app-passenger-dashboard-page"]], decls: 46, vars: 12, consts: [["noReservation", ""], [1, "passenger-page"], [1, "page-head"], [1, "eyebrow"], ["type", "button", 1, "btn", "btn--primary", 3, "click"], ["class", "feedback feedback--success", 4, "ngIf"], ["class", "feedback feedback--error", 4, "ngIf"], [1, "reservation-card"], [1, "panel__head"], ["class", "reservation-summary", 4, "ngIf", "ngIfElse"], [1, "content-grid"], [3, "markers", "center"], [1, "drivers-card"], [4, "ngIf"], ["class", "driver-row", 4, "ngFor", "ngForOf"], [1, "rides-card"], ["type", "button", 1, "btn", 3, "click"], ["class", "empty-state", 4, "ngIf"], [1, "ride-list"], ["class", "ride-row", 4, "ngFor", "ngForOf"], [1, "feedback", "feedback--success"], [1, "feedback", "feedback--error"], [1, "reservation-summary"], [1, "empty-state"], [1, "driver-row"], [1, "pill"], [1, "ride-row"], ["type", "button", 1, "btn", "btn--accent", 3, "click", "disabled"]], template: function PassengerDashboardPage_Template(rf, ctx) {
+      if (rf & 1) {
+        const _r1 = \u0275\u0275getCurrentView();
+        \u0275\u0275elementStart(0, "section", 1)(1, "div", 2)(2, "div")(3, "p", 3);
+        \u0275\u0275text(4, "Passageiro");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "h1");
+        \u0275\u0275text(6, "Encontre a sua pr\xF3xima carona");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p");
+        \u0275\u0275text(8, "Pesquise, reserve lugar e acompanhe motoristas pr\xF3ximos em tempo real.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(9, "button", 4);
+        \u0275\u0275listener("click", function PassengerDashboardPage_Template_button_click_9_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.useMyLocation());
+        });
+        \u0275\u0275elementStart(10, "mat-icon");
+        \u0275\u0275text(11, "near_me");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(12, " Usar localiza\xE7\xE3o ");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(13, PassengerDashboardPage_div_13_Template, 2, 1, "div", 5)(14, PassengerDashboardPage_div_14_Template, 2, 1, "div", 6);
+        \u0275\u0275elementStart(15, "article", 7)(16, "div", 8)(17, "div")(18, "h2");
+        \u0275\u0275text(19, "Minha carona actual");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(20, "p");
+        \u0275\u0275text(21, "Mostra a reserva mais recente e o estado da viagem associada.");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275template(22, PassengerDashboardPage_div_22_Template, 21, 4, "div", 9)(23, PassengerDashboardPage_ng_template_23_Template, 2, 0, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(25, "div", 10);
+        \u0275\u0275element(26, "app-leaflet-map", 11);
+        \u0275\u0275elementStart(27, "article", 12)(28, "h2");
+        \u0275\u0275text(29, "Motoristas pr\xF3ximos");
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(30, PassengerDashboardPage_p_30_Template, 2, 0, "p", 13)(31, PassengerDashboardPage_div_31_Template, 8, 1, "div", 14);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(32, "article", 15)(33, "div", 8)(34, "div")(35, "h2");
+        \u0275\u0275text(36, "Caronas dispon\xEDveis");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(37, "p");
+        \u0275\u0275text(38, "Os valores exibidos s\xE3o por passageiro.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(39, "button", 16);
+        \u0275\u0275listener("click", function PassengerDashboardPage_Template_button_click_39_listener() {
+          \u0275\u0275restoreView(_r1);
+          return \u0275\u0275resetView(ctx.loadPassengerData());
+        });
+        \u0275\u0275elementStart(40, "mat-icon");
+        \u0275\u0275text(41, "refresh");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(42, " Atualizar");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(43, PassengerDashboardPage_div_43_Template, 2, 0, "div", 17);
+        \u0275\u0275elementStart(44, "div", 18);
+        \u0275\u0275template(45, PassengerDashboardPage_div_45_Template, 13, 8, "div", 19);
+        \u0275\u0275elementEnd()()();
+      }
+      if (rf & 2) {
+        const noReservation_r6 = \u0275\u0275reference(24);
+        \u0275\u0275advance(13);
+        \u0275\u0275property("ngIf", ctx.feedback);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.error);
+        \u0275\u0275advance(8);
+        \u0275\u0275property("ngIf", ctx.currentReservation)("ngIfElse", noReservation_r6);
+        \u0275\u0275advance(4);
+        \u0275\u0275property("markers", ctx.markers)("center", \u0275\u0275pureFunction1(10, _c014, -8.839));
+        \u0275\u0275advance(4);
+        \u0275\u0275property("ngIf", ctx.drivers.length === 0);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngForOf", ctx.drivers);
+        \u0275\u0275advance(12);
+        \u0275\u0275property("ngIf", !ctx.loading && ctx.rides.length === 0);
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngForOf", ctx.rides);
+      }
+    }, dependencies: [NgForOf, NgIf, MatIconModule, MatIcon, LeafletMapComponent], styles: ["\n\n.passenger-page[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 18px;\n}\n.page-head[_ngcontent-%COMP%], \n.content-grid[_ngcontent-%COMP%], \n.driver-row[_ngcontent-%COMP%], \n.ride-row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 14px;\n}\n.page-head[_ngcontent-%COMP%] {\n  align-items: flex-end;\n  justify-content: space-between;\n}\n.eyebrow[_ngcontent-%COMP%], \n.page-head[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%], \n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.drivers-card[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%], \n.drivers-card[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n}\n.eyebrow[_ngcontent-%COMP%] {\n  margin-bottom: 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.driver-row[_ngcontent-%COMP%]   span[_ngcontent-%COMP%], \n.ride-row[_ngcontent-%COMP%]   span[_ngcontent-%COMP%], \n.drivers-card[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.empty-state[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n.drivers-card[_ngcontent-%COMP%], \n.rides-card[_ngcontent-%COMP%], \n.reservation-card[_ngcontent-%COMP%], \napp-leaflet-map[_ngcontent-%COMP%] {\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.content-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) 380px;\n}\napp-leaflet-map[_ngcontent-%COMP%] {\n  min-height: 430px;\n  padding: 1px;\n  overflow: hidden;\n}\n.drivers-card[_ngcontent-%COMP%], \n.rides-card[_ngcontent-%COMP%] {\n  padding: 18px;\n  display: grid;\n  gap: 12px;\n  align-content: start;\n}\n.reservation-card[_ngcontent-%COMP%] {\n  padding: 18px;\n  display: grid;\n  gap: 12px;\n}\n.reservation-summary[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 12px;\n}\n.reservation-summary[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 4px;\n  padding: 14px;\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n  border: 1px solid var(--app-border);\n}\n.reservation-summary[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n  letter-spacing: 0.08em;\n}\n.reservation-summary[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.driver-row[_ngcontent-%COMP%] {\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px;\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n}\n.driver-row[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 4px;\n}\n.driver-row[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.driver-row[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 13px;\n}\n.panel__head[_ngcontent-%COMP%], \n.ride-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n}\n.ride-list[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 10px;\n}\n.ride-row[_ngcontent-%COMP%] {\n  padding: 12px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n}\n.ride-row[_ngcontent-%COMP%]    > div[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 4px;\n}\n.feedback[_ngcontent-%COMP%], \n.empty-state[_ngcontent-%COMP%] {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n}\n.feedback--success[_ngcontent-%COMP%] {\n  color: var(--app-accent);\n  border-color: rgba(16, 185, 129, 0.24);\n  background: rgba(16, 185, 129, 0.08);\n}\n.feedback--error[_ngcontent-%COMP%] {\n  color: #fecaca;\n  border-color: rgba(239, 68, 68, 0.26);\n  background: rgba(239, 68, 68, 0.1);\n}\n.pill[_ngcontent-%COMP%] {\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\n.btn[_ngcontent-%COMP%] {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.btn--primary[_ngcontent-%COMP%] {\n  border-color: transparent;\n  background: var(--app-primary);\n  color: #fff;\n}\n.btn--accent[_ngcontent-%COMP%] {\n  border-color: transparent;\n  background: var(--app-accent);\n  color: #04130e;\n}\n@media (max-width: 1040px) {\n  .content-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .reservation-summary[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr 1fr;\n  }\n  .page-head[_ngcontent-%COMP%], \n   .panel__head[_ngcontent-%COMP%], \n   .ride-row[_ngcontent-%COMP%] {\n    align-items: stretch;\n    flex-direction: column;\n  }\n}\n@media (max-width: 640px) {\n  .reservation-summary[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=passenger-dashboard.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PassengerDashboardPage, [{
+    type: Component,
+    args: [{ selector: "app-passenger-dashboard-page", standalone: true, imports: [NgForOf, NgIf, MatIconModule, LeafletMapComponent], template: `<section class="passenger-page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Passageiro</p>
+      <h1>Encontre a sua pr\xF3xima carona</h1>
+      <p>Pesquise, reserve lugar e acompanhe motoristas pr\xF3ximos em tempo real.</p>
+    </div>
+    <button class="btn btn--primary" type="button" (click)="useMyLocation()">
+      <mat-icon>near_me</mat-icon>
+      Usar localiza\xE7\xE3o
+    </button>
+  </div>
+
+  <div class="feedback feedback--success" *ngIf="feedback">{{ feedback }}</div>
+  <div class="feedback feedback--error" *ngIf="error">{{ error }}</div>
+
+  <article class="reservation-card">
+    <div class="panel__head">
+      <div>
+        <h2>Minha carona actual</h2>
+        <p>Mostra a reserva mais recente e o estado da viagem associada.</p>
+      </div>
+    </div>
+
+    <div *ngIf="currentReservation; else noReservation" class="reservation-summary">
+      <div>
+        <span>Rota</span>
+        <strong>{{ registeredRideTitle }}</strong>
+      </div>
+      <div>
+        <span>Lugares reservados</span>
+        <strong>{{ currentReservation.seats }}</strong>
+      </div>
+      <div>
+        <span>Estado da reserva</span>
+        <strong>{{ currentReservation.status }}</strong>
+      </div>
+      <div>
+        <span>Motorista</span>
+        <strong>{{ currentReservation.driver_name || 'Motorista' }}</strong>
+      </div>
+    </div>
+
+    <ng-template #noReservation>
+      <div class="empty-state">Ainda n\xE3o tem nenhuma reserva activa.</div>
+    </ng-template>
+  </article>
+
+  <div class="content-grid">
+    <app-leaflet-map [markers]="markers" [center]="[-8.839, 13.289]" />
+
+    <article class="drivers-card">
+      <h2>Motoristas pr\xF3ximos</h2>
+      <p *ngIf="drivers.length === 0">Ainda n\xE3o h\xE1 motoristas com localiza\xE7\xE3o ativa.</p>
+
+      <div class="driver-row" *ngFor="let driver of drivers">
+        <div>
+          <strong>{{ driver.name || 'Motorista dispon\xEDvel' }}</strong>
+          <span>Dispon\xEDvel agora</span>
+        </div>
+        <span class="pill">Online</span>
+      </div>
+    </article>
+  </div>
+
+  <article class="rides-card">
+    <div class="panel__head">
+      <div>
+        <h2>Caronas dispon\xEDveis</h2>
+        <p>Os valores exibidos s\xE3o por passageiro.</p>
+      </div>
+      <button class="btn" type="button" (click)="loadPassengerData()"><mat-icon>refresh</mat-icon> Atualizar</button>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && rides.length === 0">
+      N\xE3o h\xE1 caronas dispon\xEDveis neste momento.
+    </div>
+
+    <div class="ride-list">
+      <div class="ride-row" *ngFor="let ride of rides">
+        <div>
+          <strong>{{ ride.origin_address }} -> {{ ride.destination_address }}</strong>
+          <span>{{ ride.driver_name || 'Motorista' }} \xB7 {{ ride.departure_time }}</span>
+        </div>
+        <div>
+          <strong>{{ formatKwanza(ride.price) }}</strong>
+          <span>{{ ride.available_seats }} lugares dispon\xEDveis</span>
+        </div>
+        <button class="btn btn--accent" type="button" (click)="reserve(ride)" [disabled]="reservingRideId === ride.id">
+          {{ reservingRideId === ride.id ? 'A reservar...' : 'Reservar lugar' }}
+        </button>
+      </div>
+    </div>
+  </article>
+</section>
+`, styles: ["/* src/app/pages/passenger/passenger-dashboard.page.scss */\n.passenger-page {\n  display: grid;\n  gap: 18px;\n}\n.page-head,\n.content-grid,\n.driver-row,\n.ride-row {\n  display: flex;\n  gap: 14px;\n}\n.page-head {\n  align-items: flex-end;\n  justify-content: space-between;\n}\n.eyebrow,\n.page-head h1,\n.page-head p,\n.drivers-card h2,\n.drivers-card p,\n.panel__head h2,\n.panel__head p {\n  margin: 0;\n}\n.eyebrow {\n  margin-bottom: 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head p,\n.driver-row span,\n.ride-row span,\n.drivers-card p,\n.panel__head p,\n.empty-state {\n  color: var(--app-muted);\n}\n.drivers-card,\n.rides-card,\n.reservation-card,\napp-leaflet-map {\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.content-grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) 380px;\n}\napp-leaflet-map {\n  min-height: 430px;\n  padding: 1px;\n  overflow: hidden;\n}\n.drivers-card,\n.rides-card {\n  padding: 18px;\n  display: grid;\n  gap: 12px;\n  align-content: start;\n}\n.reservation-card {\n  padding: 18px;\n  display: grid;\n  gap: 12px;\n}\n.reservation-summary {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 12px;\n}\n.reservation-summary div {\n  display: grid;\n  gap: 4px;\n  padding: 14px;\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n  border: 1px solid var(--app-border);\n}\n.reservation-summary span {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n  letter-spacing: 0.08em;\n}\n.reservation-summary strong {\n  font-size: 16px;\n}\n.driver-row {\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px;\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n}\n.driver-row div {\n  display: grid;\n  gap: 4px;\n}\n.driver-row strong {\n  font-size: 16px;\n}\n.driver-row span {\n  font-size: 13px;\n}\n.panel__head,\n.ride-row {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n}\n.ride-list {\n  display: grid;\n  gap: 10px;\n}\n.ride-row {\n  padding: 12px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius);\n  background: var(--app-surface-muted);\n}\n.ride-row > div {\n  display: grid;\n  gap: 4px;\n}\n.feedback,\n.empty-state {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n}\n.feedback--success {\n  color: var(--app-accent);\n  border-color: rgba(16, 185, 129, 0.24);\n  background: rgba(16, 185, 129, 0.08);\n}\n.feedback--error {\n  color: #fecaca;\n  border-color: rgba(239, 68, 68, 0.26);\n  background: rgba(239, 68, 68, 0.1);\n}\n.pill {\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\n.btn {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n}\n.btn--primary {\n  border-color: transparent;\n  background: var(--app-primary);\n  color: #fff;\n}\n.btn--accent {\n  border-color: transparent;\n  background: var(--app-accent);\n  color: #04130e;\n}\n@media (max-width: 1040px) {\n  .content-grid {\n    grid-template-columns: 1fr;\n  }\n  .reservation-summary {\n    grid-template-columns: 1fr 1fr;\n  }\n  .page-head,\n  .panel__head,\n  .ride-row {\n    align-items: stretch;\n    flex-direction: column;\n  }\n}\n@media (max-width: 640px) {\n  .reservation-summary {\n    grid-template-columns: 1fr;\n  }\n}\n/*# sourceMappingURL=passenger-dashboard.page.css.map */\n"] }]
+  }], () => [{ type: MobilityService }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PassengerDashboardPage, { className: "PassengerDashboardPage", filePath: "src/app/pages/passenger/passenger-dashboard.page.ts", lineNumber: 17 });
+})();
+
+// src/app/pages/driver/driver-dashboard.page.ts
+var _c015 = (a0) => [a0, 13.289];
+function DriverDashboardPage_div_18_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.locationFeedback);
+  }
+}
+function DriverDashboardPage_div_19_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.rideSuccess);
+  }
+}
+function DriverDashboardPage_div_20_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 31);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.rideError);
+  }
+}
+function DriverDashboardPage_article_22_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "article", 32)(1, "mat-icon");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "strong");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const item_r2 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r2.icon);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r2.label);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(item_r2.value);
+  }
+}
+function DriverDashboardPage_mat_error_37_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Informe o ponto de partida");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_mat_error_42_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Informe o destino");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_mat_error_47_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Escolha quando a carona vai sair");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_mat_error_52_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Informe a quantidade de lugares");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_mat_error_57_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-error");
+    \u0275\u0275text(1, "Informe o pre\xE7o total");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_tr_103_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "td");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "td");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "td");
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "td");
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "td");
+    \u0275\u0275text(12);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "td")(14, "span", 33);
+    \u0275\u0275text(15);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ride_r3 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", ride_r3.origin_address, " -> ", ride_r3.destination_address, "");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.passengersForRide(ride_r3.id));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.reservedSeatsForRide(ride_r3.id));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.availableSeatsForRide(ride_r3));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.formatKwanza(ride_r3.total_price));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.formatKwanza(ride_r3.price));
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(ride_r3.status);
+  }
+}
+function DriverDashboardPage_div_115_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 34);
+    \u0275\u0275text(1, " Ainda n\xE3o existem reservas para as suas caronas. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DriverDashboardPage_table_116_tr_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "td");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "td");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "td");
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "td")(10, "span", 33);
+    \u0275\u0275text(11);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const reservation_r4 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(reservation_r4.passenger_name || "Passageiro");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate2("", reservation_r4.origin_address, " -> ", reservation_r4.destination_address, "");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(reservation_r4.seats);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(reservation_r4.ride_status || "scheduled");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(reservation_r4.status);
+  }
+}
+function DriverDashboardPage_table_116_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "table")(1, "thead")(2, "tr")(3, "th");
+    \u0275\u0275text(4, "Passageiro");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "th");
+    \u0275\u0275text(6, "Rota");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "th");
+    \u0275\u0275text(8, "Lugares");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "th");
+    \u0275\u0275text(10, "Estado da viagem");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "th");
+    \u0275\u0275text(12, "Estado");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(13, "tbody");
+    \u0275\u0275template(14, DriverDashboardPage_table_116_tr_14_Template, 12, 6, "tr", 28);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(14);
+    \u0275\u0275property("ngForOf", ctx_r0.reservations);
+  }
+}
+var DriverDashboardPage = class _DriverDashboardPage {
+  constructor(fb, mobility) {
+    this.fb = fb;
+    this.mobility = mobility;
+    this.rideForm = this.fb.nonNullable.group({
+      origin_address: ["Talatona, Luanda", [Validators.required]],
+      destination_address: ["Mutamba, Luanda", [Validators.required]],
+      departure_time: ["", [Validators.required]],
+      available_seats: [4, [Validators.required, Validators.min(1), Validators.max(99)]],
+      total_price: [12e3, [Validators.required, Validators.min(1)]],
+      notes: [""]
+    });
+    this.savingRide = false;
+    this.publishingLocation = false;
+    this.rideError = "";
+    this.rideSuccess = "";
+    this.locationFeedback = "";
+    this.rides = [];
+    this.reservations = [];
+    this.markers = [];
+  }
+  ngOnInit() {
+    this.loadMyRides();
+    this.loadReservations();
+  }
+  get pricePerPassenger() {
+    const seats = Number(this.rideForm.controls.available_seats.value) || 0;
+    const total = Number(this.rideForm.controls.total_price.value) || 0;
+    return seats > 0 ? Math.round(total / seats * 100) / 100 : 0;
+  }
+  get totalAvailableSeats() {
+    return this.rides.reduce((sum, ride) => sum + Number(ride.available_seats ?? 0), 0);
+  }
+  get totalReservedSeats() {
+    return this.reservations.reduce((sum, reservation) => sum + Number(reservation.seats ?? 0), 0);
+  }
+  get activeTrips() {
+    return this.rides.filter((ride) => ride.status === "scheduled" || ride.status === "ongoing").length;
+  }
+  get driverSummary() {
+    return [
+      { label: "Caronas activas", value: String(this.activeTrips), icon: "route" },
+      { label: "Lugares livres", value: String(this.totalAvailableSeats), icon: "event_seat" },
+      { label: "Lugares reservados", value: String(this.totalReservedSeats), icon: "people" }
+    ];
+  }
+  reservedSeatsForRide(rideId) {
+    return this.reservations.filter((reservation) => Number(reservation.ride_id) === Number(rideId)).reduce((sum, reservation) => sum + Number(reservation.seats ?? 0), 0);
+  }
+  availableSeatsForRide(ride) {
+    return Math.max(0, Number(ride.available_seats ?? 0));
+  }
+  passengersForRide(rideId) {
+    const names = this.reservations.filter((reservation) => Number(reservation.ride_id) === Number(rideId)).map((reservation) => reservation.passenger_name || "Passageiro");
+    return names.length > 0 ? Array.from(new Set(names)).join(", ") : "Sem reservas";
+  }
+  loadMyRides() {
+    this.mobility.listRides({ limit: 20 }).subscribe({
+      next: (response) => {
+        this.rides = response.items;
+        this.updateRideMarkers();
+      },
+      error: (response) => {
+        this.rideError = userFeedback(response, "N\xE3o conseguimos carregar as suas caronas.");
+      }
+    });
+  }
+  loadReservations() {
+    this.mobility.driverReservations().subscribe({
+      next: (response) => {
+        this.reservations = response.items;
+      }
+    });
+  }
+  publishLocation() {
+    if (!navigator.geolocation) {
+      this.rideError = "O seu navegador n\xE3o permite usar localiza\xE7\xE3o.";
+      return;
+    }
+    this.publishingLocation = true;
+    this.locationFeedback = "";
+    this.rideError = "";
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.mobility.updateMyLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        ride_id: this.rides[0]?.id ?? null
+      }).subscribe({
+        next: () => {
+          this.publishingLocation = false;
+          this.locationFeedback = "Localiza\xE7\xE3o publicada. Passageiros j\xE1 podem ver que est\xE1 online.";
+          this.markers = [
+            {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              label: "A sua localiza\xE7\xE3o",
+              kind: "driver"
+            },
+            ...this.markers
+          ];
+        },
+        error: (response) => {
+          this.publishingLocation = false;
+          this.rideError = userFeedback(response, "N\xE3o conseguimos publicar a sua localiza\xE7\xE3o.");
+        }
+      });
+    }, (geoError) => {
+      this.publishingLocation = false;
+      if (geoError?.code === 1) {
+        this.rideError = "Ative a permiss\xE3o de localiza\xE7\xE3o no navegador para ficar vis\xEDvel aos passageiros.";
+        return;
+      }
+      this.rideError = "N\xE3o foi poss\xEDvel obter a sua localiza\xE7\xE3o agora. Tente novamente.";
+    }, { enableHighAccuracy: true, timeout: 1e4 });
+  }
+  createRide() {
+    if (this.rideForm.invalid || this.savingRide) {
+      this.rideForm.markAllAsTouched();
+      this.rideError = "Preencha os dados da carona antes de continuar.";
+      return;
+    }
+    const payload = this.rideForm.getRawValue();
+    this.savingRide = true;
+    this.rideError = "";
+    this.rideSuccess = "";
+    this.mobility.createRide(__spreadProps(__spreadValues({}, payload), {
+      departure_time: this.normalizeDepartureTime(payload.departure_time),
+      total_price: Number(payload.total_price),
+      available_seats: Number(payload.available_seats),
+      status: "scheduled"
+    })).subscribe({
+      next: () => {
+        this.savingRide = false;
+        this.rideSuccess = `Carona criada. Cada passageiro pagar\xE1 ${this.formatKwanza(this.pricePerPassenger)}.`;
+        this.loadMyRides();
+        this.loadReservations();
+      },
+      error: (response) => {
+        this.savingRide = false;
+        this.rideError = userFeedback(response, "N\xE3o foi poss\xEDvel criar a carona. Tente novamente.");
+      }
+    });
+  }
+  formatKwanza(value) {
+    return new Intl.NumberFormat("pt-AO", {
+      style: "currency",
+      currency: "AOA",
+      maximumFractionDigits: 2
+    }).format(Number(value ?? 0));
+  }
+  normalizeDepartureTime(value) {
+    if (!value) {
+      return value;
+    }
+    const normalized = value.replace("T", " ");
+    return normalized.length === 16 ? `${normalized}:00` : normalized;
+  }
+  updateRideMarkers() {
+    this.markers = this.rides.flatMap((ride) => {
+      const markers = [];
+      if (ride.origin_lat && ride.origin_lng) {
+        markers.push({
+          lat: Number(ride.origin_lat),
+          lng: Number(ride.origin_lng),
+          label: `Partida: ${ride.origin_address}`,
+          kind: "origin"
+        });
+      }
+      if (ride.destination_lat && ride.destination_lng) {
+        markers.push({
+          lat: Number(ride.destination_lat),
+          lng: Number(ride.destination_lng),
+          label: `Destino: ${ride.destination_address}`,
+          kind: "destination"
+        });
+      }
+      return markers;
+    });
+  }
+  static {
+    this.\u0275fac = function DriverDashboardPage_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _DriverDashboardPage)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(MobilityService));
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DriverDashboardPage, selectors: [["app-driver-dashboard-page"]], decls: 117, vars: 23, consts: [[1, "driver-page"], [1, "page-head"], [1, "eyebrow"], [1, "toolbar"], ["type", "button", 1, "btn", 3, "click", "disabled"], ["href", "#nova-carona", 1, "btn", "btn--primary"], ["class", "feedback feedback--success", 4, "ngIf"], ["class", "feedback feedback--error", 4, "ngIf"], [1, "stat-grid"], ["class", "card", 4, "ngFor", "ngForOf"], [1, "driver-grid"], ["id", "nova-carona", 1, "panel"], [1, "panel__head"], [1, "ride-form", 3, "ngSubmit", "formGroup"], [1, "ride-form__grid"], ["appearance", "outline"], ["matInput", "", "formControlName", "origin_address", "placeholder", "Ex.: Talatona, Luanda"], [4, "ngIf"], ["matInput", "", "formControlName", "destination_address", "placeholder", "Ex.: Mutamba, Luanda"], ["matInput", "", "type", "datetime-local", "formControlName", "departure_time"], ["matInput", "", "type", "number", "min", "1", "max", "99", "formControlName", "available_seats"], ["matInput", "", "type", "number", "min", "1", "formControlName", "total_price"], ["matInput", "", "formControlName", "notes", "placeholder", "Ex.: sa\xEDda pontual, bagagem pequena"], [1, "price-summary"], ["type", "submit", 1, "btn", "btn--primary", 3, "disabled"], [3, "markers", "center"], [1, "panel", "table-wrap"], ["type", "button", 1, "btn", 3, "click"], [4, "ngFor", "ngForOf"], ["class", "empty-state", 4, "ngIf"], [1, "feedback", "feedback--success"], [1, "feedback", "feedback--error"], [1, "card"], [1, "pill"], [1, "empty-state"]], template: function DriverDashboardPage_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275elementStart(0, "section", 0)(1, "div", 1)(2, "div")(3, "p", 2);
+        \u0275\u0275text(4, "Motorista");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(5, "h1");
+        \u0275\u0275text(6, "Gest\xE3o de viagens");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(7, "p");
+        \u0275\u0275text(8, "Crie caronas, acompanhe reservas e mantenha apenas o que \xE9 relevante para a sua opera\xE7\xE3o.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(9, "div", 3)(10, "button", 4);
+        \u0275\u0275listener("click", function DriverDashboardPage_Template_button_click_10_listener() {
+          return ctx.publishLocation();
+        });
+        \u0275\u0275elementStart(11, "mat-icon");
+        \u0275\u0275text(12, "share_location");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(13);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(14, "a", 5)(15, "mat-icon");
+        \u0275\u0275text(16, "add_road");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(17, " Criar carona");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275template(18, DriverDashboardPage_div_18_Template, 2, 1, "div", 6)(19, DriverDashboardPage_div_19_Template, 2, 1, "div", 6)(20, DriverDashboardPage_div_20_Template, 2, 1, "div", 7);
+        \u0275\u0275elementStart(21, "div", 8);
+        \u0275\u0275template(22, DriverDashboardPage_article_22_Template, 7, 3, "article", 9);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(23, "div", 10)(24, "article", 11)(25, "div", 12)(26, "div")(27, "h2");
+        \u0275\u0275text(28, "Nova carona");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(29, "p");
+        \u0275\u0275text(30, "Informe apenas os dados da rota. O sistema divide o pre\xE7o total pelos lugares dispon\xEDveis.");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(31, "form", 13);
+        \u0275\u0275listener("ngSubmit", function DriverDashboardPage_Template_form_ngSubmit_31_listener() {
+          return ctx.createRide();
+        });
+        \u0275\u0275elementStart(32, "div", 14)(33, "mat-form-field", 15)(34, "mat-label");
+        \u0275\u0275text(35, "Partida");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(36, "input", 16);
+        \u0275\u0275template(37, DriverDashboardPage_mat_error_37_Template, 2, 0, "mat-error", 17);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(38, "mat-form-field", 15)(39, "mat-label");
+        \u0275\u0275text(40, "Destino");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(41, "input", 18);
+        \u0275\u0275template(42, DriverDashboardPage_mat_error_42_Template, 2, 0, "mat-error", 17);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(43, "mat-form-field", 15)(44, "mat-label");
+        \u0275\u0275text(45, "Data e hora");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(46, "input", 19);
+        \u0275\u0275template(47, DriverDashboardPage_mat_error_47_Template, 2, 0, "mat-error", 17);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(48, "mat-form-field", 15)(49, "mat-label");
+        \u0275\u0275text(50, "Lugares dispon\xEDveis");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(51, "input", 20);
+        \u0275\u0275template(52, DriverDashboardPage_mat_error_52_Template, 2, 0, "mat-error", 17);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(53, "mat-form-field", 15)(54, "mat-label");
+        \u0275\u0275text(55, "Pre\xE7o total da carona");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(56, "input", 21);
+        \u0275\u0275template(57, DriverDashboardPage_mat_error_57_Template, 2, 0, "mat-error", 17);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(58, "mat-form-field", 15)(59, "mat-label");
+        \u0275\u0275text(60, "Observa\xE7\xF5es");
+        \u0275\u0275elementEnd();
+        \u0275\u0275element(61, "input", 22);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(62, "div", 23)(63, "span");
+        \u0275\u0275text(64, "Valor por passageiro");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(65, "strong");
+        \u0275\u0275text(66);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(67, "p");
+        \u0275\u0275text(68, "Este valor n\xE3o muda se alguns lugares ficarem vazios.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(69, "button", 24)(70, "mat-icon");
+        \u0275\u0275text(71);
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(72);
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275element(73, "app-leaflet-map", 25);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(74, "article", 26)(75, "div", 12)(76, "div")(77, "h2");
+        \u0275\u0275text(78, "Minhas caronas");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(79, "p");
+        \u0275\u0275text(80, "Lista resumida das caronas do motorista autenticado.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(81, "button", 27);
+        \u0275\u0275listener("click", function DriverDashboardPage_Template_button_click_81_listener() {
+          return ctx.loadMyRides();
+        });
+        \u0275\u0275elementStart(82, "mat-icon");
+        \u0275\u0275text(83, "refresh");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(84, " Atualizar");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(85, "table")(86, "thead")(87, "tr")(88, "th");
+        \u0275\u0275text(89, "Rota");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(90, "th");
+        \u0275\u0275text(91, "Passageiros");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(92, "th");
+        \u0275\u0275text(93, "Reservados");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(94, "th");
+        \u0275\u0275text(95, "Livres");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(96, "th");
+        \u0275\u0275text(97, "Total");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(98, "th");
+        \u0275\u0275text(99, "Por passageiro");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(100, "th");
+        \u0275\u0275text(101, "Estado");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(102, "tbody");
+        \u0275\u0275template(103, DriverDashboardPage_tr_103_Template, 16, 8, "tr", 28);
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(104, "article", 26)(105, "div", 12)(106, "div")(107, "h2");
+        \u0275\u0275text(108, "Reservas recebidas");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(109, "p");
+        \u0275\u0275text(110, "Apenas reservas ligadas \xE0s suas caronas aparecem aqui.");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275elementStart(111, "button", 27);
+        \u0275\u0275listener("click", function DriverDashboardPage_Template_button_click_111_listener() {
+          return ctx.loadReservations();
+        });
+        \u0275\u0275elementStart(112, "mat-icon");
+        \u0275\u0275text(113, "refresh");
+        \u0275\u0275elementEnd();
+        \u0275\u0275text(114, " Atualizar");
+        \u0275\u0275elementEnd()();
+        \u0275\u0275template(115, DriverDashboardPage_div_115_Template, 2, 0, "div", 29)(116, DriverDashboardPage_table_116_Template, 15, 1, "table", 17);
+        \u0275\u0275elementEnd()();
+      }
+      if (rf & 2) {
+        \u0275\u0275advance(10);
+        \u0275\u0275property("disabled", ctx.publishingLocation);
+        \u0275\u0275advance(3);
+        \u0275\u0275textInterpolate1(" ", ctx.publishingLocation ? "A publicar..." : "Ficar online", " ");
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.locationFeedback);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.rideSuccess);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.rideError);
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngForOf", ctx.driverSummary);
+        \u0275\u0275advance(9);
+        \u0275\u0275property("formGroup", ctx.rideForm);
+        \u0275\u0275advance(6);
+        \u0275\u0275property("ngIf", ctx.rideForm.controls.origin_address.hasError("required"));
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.rideForm.controls.destination_address.hasError("required"));
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.rideForm.controls.departure_time.hasError("required"));
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.rideForm.controls.available_seats.invalid);
+        \u0275\u0275advance(5);
+        \u0275\u0275property("ngIf", ctx.rideForm.controls.total_price.invalid);
+        \u0275\u0275advance(9);
+        \u0275\u0275textInterpolate(ctx.formatKwanza(ctx.pricePerPassenger));
+        \u0275\u0275advance(3);
+        \u0275\u0275property("disabled", ctx.savingRide);
+        \u0275\u0275advance(2);
+        \u0275\u0275textInterpolate(ctx.savingRide ? "hourglass_top" : "check_circle");
+        \u0275\u0275advance();
+        \u0275\u0275textInterpolate1(" ", ctx.savingRide ? "A criar..." : "Criar carona", " ");
+        \u0275\u0275advance();
+        \u0275\u0275property("markers", ctx.markers)("center", \u0275\u0275pureFunction1(21, _c015, -8.839));
+        \u0275\u0275advance(30);
+        \u0275\u0275property("ngForOf", ctx.rides);
+        \u0275\u0275advance(12);
+        \u0275\u0275property("ngIf", ctx.reservations.length === 0);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.reservations.length > 0);
+      }
+    }, dependencies: [NgForOf, NgIf, ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NumberValueAccessor, NgControlStatus, NgControlStatusGroup, MinValidator, MaxValidator, FormGroupDirective, FormControlName, MatFormFieldModule, MatFormField, MatLabel, MatError, MatIconModule, MatIcon, MatInputModule, MatInput, LeafletMapComponent], styles: ["\n\n.driver-page[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 18px;\n}\n.page-head[_ngcontent-%COMP%], \n.toolbar[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 14px;\n}\n.page-head[_ngcontent-%COMP%] {\n  align-items: flex-end;\n  justify-content: space-between;\n}\n.toolbar[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%] {\n  align-items: center;\n  justify-content: space-between;\n}\n.eyebrow[_ngcontent-%COMP%], \n.page-head[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%], \n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n}\n.eyebrow[_ngcontent-%COMP%] {\n  margin-bottom: 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.panel__head[_ngcontent-%COMP%]   p[_ngcontent-%COMP%], \n.card[_ngcontent-%COMP%]   span[_ngcontent-%COMP%], \n.price-summary[_ngcontent-%COMP%]   span[_ngcontent-%COMP%], \n.price-summary[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n}\n.stat-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 14px;\n}\n.driver-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) 420px;\n  gap: 14px;\n}\n.card[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 10px;\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.card[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  color: var(--app-accent);\n}\n.card[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 28px;\n}\n.panel[_ngcontent-%COMP%], \napp-leaflet-map[_ngcontent-%COMP%] {\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\napp-leaflet-map[_ngcontent-%COMP%] {\n  min-height: 100%;\n  padding: 1px;\n  overflow: hidden;\n}\n.ride-form[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 14px;\n  margin-top: 14px;\n}\n.ride-form__grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 12px;\n}\n.price-summary[_ngcontent-%COMP%] {\n  display: grid;\n  gap: 4px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid rgba(16, 185, 129, 0.24);\n  background: rgba(16, 185, 129, 0.08);\n}\n.price-summary[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 28px;\n}\n.feedback[_ngcontent-%COMP%] {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  font-weight: 700;\n}\n.empty-state[_ngcontent-%COMP%] {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n}\n.feedback--success[_ngcontent-%COMP%] {\n  color: var(--app-accent);\n  background: rgba(16, 185, 129, 0.08);\n  border-color: rgba(16, 185, 129, 0.24);\n}\n.feedback--error[_ngcontent-%COMP%] {\n  color: #fecaca;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.26);\n}\n.btn[_ngcontent-%COMP%] {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n  cursor: pointer;\n}\n.btn--primary[_ngcontent-%COMP%] {\n  border-color: transparent;\n  background: var(--app-primary);\n  color: #fff;\n}\n.pill[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\ntable[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n}\nth[_ngcontent-%COMP%], \ntd[_ngcontent-%COMP%] {\n  padding: 14px;\n  border-bottom: 1px solid var(--app-border);\n  text-align: left;\n  white-space: nowrap;\n}\nth[_ngcontent-%COMP%] {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n}\n@media (max-width: 900px) {\n  .page-head[_ngcontent-%COMP%], \n   .toolbar[_ngcontent-%COMP%] {\n    align-items: stretch;\n    flex-direction: column;\n  }\n  .ride-form__grid[_ngcontent-%COMP%], \n   .driver-grid[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .table-wrap[_ngcontent-%COMP%] {\n    overflow-x: auto;\n  }\n}\n/*# sourceMappingURL=driver-dashboard.page.css.map */"] });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DriverDashboardPage, [{
+    type: Component,
+    args: [{ selector: "app-driver-dashboard-page", standalone: true, imports: [NgForOf, NgIf, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, LeafletMapComponent], template: `<section class="driver-page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Motorista</p>
+      <h1>Gest\xE3o de viagens</h1>
+      <p>Crie caronas, acompanhe reservas e mantenha apenas o que \xE9 relevante para a sua opera\xE7\xE3o.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn" type="button" (click)="publishLocation()" [disabled]="publishingLocation">
+        <mat-icon>share_location</mat-icon>
+        {{ publishingLocation ? 'A publicar...' : 'Ficar online' }}
+      </button>
+      <a class="btn btn--primary" href="#nova-carona"><mat-icon>add_road</mat-icon> Criar carona</a>
+    </div>
+  </div>
+
+  <div class="feedback feedback--success" *ngIf="locationFeedback">{{ locationFeedback }}</div>
+  <div class="feedback feedback--success" *ngIf="rideSuccess">{{ rideSuccess }}</div>
+  <div class="feedback feedback--error" *ngIf="rideError">{{ rideError }}</div>
+
+  <div class="stat-grid">
+    <article class="card" *ngFor="let item of driverSummary">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+      <strong>{{ item.value }}</strong>
+    </article>
+  </div>
+
+  <div class="driver-grid">
+    <article class="panel" id="nova-carona">
+      <div class="panel__head">
+        <div>
+          <h2>Nova carona</h2>
+          <p>Informe apenas os dados da rota. O sistema divide o pre\xE7o total pelos lugares dispon\xEDveis.</p>
+        </div>
+      </div>
+
+      <form class="ride-form" [formGroup]="rideForm" (ngSubmit)="createRide()">
+        <div class="ride-form__grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Partida</mat-label>
+            <input matInput formControlName="origin_address" placeholder="Ex.: Talatona, Luanda" />
+            <mat-error *ngIf="rideForm.controls.origin_address.hasError('required')">Informe o ponto de partida</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Destino</mat-label>
+            <input matInput formControlName="destination_address" placeholder="Ex.: Mutamba, Luanda" />
+            <mat-error *ngIf="rideForm.controls.destination_address.hasError('required')">Informe o destino</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Data e hora</mat-label>
+            <input matInput type="datetime-local" formControlName="departure_time" />
+            <mat-error *ngIf="rideForm.controls.departure_time.hasError('required')">Escolha quando a carona vai sair</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Lugares dispon\xEDveis</mat-label>
+            <input matInput type="number" min="1" max="99" formControlName="available_seats" />
+            <mat-error *ngIf="rideForm.controls.available_seats.invalid">Informe a quantidade de lugares</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Pre\xE7o total da carona</mat-label>
+            <input matInput type="number" min="1" formControlName="total_price" />
+            <mat-error *ngIf="rideForm.controls.total_price.invalid">Informe o pre\xE7o total</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Observa\xE7\xF5es</mat-label>
+            <input matInput formControlName="notes" placeholder="Ex.: sa\xEDda pontual, bagagem pequena" />
+          </mat-form-field>
+        </div>
+
+        <div class="price-summary">
+          <span>Valor por passageiro</span>
+          <strong>{{ formatKwanza(pricePerPassenger) }}</strong>
+          <p>Este valor n\xE3o muda se alguns lugares ficarem vazios.</p>
+        </div>
+
+        <button class="btn btn--primary" type="submit" [disabled]="savingRide">
+          <mat-icon>{{ savingRide ? 'hourglass_top' : 'check_circle' }}</mat-icon>
+          {{ savingRide ? 'A criar...' : 'Criar carona' }}
+        </button>
+      </form>
+    </article>
+
+      <app-leaflet-map [markers]="markers" [center]="[-8.839, 13.289]" />
+  </div>
+
+  <article class="panel table-wrap">
+    <div class="panel__head">
+      <div>
+        <h2>Minhas caronas</h2>
+          <p>Lista resumida das caronas do motorista autenticado.</p>
+      </div>
+      <button class="btn" type="button" (click)="loadMyRides()"><mat-icon>refresh</mat-icon> Atualizar</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rota</th>
+          <th>Passageiros</th>
+          <th>Reservados</th>
+          <th>Livres</th>
+          <th>Total</th>
+          <th>Por passageiro</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ride of rides">
+          <td>{{ ride.origin_address }} -> {{ ride.destination_address }}</td>
+          <td>{{ passengersForRide(ride.id) }}</td>
+          <td>{{ reservedSeatsForRide(ride.id) }}</td>
+          <td>{{ availableSeatsForRide(ride) }}</td>
+          <td>{{ formatKwanza(ride.total_price) }}</td>
+          <td>{{ formatKwanza(ride.price) }}</td>
+          <td><span class="pill">{{ ride.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+
+  <article class="panel table-wrap">
+    <div class="panel__head">
+      <div>
+        <h2>Reservas recebidas</h2>
+        <p>Apenas reservas ligadas \xE0s suas caronas aparecem aqui.</p>
+      </div>
+      <button class="btn" type="button" (click)="loadReservations()"><mat-icon>refresh</mat-icon> Atualizar</button>
+    </div>
+
+    <div class="empty-state" *ngIf="reservations.length === 0">
+      Ainda n\xE3o existem reservas para as suas caronas.
+    </div>
+
+    <table *ngIf="reservations.length > 0">
+      <thead>
+        <tr>
+          <th>Passageiro</th>
+          <th>Rota</th>
+          <th>Lugares</th>
+          <th>Estado da viagem</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.passenger_name || 'Passageiro' }}</td>
+          <td>{{ reservation.origin_address }} -> {{ reservation.destination_address }}</td>
+          <td>{{ reservation.seats }}</td>
+          <td>{{ reservation.ride_status || 'scheduled' }}</td>
+          <td><span class="pill">{{ reservation.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>
+`, styles: ["/* src/app/pages/driver/driver-dashboard.page.scss */\n.driver-page {\n  display: grid;\n  gap: 18px;\n}\n.page-head,\n.toolbar,\n.panel__head {\n  display: flex;\n  gap: 14px;\n}\n.page-head {\n  align-items: flex-end;\n  justify-content: space-between;\n}\n.toolbar,\n.panel__head {\n  align-items: center;\n  justify-content: space-between;\n}\n.eyebrow,\n.page-head h1,\n.page-head p,\n.panel__head h2,\n.panel__head p {\n  margin: 0;\n}\n.eyebrow {\n  margin-bottom: 8px;\n  color: var(--app-accent);\n  text-transform: uppercase;\n  letter-spacing: 0.14em;\n  font-size: 12px;\n  font-weight: 800;\n}\n.page-head p,\n.panel__head p,\n.card span,\n.price-summary span,\n.price-summary p {\n  color: var(--app-muted);\n}\n.stat-grid {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 14px;\n}\n.driver-grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) 420px;\n  gap: 14px;\n}\n.card {\n  display: grid;\n  gap: 10px;\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\n.card mat-icon {\n  color: var(--app-accent);\n}\n.card strong {\n  font-size: 28px;\n}\n.panel,\napp-leaflet-map {\n  padding: 18px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface);\n}\napp-leaflet-map {\n  min-height: 100%;\n  padding: 1px;\n  overflow: hidden;\n}\n.ride-form {\n  display: grid;\n  gap: 14px;\n  margin-top: 14px;\n}\n.ride-form__grid {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 12px;\n}\n.price-summary {\n  display: grid;\n  gap: 4px;\n  padding: 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid rgba(16, 185, 129, 0.24);\n  background: rgba(16, 185, 129, 0.08);\n}\n.price-summary strong {\n  font-size: 28px;\n}\n.feedback {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  font-weight: 700;\n}\n.empty-state {\n  padding: 12px 14px;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-muted);\n  color: var(--app-muted);\n}\n.feedback--success {\n  color: var(--app-accent);\n  background: rgba(16, 185, 129, 0.08);\n  border-color: rgba(16, 185, 129, 0.24);\n}\n.feedback--error {\n  color: #fecaca;\n  background: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.26);\n}\n.btn {\n  min-height: var(--app-control-height);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 0 16px;\n  border: 1px solid var(--app-border);\n  border-radius: var(--app-radius-lg);\n  background: var(--app-surface-muted);\n  color: var(--app-text);\n  font-weight: 800;\n  cursor: pointer;\n}\n.btn--primary {\n  border-color: transparent;\n  background: var(--app-primary);\n  color: #fff;\n}\n.pill {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 999px;\n  background: rgba(16, 185, 129, 0.1);\n  color: var(--app-accent);\n}\ntable {\n  width: 100%;\n  border-collapse: collapse;\n}\nth,\ntd {\n  padding: 14px;\n  border-bottom: 1px solid var(--app-border);\n  text-align: left;\n  white-space: nowrap;\n}\nth {\n  color: var(--app-muted);\n  font-size: 12px;\n  text-transform: uppercase;\n}\n@media (max-width: 900px) {\n  .page-head,\n  .toolbar {\n    align-items: stretch;\n    flex-direction: column;\n  }\n  .ride-form__grid,\n  .driver-grid {\n    grid-template-columns: 1fr;\n  }\n  .table-wrap {\n    overflow-x: auto;\n  }\n}\n/*# sourceMappingURL=driver-dashboard.page.css.map */\n"] }]
+  }], () => [{ type: FormBuilder }, { type: MobilityService }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DriverDashboardPage, { className: "DriverDashboardPage", filePath: "src/app/pages/driver/driver-dashboard.page.ts", lineNumber: 20 });
 })();
 
 // src/app/app.routes.ts
@@ -58018,16 +64291,42 @@ var appRoutes = [
     component: ShellLayout,
     children: [
       { path: "", pathMatch: "full", component: HomePage },
-      { path: "dashboard", component: DashboardPage, canActivate: [authGuard] }
+      { path: "dashboard", component: DashboardPage, canActivate: [authGuard] },
+      {
+        path: "admin",
+        component: AdminDashboardPage,
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ["admin"] }
+      },
+      {
+        path: "passageiro",
+        component: PassengerDashboardPage,
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ["passenger"] }
+      },
+      {
+        path: "motorista",
+        component: DriverDashboardPage,
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ["driver"] }
+      }
     ]
   },
-  { path: "login", component: LoginPage },
+  { path: "login", component: LoginPage, canActivate: [guestGuard] },
+  { path: "register", component: RegisterPage, canActivate: [guestGuard] },
+  { path: "forgot-password", component: ForgotPasswordPage, canActivate: [guestGuard] },
+  { path: "reset-password", component: ResetPasswordPage, canActivate: [guestGuard] },
+  { path: "auth/login", redirectTo: "login", pathMatch: "full" },
+  { path: "auth/register", redirectTo: "register", pathMatch: "full" },
+  { path: "auth/forgot-password", redirectTo: "forgot-password", pathMatch: "full" },
+  { path: "auth/reset-password", redirectTo: "reset-password", pathMatch: "full" },
   { path: "**", redirectTo: "" }
 ];
 
 // src/app/interceptors/auth.interceptor.ts
 var authInterceptor = (request, next) => {
-  const token = localStorage.getItem("caronaao_token");
+  const auth = inject(AuthService);
+  const token = auth.getToken();
   if (!token) {
     return next(request);
   }

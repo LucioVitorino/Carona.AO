@@ -1,0 +1,139 @@
+.auth-panel__hero {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-panel__hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.auth-panel__pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  background: rgba(16, 185, 129, 0.08);
+  color: #a7f3d0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.auth-panel__eyebrow {
+  margin: 0;
+  color: var(--app-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+}
+
+.auth-panel__description {
+  margin: 0;
+  color: var(--app-muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+}
+
+.role-toggle {
+  width: 100%;
+}
+
+.role-toggle .mat-button-toggle-checked {
+  background: rgba(37, 99, 235, 0.18);
+}
+
+.role-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--app-border);
+  color: var(--app-muted);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.role-note strong {
+  color: var(--app-text);
+}
+
+.password-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.password-rules span {
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--app-border);
+  color: var(--app-muted);
+  font-size: 12px;
+}
+
+.password-rules span.is-valid {
+  color: var(--app-text);
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.photo-upload {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px dashed var(--app-border);
+  color: var(--app-muted);
+}
+
+.photo-upload input {
+  width: 100%;
+}
+
+.photo-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-note {
+  color: var(--app-muted);
+  font-size: 13px;
+}
+
+.auth-panel__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  color: var(--app-muted);
+}
+
+.auth-panel__footer a {
+  color: var(--app-text);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .auth-panel__hero-top,
+  .role-note {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

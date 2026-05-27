@@ -1,0 +1,95 @@
+<section class="passenger-page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Passageiro</p>
+      <h1>Encontre a sua próxima carona</h1>
+      <p>Pesquise, reserve lugar e acompanhe motoristas próximos em tempo real.</p>
+    </div>
+    <button class="btn btn--primary" type="button" (click)="useMyLocation()">
+      <mat-icon>near_me</mat-icon>
+      Usar localização
+    </button>
+  </div>
+
+  <div class="feedback feedback--success" *ngIf="feedback">{{ feedback }}</div>
+  <div class="feedback feedback--error" *ngIf="error">{{ error }}</div>
+
+  <article class="reservation-card">
+    <div class="panel__head">
+      <div>
+        <h2>Minha carona actual</h2>
+        <p>Mostra a reserva mais recente e o estado da viagem associada.</p>
+      </div>
+    </div>
+
+    <div *ngIf="currentReservation; else noReservation" class="reservation-summary">
+      <div>
+        <span>Rota</span>
+        <strong>{{ registeredRideTitle }}</strong>
+      </div>
+      <div>
+        <span>Lugares reservados</span>
+        <strong>{{ currentReservation.seats }}</strong>
+      </div>
+      <div>
+        <span>Estado da reserva</span>
+        <strong>{{ currentReservation.status }}</strong>
+      </div>
+      <div>
+        <span>Motorista</span>
+        <strong>{{ currentReservation.driver_name || 'Motorista' }}</strong>
+      </div>
+    </div>
+
+    <ng-template #noReservation>
+      <div class="empty-state">Ainda não tem nenhuma reserva activa.</div>
+    </ng-template>
+  </article>
+
+  <div class="content-grid">
+    <app-leaflet-map [markers]="markers" [center]="[-8.839, 13.289]" />
+
+    <article class="drivers-card">
+      <h2>Motoristas próximos</h2>
+      <p *ngIf="drivers.length === 0">Ainda não há motoristas com localização ativa.</p>
+
+      <div class="driver-row" *ngFor="let driver of drivers">
+        <div>
+          <strong>{{ driver.name || 'Motorista disponível' }}</strong>
+          <span>Disponível agora</span>
+        </div>
+        <span class="pill">Online</span>
+      </div>
+    </article>
+  </div>
+
+  <article class="rides-card">
+    <div class="panel__head">
+      <div>
+        <h2>Caronas disponíveis</h2>
+        <p>Os valores exibidos são por passageiro.</p>
+      </div>
+      <button class="btn" type="button" (click)="loadPassengerData()"><mat-icon>refresh</mat-icon> Atualizar</button>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && rides.length === 0">
+      Não há caronas disponíveis neste momento.
+    </div>
+
+    <div class="ride-list">
+      <div class="ride-row" *ngFor="let ride of rides">
+        <div>
+          <strong>{{ ride.origin_address }} -> {{ ride.destination_address }}</strong>
+          <span>{{ ride.driver_name || 'Motorista' }} · {{ ride.departure_time }}</span>
+        </div>
+        <div>
+          <strong>{{ formatKwanza(ride.price) }}</strong>
+          <span>{{ ride.available_seats }} lugares disponíveis</span>
+        </div>
+        <button class="btn btn--accent" type="button" (click)="reserve(ride)" [disabled]="reservingRideId === ride.id">
+          {{ reservingRideId === ride.id ? 'A reservar...' : 'Reservar lugar' }}
+        </button>
+      </div>
+    </div>
+  </article>
+</section>

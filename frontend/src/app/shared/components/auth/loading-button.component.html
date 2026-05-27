@@ -1,0 +1,10 @@
+<button
+  mat-flat-button
+  class="loading-button"
+  [class.loading-button--full-width]="fullWidth"
+  [disabled]="disabled || loading"
+  [type]="type"
+>
+  <span *ngIf="loading" class="loading-button__spinner" aria-hidden="true"></span>
+  <ng-content />
+</button>

@@ -1,8 +1,9 @@
-<div class="shell">
-  <app-sidebar />
+<div class="shell" [class.shell--open]="sidebarOpen()" [attr.data-theme]="lightMode() ? 'light' : 'dark'">
+  <button class="shell__scrim" type="button" (click)="closeSidebar()" aria-label="Fechar menu"></button>
+  <app-sidebar (navigate)="closeSidebar()" />
 
   <div class="shell__content">
-    <app-navbar />
+    <app-navbar (menuClick)="toggleSidebar()" (themeClick)="toggleTheme()" [lightMode]="lightMode()" />
     <main class="shell__main">
       <router-outlet />
     </main>

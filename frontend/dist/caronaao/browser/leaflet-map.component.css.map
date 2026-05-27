@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;492b0df3bc16f97af326c5835142dac0a0fb77a2065f80b3f5fc81001cf54d80;/home/lv/Documents/Engenharia_Software/Carona.AO/frontend/src/app/shared/components/leaflet-map.component.ts"],
+  "sourcesContent": ["\n    :host {\n      display: block;\n      min-height: 360px;\n      height: 100%;\n    }\n\n    .leaflet-host {\n      width: 100%;\n      min-height: inherit;\n      height: 100%;\n      border-radius: var(--app-radius-lg);\n      overflow: hidden;\n      background: var(--app-bg-soft);\n    }\n  "],
+  "mappings": ";AACI;AACE,WAAS;AACT,cAAY;AACZ,UAAQ;AACV;AAEA,CAAC;AACC,SAAO;AACP,cAAY;AACZ,UAAQ;AACR,iBAAe,IAAI;AACnB,YAAU;AACV,cAAY,IAAI;AAClB;",
+  "names": []
+}

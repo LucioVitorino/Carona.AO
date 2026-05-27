@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/auth/loading-button.component.scss"],
+  "sourcesContent": [".loading-button {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 10px;\n  min-height: var(--app-control-height);\n  border-radius: 14px;\n  font-weight: 700;\n  letter-spacing: 0.01em;\n  transition: transform var(--app-transition), box-shadow var(--app-transition), background-color var(--app-transition);\n}\n\n.loading-button:hover:not(:disabled) {\n  transform: translateY(-1px);\n}\n\n.loading-button:disabled {\n  opacity: 0.72;\n}\n\n.loading-button--full-width {\n  width: 100%;\n}\n\n.loading-button__spinner {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  border: 2px solid rgba(255, 255, 255, 0.35);\n  border-top-color: white;\n  animation: loading-button-spin 0.8s linear infinite;\n}\n\n@keyframes loading-button-spin {\n  from {\n    transform: rotate(0deg);\n  }\n\n  to {\n    transform: rotate(360deg);\n  }\n}"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,eAAA;AACA,mBAAA;AACA,OAAA;AACA,cAAA,IAAA;AACA,iBAAA;AACA,eAAA;AACA,kBAAA;AACA;IAAA,UAAA,IAAA,iBAAA;IAAA,WAAA,IAAA,iBAAA;IAAA,iBAAA,IAAA;;AAGF,CAZA,cAYA,MAAA,KAAA;AACE,aAAA,WAAA;;AAGF,CAhBA,cAgBA;AACE,WAAA;;AAGF,CAAA;AACE,SAAA;;AAGF,CAAA;AACE,SAAA;AACA,UAAA;AACA,iBAAA;AACA,UAAA,IAAA,MAAA,KAAA,GAAA,EAAA,GAAA,EAAA,GAAA,EAAA;AACA,oBAAA;AACA,aAAA,oBAAA,KAAA,OAAA;;AAGF,WAHE;AAIA;AACE,eAAA,OAAA;;AAGF;AACE,eAAA,OAAA;;;",
+  "names": []
+}

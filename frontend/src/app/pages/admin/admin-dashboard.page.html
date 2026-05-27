@@ -1,0 +1,47 @@
+<section class="admin-page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administração</p>
+      <h1>Operação Carona.AO</h1>
+      <p>Gestão de utilizadores, motoristas, caronas, receitas e denúncias.</p>
+    </div>
+    <button class="btn btn--primary" type="button" (click)="loadRides()"><mat-icon>refresh</mat-icon> Atualizar</button>
+  </div>
+
+  <div class="stat-grid">
+    <article class="card" *ngFor="let stat of stats">
+      <mat-icon>{{ stat.icon }}</mat-icon>
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+    </article>
+  </div>
+
+  <article class="panel">
+    <div class="panel__head">
+      <h2>Viagens recentes</h2>
+      <span>Atualização em tempo real preparada</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Motorista</th>
+            <th>Rota</th>
+            <th>Estado</th>
+            <th>Preço total</th>
+            <th>Por passageiro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ride of rides">
+            <td>{{ ride.driver_name || 'Motorista' }}</td>
+            <td>{{ ride.origin_address }} -> {{ ride.destination_address }}</td>
+            <td><span class="pill">{{ ride.status }}</span></td>
+            <td>{{ formatKwanza(ride.total_price) }}</td>
+            <td>{{ formatKwanza(ride.price) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>

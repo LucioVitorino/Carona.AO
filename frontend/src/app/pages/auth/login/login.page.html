@@ -1,0 +1,70 @@
+<section class="login-page">
+  <div class="login-page__backdrop"></div>
+  <div class="login-page__orb login-page__orb--one"></div>
+  <div class="login-page__orb login-page__orb--two"></div>
+
+  <div class="login-page__content">
+    <div class="login-page__brand">
+      <div class="login-page__brand-mark">C</div>
+      <div>
+        <p>Carona.AO</p>
+        <span>Mobilidade inteligente para Angola</span>
+      </div>
+    </div>
+
+    <app-auth-card>
+      <div class="login-card__top">
+        <p class="login-card__eyebrow">Acesso seguro</p>
+        <h1>Entre na sua conta</h1>
+        <p class="login-card__description">
+          Acompanhe viagens, reservas e ganhos num ambiente simples e seguro.
+        </p>
+      </div>
+
+      <div class="login-card__demo">
+        <span class="login-card__demo-label">Credenciais de teste</span>
+        <strong>admin&#64;caronaao.local</strong>
+        <span>Senha: 123456</span>
+      </div>
+
+      <app-alert-message type="success" [message]="successMessage"></app-alert-message>
+      <app-alert-message type="error" [message]="error"></app-alert-message>
+
+      <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>mail_outline</mat-icon>
+          <input matInput type="email" formControlName="email" placeholder="admin@caronaao.local" />
+          <mat-error *ngIf="form.controls.email.hasError('required')">Email é obrigatório</mat-error>
+          <mat-error *ngIf="form.controls.email.hasError('email')">Email inválido</mat-error>
+        </mat-form-field>
+
+        <app-password-input
+          [control]="form.controls.password"
+          [icon]="'lock_outline'"
+          label="Senha"
+          placeholder="Digite a sua senha"
+          autocomplete="current-password"
+        />
+
+        <div class="login-form__row">
+          <mat-checkbox formControlName="rememberSession">Lembrar sessão</mat-checkbox>
+          <a routerLink="/forgot-password">Esqueceu a senha?</a>
+        </div>
+
+        <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+          {{ loading ? 'A entrar...' : 'Entrar' }}
+        </app-loading-button>
+      </form>
+
+      <div class="login-card__footer">
+        <span>Não tem conta?</span>
+        <a routerLink="/register">Criar conta</a>
+      </div>
+
+      <div class="login-card__chips">
+        <span *ngFor="let point of points">{{ point.title }}</span>
+      </div>
+    </app-auth-card>
+  </div>
+</section>

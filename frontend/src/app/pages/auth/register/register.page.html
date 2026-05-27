@@ -1,0 +1,105 @@
+<app-auth-layout
+  eyebrow="Criar conta"
+  title="Junte-se ao Carona.AO"
+  description="Crie uma conta para viajar ou conduzir com uma experiência simples."
+  [points]="points"
+>
+  <app-auth-card>
+    <div class="auth-panel__hero">
+      <div class="auth-panel__hero-top">
+        <p class="auth-panel__eyebrow">Nova conta</p>
+        <span class="auth-panel__pill">Passageiro ou motorista</span>
+      </div>
+      <h2>Abra a sua conta</h2>
+      <p class="auth-panel__description">Escolha como quer usar a plataforma e preencha os seus dados.</p>
+    </div>
+
+    <app-alert-message type="error" [message]="error"></app-alert-message>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="name" placeholder="Seu nome" />
+        <mat-error *ngIf="form.controls.name.hasError('required')">Nome é obrigatório</mat-error>
+        <mat-error *ngIf="form.controls.name.hasError('minlength')">Nome demasiado curto</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="voce@exemplo.com" />
+        <mat-error *ngIf="form.controls.email.hasError('required')">Email é obrigatório</mat-error>
+        <mat-error *ngIf="form.controls.email.hasError('email')">Email inválido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" placeholder="+244..." />
+      </mat-form-field>
+
+      <mat-button-toggle-group formControlName="role" class="role-toggle" aria-label="Tipo de utilizador">
+        <mat-button-toggle value="passenger">Passageiro</mat-button-toggle>
+        <mat-button-toggle value="driver">Motorista</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div class="role-note">
+        <strong>Passageiro</strong>
+        <span>Reserva e acompanha viagens.</span>
+      </div>
+
+      <app-password-input
+        [control]="form.controls.password"
+        label="Senha"
+        placeholder="Crie uma senha segura"
+        autocomplete="new-password"
+        hint="Use pelo menos 8 caracteres, maiúscula, minúscula, número e símbolo"
+      />
+
+      <app-password-input
+        [control]="form.controls.confirmPassword"
+        label="Confirmar senha"
+        placeholder="Repita a senha"
+        autocomplete="new-password"
+      />
+
+      <div class="password-rules">
+        <span [class.is-valid]="hasPasswordRequirement('length')">8+ caracteres</span>
+        <span [class.is-valid]="hasPasswordRequirement('upper')">Maiúscula</span>
+        <span [class.is-valid]="hasPasswordRequirement('lower')">Minúscula</span>
+        <span [class.is-valid]="hasPasswordRequirement('number')">Número</span>
+        <span [class.is-valid]="hasPasswordRequirement('symbol')">Símbolo</span>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Foto de perfil (URL ou data preview)</mat-label>
+        <input matInput formControlName="photo" placeholder="https://..." />
+      </mat-form-field>
+
+      <label class="photo-upload">
+        <span>Escolher imagem para pré-visualização</span>
+        <input type="file" accept="image/*" (change)="onPhotoInput($event)" />
+      </label>
+
+      <div class="photo-preview" *ngIf="photoPreview">
+        <img [src]="photoPreview" alt="Pré-visualização da foto de perfil" />
+      </div>
+
+      <div class="upload-note">
+        A imagem é usada apenas para pré-visualização local. Pode seguir sem foto.
+      </div>
+
+      <app-alert-message
+        type="info"
+        [message]="form.errors?.['fieldsMismatch'] ? 'As senhas não coincidem. Confirme antes de continuar.' : ''"
+      />
+
+      <app-loading-button [loading]="loading" [disabled]="form.invalid" type="submit">
+        {{ loading ? 'A criar conta...' : 'Criar conta' }}
+      </app-loading-button>
+    </form>
+
+    <div class="auth-panel__footer">
+      <span>Já tem conta?</span>
+      <a routerLink="/login">Entrar</a>
+    </div>
+  </app-auth-card>
+</app-auth-layout>

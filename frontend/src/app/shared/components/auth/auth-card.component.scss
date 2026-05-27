@@ -1,0 +1,32 @@
+.auth-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border);
+  background: var(--app-surface-strong);
+  backdrop-filter: blur(18px);
+  padding: 28px;
+  color: var(--app-text);
+  box-shadow: var(--app-shadow-strong);
+  transition: transform var(--app-transition), border-color var(--app-transition), box-shadow var(--app-transition);
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.025));
+  pointer-events: none;
+}
+
+.auth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 28px 90px rgba(2, 10, 28, 0.46);
+}

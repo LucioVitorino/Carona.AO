@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -15,10 +16,17 @@ export class DashboardPage implements OnInit {
 
   constructor(
     private readonly api: ApiService,
+    private readonly router: Router,
     public readonly auth: AuthService,
   ) {}
 
   ngOnInit(): void {
+    const dashboardUrl = this.auth.getDashboardUrl();
+    if (dashboardUrl !== '/login') {
+      this.router.navigateByUrl(dashboardUrl);
+      return;
+    }
+
     this.api.get<{ success: boolean; data: { status: string } }>('/health').subscribe({
       next: (response) => {
         this.health = response.data.status;

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["src/app/layouts/shell.layout.scss"],
-  "sourcesContent": [".shell {\r\n  min-height: 100vh;\r\n  display: grid;\r\n  grid-template-columns: 280px 1fr;\r\n}\r\n\r\n.shell__content {\r\n  display: grid;\r\n  grid-template-rows: auto 1fr;\r\n  min-width: 0;\r\n}\r\n\r\n.shell__main {\r\n  padding: 24px;\r\n}\r\n\r\n@media (max-width: 960px) {\r\n  .shell {\r\n    grid-template-columns: 1fr;\r\n  }\r\n}\r\n"],
-  "mappings": ";AAAA,CAAA;AACE,cAAA;AACA,WAAA;AACA,yBAAA,MAAA;;AAGF,CAAA;AACE,WAAA;AACA,sBAAA,KAAA;AACA,aAAA;;AAGF,CAAA;AACE,WAAA;;AAGF,QAAA,WAAA;AACE,GAjBF;AAkBI,2BAAA;;;",
+  "sourcesContent": [".shell {\n  min-height: 100vh;\n  display: grid;\n  grid-template-columns: 284px minmax(0, 1fr);\n  background: var(--app-bg);\n}\n\n.shell__content {\n  display: grid;\n  grid-template-rows: auto 1fr;\n  min-width: 0;\n}\n\n.shell__main {\n  min-width: 0;\n  padding: 20px;\n}\n\n.shell__scrim {\n  display: none;\n}\n\n@media (max-width: 960px) {\n  .shell {\n    grid-template-columns: 1fr;\n  }\n\n  .shell__scrim {\n    position: fixed;\n    inset: 0;\n    z-index: 20;\n    border: 0;\n    background: rgba(2, 8, 20, 0.58);\n    opacity: 0;\n    pointer-events: none;\n    transition: opacity var(--app-transition);\n  }\n\n  .shell--open .shell__scrim {\n    display: block;\n    opacity: 1;\n    pointer-events: auto;\n  }\n\n  .shell__main {\n    padding: 14px;\n  }\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA;AACA,WAAA;AACA,yBAAA,MAAA,OAAA,CAAA,EAAA;AACA,cAAA,IAAA;;AAGF,CAAA;AACE,WAAA;AACA,sBAAA,KAAA;AACA,aAAA;;AAGF,CAAA;AACE,aAAA;AACA,WAAA;;AAGF,CAAA;AACE,WAAA;;AAGF,QAAA,WAAA;AACE,GAvBF;AAwBI,2BAAA;;AAGF,GATF;AAUI,cAAA;AACA,WAAA;AACA,aAAA;AACA,YAAA;AACA,gBAAA,KAAA,CAAA,EAAA,CAAA,EAAA,EAAA,EAAA;AACA,aAAA;AACA,oBAAA;AACA,gBAAA,QAAA,IAAA;;AAGF,GAAA,YAAA,CApBF;AAqBI,aAAA;AACA,aAAA;AACA,oBAAA;;AAGF,GA/BF;AAgCI,aAAA;;;",
   "names": []
 }

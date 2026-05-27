@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/auth/auth-card.component.scss"],
+  "sourcesContent": [".auth-card {\n  position: relative;\n  overflow: hidden;\n  border-radius: var(--app-radius-lg);\n  border: 1px solid var(--app-border);\n  background: var(--app-surface-strong);\n  backdrop-filter: blur(18px);\n  padding: 28px;\n  color: var(--app-text);\n  box-shadow: var(--app-shadow-strong);\n  transition: transform var(--app-transition), border-color var(--app-transition), box-shadow var(--app-transition);\n}\n\n.auth-card::before {\n  content: '';\n  position: absolute;\n  inset: 0;\n  border-radius: inherit;\n  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.025));\n  pointer-events: none;\n}\n\n.auth-card > * {\n  position: relative;\n  z-index: 1;\n}\n\n.auth-card:hover {\n  transform: translateY(-1px);\n  border-color: rgba(37, 99, 235, 0.28);\n  box-shadow: 0 28px 90px rgba(2, 10, 28, 0.46);\n}"],
+  "mappings": ";AAAA,CAAA;AACE,YAAA;AACA,YAAA;AACA,iBAAA,IAAA;AACA,UAAA,IAAA,MAAA,IAAA;AACA,cAAA,IAAA;AACA,mBAAA,KAAA;AACA,WAAA;AACA,SAAA,IAAA;AACA,cAAA,IAAA;AACA;IAAA,UAAA,IAAA,iBAAA;IAAA,aAAA,IAAA,iBAAA;IAAA,WAAA,IAAA;;AAGF,CAbA,SAaA;AACE,WAAA;AACA,YAAA;AACA,SAAA;AACA,iBAAA;AACA;IAAA;MAAA,MAAA;MAAA,KAAA,EAAA,EAAA,EAAA,EAAA,GAAA,EAAA,KAAA;MAAA,KAAA,EAAA,EAAA,GAAA,EAAA,GAAA,EAAA;AACA,kBAAA;;AAGF,CAtBA,UAsBA,EAAA;AACE,YAAA;AACA,WAAA;;AAGF,CA3BA,SA2BA;AACE,aAAA,WAAA;AACA,gBAAA,KAAA,EAAA,EAAA,EAAA,EAAA,GAAA,EAAA;AACA,cAAA,EAAA,KAAA,KAAA,KAAA,CAAA,EAAA,EAAA,EAAA,EAAA,EAAA;;",
+  "names": []
+}

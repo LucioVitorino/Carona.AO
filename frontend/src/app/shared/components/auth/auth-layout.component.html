@@ -1,0 +1,26 @@
+<section class="auth-layout">
+  <div class="auth-layout__glow auth-layout__glow--primary"></div>
+  <div class="auth-layout__glow auth-layout__glow--secondary"></div>
+
+  <div class="auth-layout__shell">
+    <aside class="auth-layout__aside">
+      <p class="auth-layout__eyebrow">{{ eyebrow }}</p>
+      <h1>{{ title }}</h1>
+      <p class="auth-layout__description">{{ description }}</p>
+
+      <div class="auth-layout__highlights" *ngIf="points.length">
+        <article class="auth-layout__highlight" *ngFor="let point of points">
+          <span class="auth-layout__dot"></span>
+          <div>
+            <strong>{{ point.title }}</strong>
+            <p>{{ point.description }}</p>
+          </div>
+        </article>
+      </div>
+    </aside>
+
+    <div class="auth-layout__content">
+      <ng-content />
+    </div>
+  </div>
+</section>
